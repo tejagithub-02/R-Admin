@@ -284,12 +284,64 @@
       min-width: 100px;
     }
 
+    .table td.date-column {
+      color: black !important;
+      background-color: #ffffff !important;
+      font-weight: normal;
+      opacity: 1 !important;
+    }
+
     .table tbody tr:nth-child(odd) {
       background: #0f3460;
     }
 
     .table tbody tr:hover {
       background: #1a4a8a;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+      width: 100%;
+      max-width: 1400px;
+      flex-wrap: wrap;
+    }
+
+    .search-bar input, .search-bar select, .search-bar button {
+      padding: 8px;
+      border: 1px solid #00d4ff;
+      border-radius: 5px;
+      background: #0f3460;
+      color: #ffffff;
+      font-size: 1rem;
+    }
+
+    .search-bar input[type="date"]::-webkit-datetime-edit-text,
+    .search-bar input[type="date"]::-webkit-datetime-edit-month-field,
+    .search-bar input[type="date"]::-webkit-datetime-edit-day-field,
+    .search-bar input[type="date"]::-webkit-datetime-edit-year-field {
+      color: #b3e0ff;
+    }
+
+    .search-bar input::placeholder {
+      color: #b3e0ff;
+    }
+
+    .search-bar select {
+      background: #0f3460;
+    }
+
+    .search-bar button {
+      background: #00d4ff;
+      color: #0f3460;
+      cursor: pointer;
+      border: none;
+    }
+
+    .search-bar button:hover {
+      background: #00ffcc;
     }
 
     .status-pending {
@@ -340,7 +392,7 @@
         box-shadow: 0 0 10px #00d4ff;
       }
       .sidebar.active {
-        left: 0;
+        transform: translateX(0);
       }
       .sidebar.collapsed {
         width: 250px;
@@ -374,6 +426,14 @@
       .main-content.collapsed {
         margin-left: 0;
       }
+      .search-bar {
+        flex-direction: column;
+      }
+      .search-bar input, .search-bar select, .search-bar button {
+        width: 100%;
+        padding: 6px;
+        font-size: 0.9rem;
+      }
       .table th, .table td {
         font-size: 0.85rem;
         padding: 8px;
@@ -388,6 +448,10 @@
         font-size: 0.75rem;
         padding: 6px;
         min-width: 60px;
+      }
+      .search-bar input, .search-bar select, .search-bar button {
+        padding: 5px;
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -489,13 +553,25 @@
     <div class="main-content">
       <div class="section">
         <h2 class="text-2xl font-bold mb-4 text-white">Capping Achiever 20000</h2>
+        <div class="search-bar">
+          <input type="text" placeholder="Transaction ID" id="transaction-id-search">
+          <input type="date" id="start-date">
+          <input type="date" id="end-date">
+          <select id="status-filter">
+            <option value="">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Achieved">Achieved</option>
+          </select>
+          <button onclick="searchTransactions()">Search</button>
+        </div>
         <div class="table-container">
           <table class="table">
             <thead>
               <tr>
-                <th>SI.No</th>
+                <th>SI.NO</th>
                 <th>Transaction ID</th>
                 <th>Date</th>
+               
                 <th>User ID</th>
                 <th>Amount</th>
                 <th>Status</th>
@@ -642,17 +718,12 @@
           {
             id: 'CAP20000-001',
             date: '2025-05-05',
+           
             userId: 'U12349',
             amount: '₹20000.00',
             status: 'Achieved'
           },
-          {
-            id: 'CAP20000-002',
-            date: '2025-05-06',
-            userId: 'U12350',
-            amount: '₹20000.00',
-            status: 'Pending'
-          }
+         
         ];
 
         function formatDate(dateStr) {
@@ -681,12 +752,15 @@
             }
             tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
               const formattedDate = formatDate(item.date);
+              const formattedStartDate = formatDate(item.startDate);
+              const formattedEndDate = formatDate(item.endDate);
               console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
               return `
                 <tr>
                   <td>${index + 1}</td>
                   <td>${item.id}</td>
                   <td class="date-column">${formattedDate}</td>
+                  
                   <td>${item.userId}</td>
                   <td>${item.amount}</td>
                   <td class="status-${item.status.toLowerCase()}">${item.status}</td>
@@ -694,7 +768,7 @@
               `;
             }).join('') : `
               <tr>
-                <td colspan="6" style="text-align: center; color: #b3e0ff;">No transactions found</td>
+                <td colspan="8" style="text-align: center; color: #b3e0ff;">No transactions found</td>
               </tr>
             `;
           } catch (error) {

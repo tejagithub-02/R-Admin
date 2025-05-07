@@ -81,7 +81,7 @@
     .sidebar {
       width: 250px;
       background: #1a1a2e;
-      padding: 20px;
+      padding:20px;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
       border-right: 2px solid #00d4ff;
       position: fixed;
@@ -349,7 +349,7 @@
       padding: 6px 12px;
       border: none;
       border-radius: 5px;
-      cursor: pointer; 
+      cursor: pointer;
       font-size: 0.9rem;
       transition: background 0.2s;
       background: #00d4ff;
@@ -592,6 +592,7 @@
           <table class="table">
             <thead>
               <tr>
+                <th>SI.NO</th>
                 <th>Order ID</th>
                 <th>Date</th>
                 <th>User ID</th>
@@ -712,7 +713,7 @@
           id: 'ORD12345',
           date: '2025-05-01',
           userId: 'U12345',
-          product: 'Health Supplement',
+          product: 'Protein Powder',
           quantity: 2,
           amount: '₹2000',
           status: 'Approved',
@@ -849,11 +850,12 @@
           console.error('Table body element not found');
           return;
         }
-        tbody.innerHTML = data.length > 0 ? data.map(item => {
+        tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
           const formattedDate = formatDate(item.date);
           console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
           return `
             <tr>
+              <td>${index + 1}</td>
               <td>${item.id}</td>
               <td class="date-column">${formattedDate}</td>
               <td>${item.userId}</td>
@@ -868,7 +870,7 @@
           `;
         }).join('') : `
           <tr>
-            <td colspan="8" style="text-align: center; color: #b3e0ff;">No orders found</td>
+            <td colspan="9" style="text-align: center; color: #b3e0ff;">No orders found</td>
           </tr>
         `;
       }
