@@ -467,6 +467,47 @@
         font-size: 0.8rem;
       }
     }
+    .action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+}
+
+.btn-accept, .btn-reject {
+  padding: 6px 10px;
+  border: 2px solid #00d4ff;
+  border-radius: 6px;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+  box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+.btn-accept {
+  background: #28a745;
+}
+
+.btn-reject {
+  background: #dc3545;
+}
+
+.btn-accept:hover, .btn-reject:hover {
+  box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
+  transform: scale(1.05);
+}
+
+.btn-accept:disabled, .btn-reject:disabled {
+  background: #4a4a4a;
+  border-color: #666;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
   </style>
 </head>
 <body>
@@ -577,21 +618,31 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>Date</th>
-                <th>Refund ID</th>
                 <th>User ID</th>
-                <th>Amount</th>
+                <th>User Name</th>
+                <th>Date</th>
+                
+                <th>RV Points</th>
                 <th class="status-column">Status</th>
+                <th>Action</th>
               </tr>
             </thead>
-           
+            
               <tr>
                 <td>1</td>
-                <td class="date-column">Apr 10, 2025</td>
-                <td>RF12347</td>
-                <td>U12347</td>
-                <td>₹2000</td>
-                <td class="status-refunded status-column">Refunded</td>
+                <td>U12345</td>
+                <td>John</td>
+                <td class="date-column">Apr 01, 2025</td>
+                
+                <td>100</td>
+                <td class="status-success status-column">Approved</td>
+             
+                <td>
+                  <div class="action-buttons">
+                    <button class="btn-accept" data-id="301" onclick="handleTourAction('301', 'Approved', this)">Accept</button>
+                    <button class="btn-reject" data-id="301" onclick="handleTourAction('301', 'Rejected', this)">Reject</button>
+                  </div>
+                </td>
               </tr>
              
           </table>
@@ -706,6 +757,18 @@
         const options = { year: 'numeric', month: 'short', day: '2-digit' };
         return date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
       }
+      // Handle Tour Action (Accept/Reject)
+  window.handleTourAction = (id, newStatus, button) => {
+    const entry = mockData.find(item => item.id === id);
+    if (entry && !entry.actionTaken) {
+      entry.status = newStatus;
+      entry.actionTaken = true;
+      const row = button.closest('tr');
+      const buttons = row.querySelectorAll('.btn-accept, .btn-reject');
+      buttons.forEach(btn => btn.disabled = true);
+      renderTourTable(mockData);
+    }
+  };
 
       window.searchTopupRefundHistory = () => {
         const id = document.getElementById('topup-refund-history-id-search').value;

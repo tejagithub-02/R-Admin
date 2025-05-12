@@ -81,7 +81,7 @@
     .sidebar {
       width: 250px;
       background: #1a1a2e;
-      padding:20px;
+      padding: 20px;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
       border-right: 2px solid #00d4ff;
       position: fixed;
@@ -360,6 +360,34 @@
       background: #00ffcc;
     }
 
+    .action-buttons button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .action-buttons .approve-btn {
+      background: #28a745;
+      color: #ffffff;
+      margin-right: 5px;
+    }
+
+    .action-buttons .approve-btn:hover {
+      background: #218838;
+    }
+
+    .action-buttons .reject-btn {
+      background: #dc3545;
+      color: #ffffff;
+    }
+
+    .action-buttons .reject-btn:hover {
+      background: #c82333;
+    }
+
     .status-approved {
       color: #28a745;
       font-weight: bold;
@@ -455,7 +483,7 @@
         padding: 8px;
         min-width: 80px;
       }
-      .download-btn {
+      .download-btn, .action-buttons button {
         padding: 5px 10px;
         font-size: 0.8rem;
       }
@@ -473,7 +501,7 @@
         padding: 5px;
         font-size: 0.8rem;
       }
-      .download-btn {
+      .download-btn, .action-buttons button {
         padding: 4px 8px;
         font-size: 0.7rem;
       }
@@ -596,11 +624,14 @@
                 <th>Order ID</th>
                 <th>Date</th>
                 <th>User ID</th>
+                <th>User Name</th>
                 <th>Product</th>
                 <th>Quantity</th>
                 <th>Amount</th>
-                <th>Status</th>
+                <th>Address</th>
                 <th>Invoice</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="product-history-table">
@@ -713,9 +744,11 @@
           id: 'ORD12345',
           date: '2025-05-01',
           userId: 'U12345',
+          userName: 'John Doe',
           product: 'Protein Powder',
           quantity: 2,
           amount: '₹2000',
+          address: '123 Main St, City, Country',
           status: 'Approved',
           invoiceId: 'INV12345',
           customerName: 'John Doe',
@@ -739,6 +772,11 @@
           return 'Error';
         }
       }
+
+      window.viewProductDetails = (orderId) => {
+        console.log(`Viewing product details for Order ID: ${orderId}`);
+        // Placeholder for future functionality (e.g., open modal or redirect)
+      };
 
       window.downloadInvoice = (order) => {
         try {
@@ -844,6 +882,15 @@
         renderProductHistoryTable(filtered);
       };
 
+      window.updateOrderStatus = (id, status) => {
+        const item = mockData.find(item => item.id === id);
+        if (item) {
+          item.status = status;
+          console.log(`Updated status for Order ID: ${id} to ${status}`);
+          renderProductHistoryTable();
+        }
+      };
+
       function renderProductHistoryTable(data = mockData) {
         const tbody = document.getElementById('product-history-table');
         if (!tbody) {
@@ -859,18 +906,24 @@
               <td>${item.id}</td>
               <td class="date-column">${formattedDate}</td>
               <td>${item.userId}</td>
-              <td>${item.product}</td>
+              <td>${item.userName}</td>
+              <td><button class="text-blue-400 underline" onclick="viewProductDetails('${item.id}')">View</button></td>
               <td>${item.quantity}</td>
               <td>${item.amount}</td>
-              <td class="status-${item.status.toLowerCase()}">${item.status}</td>
+              <td>${item.address}</td>
               <td>
                 <button class="download-btn" onclick='downloadInvoice(${JSON.stringify(item)})'>Download</button>
+              </td>
+              <td class="status-${item.status.toLowerCase()}">${item.status}</td>
+              <td class="action-buttons">
+                <button class="approve-btn" onclick="updateOrderStatus('${item.id}', 'Approved')">Approve</button>
+                <button class="reject-btn" onclick="updateOrderStatus('${item.id}', 'Rejected')">Reject</button>
               </td>
             </tr>
           `;
         }).join('') : `
           <tr>
-            <td colspan="9" style="text-align: center; color: #b3e0ff;">No orders found</td>
+            <td colspan="12" style="text-align: center; color: #b3e0ff;">No orders found</td>
           </tr>
         `;
       }

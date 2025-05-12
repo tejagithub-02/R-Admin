@@ -376,6 +376,34 @@
       font-weight: bold;
     }
 
+    .approve-btn, .reject-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin: 0 5px;
+      transition: background 0.2s;
+    }
+
+    .approve-btn {
+      background: #28a745;
+      color: #ffffff;
+    }
+
+    .approve-btn:hover {
+      background: #218838;
+    }
+
+    .reject-btn {
+      background: #dc3545;
+      color: #ffffff;
+    }
+
+    .reject-btn:hover {
+      background: #c82333;
+    }
+
     .main-footer {
       text-align: center;
       padding: 10px 20px;
@@ -583,6 +611,7 @@
             <input type="date" id="end-date">
             <select id="status-filter">
               <option value="">All Statuses</option>
+              <option value="Pending">Pending</option>
               <option value="Approved">Approved</option>
               <option value="Rejected">Rejected</option>
             </select>
@@ -595,11 +624,15 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>Withdrawal ID</th>
-                <th>Date</th>
                 <th>User ID</th>
+                <th>User Name</th>
+                <th>Date</th>
+                <th>Account Number</th>
                 <th>Amount</th>
+                <th>Admin Charge 5%</th>
+                <th>TDS 5%</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="withdrawal-table">
@@ -742,16 +775,35 @@
         const mockData = [
           {
             id: 'WDR12345',
-            date: '2025-05-01',
             userId: 'U12345',
+            userName: 'John Doe',
+            date: '2025-05-01',
+            accountNumber: 'ACC1234567890',
             amount: '₹5000',
+            adminCharge: '₹250.00',
+            tds: '₹250.00',
             status: 'Approved'
           },
           {
+            id: 'WDR12346',
+            userId: 'U12346',
+            userName: 'Jane Smith',
+            date: '2025-05-02',
+            accountNumber: 'ACC1234567891',
+            amount: '₹3000',
+            adminCharge: '₹150.00',
+            tds: '₹150.00',
+            status: 'Pending'
+          },
+          {
             id: 'WDR12347',
-            date: '2025-05-03',
             userId: 'U12347',
+            userName: 'Alice Johnson',
+            date: '2025-05-03',
+            accountNumber: 'ACC1234567892',
             amount: '₹4000',
+            adminCharge: '₹200.00',
+            tds: '₹200.00',
             status: 'Rejected'
           }
         ];
@@ -772,6 +824,20 @@
             return 'Error';
           }
         }
+
+        window.updateWithdrawalStatus = (id, status) => {
+          try {
+            const item = mockData.find(item => item.id === id);
+            if (item) { // Removed condition checking for 'Pending' status
+              item.status = status;
+              console.log(`Updated status for Withdrawal ID: ${id} to ${status}`);
+              alert(`Withdrawal ID: ${id} has been ${status.toLowerCase()}.`);
+              renderWithdrawalTable();
+            }
+          } catch (error) {
+            console.error('Error updating withdrawal status:', error);
+          }
+        };
 
         window.searchWithdrawals = () => {
           try {
@@ -809,7 +875,7 @@
             }
 
             const data = [];
-            const headers = ['SI.NO', 'Withdrawal ID', 'Date', 'User ID', 'Amount', 'Status'];
+            const headers = ['SI.NO', 'User ID', 'User Name', 'Date', 'Account Number', 'Amount', 'Admin Charge 5%', 'TDS 5%', 'Status', 'Action'];
             data.push(headers);
 
             const rows = tbody.querySelectorAll('tr');
@@ -821,13 +887,18 @@
             rows.forEach(row => {
               const cells = row.querySelectorAll('td');
               if (cells.length > 0) {
+                const actionText = cells[9].textContent.includes('Approve') ? 'Pending Approval' : '';
                 const rowData = [
-                  cells[0].textContent,
-                  cells[1].textContent,
-                  cells[2].textContent,
-                  cells[3].textContent,
-                  cells[4].textContent,
-                  cells[5].textContent
+                  cells[0].textContent, // SI.NO
+                  cells[1].textContent, // User ID
+                  cells[2].textContent, // User Name
+                  cells[3].textContent, // Date
+                  cells[4].textContent, // Account Number
+                  cells[5].textContent, // Amount
+                  cells[6].textContent, // Admin Charge
+                  cells[7].textContent, // TDS
+                  cells[8].textContent, // Status
+                  actionText            // Action
                 ];
                 data.push(rowData);
               }
@@ -853,19 +924,27 @@
             tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
               const formattedDate = formatDate(item.date);
               console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
+              const actionButtons = `
+                <button class="approve-btn" onclick="updateWithdrawalStatus('${item.id}', 'Approved')">Approve</button>
+                <button class="reject-btn" onclick="updateWithdrawalStatus('${item.id}', 'Rejected')">Reject</button>
+              `;
               return `
                 <tr>
                   <td>${index + 1}</td>
-                  <td>${item.id}</td>
-                  <td class="date-column">${formattedDate}</td>
                   <td>${item.userId}</td>
+                  <td>${item.userName}</td>
+                  <td class="date-column">${formattedDate}</td>
+                  <td>${item.accountNumber}</td>
                   <td>${item.amount}</td>
+                  <td>${item.adminCharge}</td>
+                  <td>${item.tds}</td>
                   <td class="status-${item.status.toLowerCase()}">${item.status}</td>
+                  <td>${actionButtons}</td>
                 </tr>
               `;
             }).join('') : `
               <tr>
-                <td colspan="6" style="text-align: center; color: #b3e0ff;">No withdrawals found</td>
+                <td colspan="10" style="text-align: center; color: #b3e0ff;">No withdrawals found</td>
               </tr>
             `;
           } catch (error) {

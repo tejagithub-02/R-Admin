@@ -399,10 +399,12 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>Transaction ID</th>
-                <th>Date</th>
                 <th>User ID</th>
+                <th>User Name</th>
+                <th>Date</th>
+                <th>Rank</th>
                 <th>Amount</th>
+                <th>Pair</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -546,12 +548,44 @@
         const mockData = [
           {
             id: 'CAP10000-001',
-            date: '2025-05-02',
-            userId: 'U12347',
+            userId: 'U12345',
+            userName: 'John Doe',
+            date: '2025-05-01',
+            rank: 'Gold',
             amount: '₹10000',
+            pair: '2',
             status: 'Achieved'
           },
-         
+          {
+            id: 'CAP10000-002',
+            userId: 'U12346',
+            userName: 'Jane Smith',
+            date: '2025-05-02',
+            rank: 'Silver',
+            amount: '₹9000',
+            pair: '2',
+            status: 'Pending'
+          },
+          {
+            id: 'CAP10000-003',
+            userId: 'U12347',
+            userName: 'Alice Johnson',
+            date: '2025-05-03',
+            rank: 'Platinum',
+            amount: '₹10000',
+            pair: '3',
+            status: 'Achieved'
+          },
+          {
+            id: 'CAP10000-004',
+            userId: 'U12348',
+            userName: 'Bob Wilson',
+            date: '2025-05-04',
+            rank: 'Bronze',
+            amount: '₹8000',
+            pair: '3',
+            status: 'Pending'
+          }
         ];
 
         function formatDate(dateStr) {
@@ -611,16 +645,18 @@
               return `
                 <tr>
                   <td>${index + 1}</td>
-                  <td>${item.id}</td>
-                  <td class="date-column">${formattedDate}</td>
                   <td>${item.userId}</td>
+                  <td>${item.userName}</td>
+                  <td class="date-column">${formattedDate}</td>
+                  <td>${item.rank}</td>
                   <td>${item.amount}</td>
+                  <td>${item.pair}</td>
                   <td class="status-${item.status.toLowerCase()}">${item.status}</td>
                 </tr>
               `;
             }).join('') : `
               <tr>
-                <td colspan="6" style="text-align: center; color: #b3e0ff;">No transactions found</td>
+                <td colspan="8" style="text-align: center; color: #b3e0ff;">No transactions found</td>
               </tr>
             `;
           } catch (error) {

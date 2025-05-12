@@ -658,45 +658,34 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>Date</th>
-                <th>Bonus ID</th>
-                <th>User Name</th>
-                <th>Amount</th>
+                <th class="id-column">USER ID</th>
+                <th class="name-column">USER Name</th>
+                <th class="date-column">Date</th>
+               <th>RV Point</th>
+                <th class="amount-column">Amount</th>
                 <th class="status-column">Status</th>
-                <th>Action</th>
+                <th class="action-column">Action</th>
               </tr>
             </thead>
            
               <tr>
                 <td>1</td>
-                <td class="date-column">Apr 05, 2025</td>
-                <td>LB12345</td>
-                <td>John Doe</td>
-                <td>₹5000</td>
-                <td class="status-paid status-column">Paid</td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="btn-paid" data-id="LB12345" onclick="handleLeadershipAction('LB12345', 'Paid', this)">Mark as Paid</button>
-                    <button class="btn-unpaid" data-id="LB12345" onclick="handleLeadershipAction('LB12345', 'Pending', this)">Mark as Unpaid</button>
-                  </div>
-                </td>
-              </tr>
-             
-              <tr>
-                <td>2</td>
-                <td class="date-column">Apr 25, 2025</td>
-                <td>LB12347</td>
-                <td>Alice Brown</td>
-                <td>₹12000</td>
+               
+                <td class="id-column">12346</td>
+                <td class="name-column">Jane Smith</td>
+                <td class="date-column">Apr 15, 2025</td>
+                <td>250</td>
+                <td class="amount-column">₹5000</td>
                 <td class="status-pending status-column">Pending</td>
-                <td>
+                <td class="action-column">
                   <div class="action-buttons">
-                    <button class="btn-paid" data-id="LB12347" onclick="handleLeadershipAction('LB12347', 'Paid', this)">Mark as Paid</button>
-                    <button class="btn-unpaid" data-id="LB12347" onclick="handleLeadershipAction('LB12347', 'Pending', this)">Mark as Unpaid</button>
+                    <button class="btn-paid" data-id="REF12346" onclick="handleReferralAction('REF12346', 'Paid', this)">Mark as Paid</button>
+                    <button class="btn-unpaid" data-id="REF12346" onclick="handleReferralAction('REF12346', 'Pending', this)">Mark as Unpaid</button>
                   </div>
                 </td>
               </tr>
-            
+              
+           
           </table>
         </div>
       </div>

@@ -671,27 +671,29 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>ID</th>
+                <th>USER ID</th>
+                <th class="name-column">USER Name</th>
                 <th>Qualified Date</th>
-                <th class="name-column">Name</th>
-                <th>Travel Date</th>
+                
+              
                 <th>Rank</th>
-                <th>RV Points</th>
-                <th class="destination-column">Tour</th>
+                <th>Pair</th>
+                
                 <th class="status-column">Status</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="tour-table">
+           
               <tr>
                 <td>1</td>
                 <td>301</td>
-                <td>Apr 01, 2025</td>
                 <td class="name-column">Emma Wilson</td>
-                <td class="date-column">Apr 30, 2025</td>
+                <td>Apr 01, 2025</td>
+              
+               
                 <td>Silver</td>
-                <td>100</td>
-                <td class="destination-column">Paris</td>
+                <td>2</td>
+                
                 <td class="status-pending status-column">Pending</td>
                 <td>
                   <div class="action-buttons">
@@ -700,7 +702,7 @@
                   </div>
                 </td>
               </tr>
-            </tbody>
+           
           </table>
         </div>
       </div>
@@ -822,10 +824,7 @@
       });
 
       // Mock data for Pending Tour
-      const mockData = [
-        { id: '301', name: 'Emma Wilson', destination: 'Paris', status: 'Pending', date: '2025-04-30', qualifiedDate: '2025-04-01', rank: 'Silver', rvPoints: '100' },
-        { id: '302', name: 'Liam Johnson', destination: 'Tokyo', status: 'Pending', date: '2025-05-01', qualifiedDate: '2025-04-02', rank: 'Gold', rvPoints: '150' },
-      ];
+      
 
       // Function to format dates as "MMM DD, YYYY"
       function formatDate(dateStr) {

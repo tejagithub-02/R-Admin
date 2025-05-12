@@ -23,7 +23,7 @@
       overflow-x: hidden;
     }
 
-    /* Header Styles (Unchanged from provided) */
+    /* Header Styles */
     .topbar {
       background: linear-gradient(to right, #0f3460, #1a1a2e);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -81,7 +81,7 @@
       color: #ffffff;
     }
 
-    /* Sidebar Styles (Unchanged from provided) */
+    /* Sidebar Styles */
     .dashboard-container {
       display: flex;
       min-height: calc(100vh - 48px);
@@ -245,12 +245,12 @@
       display: none;
     }
 
-    /* Main Content Styles (Adjusted to fix overlap) */
+    /* Main Content Styles */
     .main-content {
       flex: 1;
       padding: 20px;
       background: #1a1a2e;
-      margin-left: 250px; /* Default offset for sidebar */
+      margin-left: 250px;
       overflow-y: auto;
       min-height: calc(100vh - 48px);
       display: flex;
@@ -259,7 +259,7 @@
     }
 
     .main-content.collapsed {
-      margin-left: 60px; /* Adjusted for collapsed sidebar */
+      margin-left: 60px;
     }
 
     .section {
@@ -270,7 +270,7 @@
       padding-top: 20px;
     }
 
-    /* Table and Search Bar Styles (Unchanged) */
+    /* Table and Search Bar Styles */
     .table-container {
       background: #0f3460;
       border-radius: 15px;
@@ -281,6 +281,7 @@
       max-width: 1200px;
       margin: 0 auto;
       transition: transform 0.3s;
+      overflow-x: auto;
     }
 
     .table-container:hover {
@@ -289,14 +290,16 @@
 
     .table {
       width: 100%;
+      min-width: 900px;
       border-collapse: collapse;
       color: #ffffff;
     }
 
     .table th, .table td {
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #00d4ff;
       text-align: center;
+      white-space: nowrap;
     }
 
     .table th {
@@ -305,8 +308,26 @@
       color: #00ffcc;
     }
 
+    .table th.name-column, .table td.name-column {
+      min-width: 120px;
+      white-space: normal;
+    }
+
+    .table th.status-column, .table td.status-column {
+      min-width: 100px;
+    }
+
     .table td.date-column {
       color: black;
+      min-width: 100px;
+    }
+
+    .table th, .table td:nth-child(5), .table td:nth-child(6), .table td:nth-child(7) {
+      min-width: 120px;
+    }
+
+    .table th.status-column-status, .table td.status-column-status {
+      min-width: 100px;
     }
 
     .table tbody tr:nth-child(odd) {
@@ -356,15 +377,70 @@
       background: #00ffcc;
     }
 
-    .status-rejected {
-      color: #dc3545;
+    /* View Button Styles */
+    .btn-view {
+      padding: 6px 12px;
+      border: 2px solid #00d4ff;
+      border-radius: 6px;
+      background: #007bff;
+      color: #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+      box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+      font-size: 0.9rem;
+    }
+
+    .btn-view:hover {
+      background: #0056b3;
+      box-shadow: 0 0 15px #00ffcc;
+      transform: scale(1.05);
+    }
+
+    /* Action Buttons */
+    .action-buttons {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 5px;
+      gap: 8px;
+      min-width: 140px;
     }
 
-    /* Footer Styles (Unchanged from provided) */
+    .btn-accept, .btn-reject {
+      padding: 6px 10px;
+      border: 2px solid #00d4ff;
+      border-radius: 6px;
+      color: #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+      box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+      font-size: 0.9rem;
+    }
+
+    .btn-accept {
+      background: #28a745;
+    }
+
+    .btn-reject {
+      background: #dc3545;
+    }
+
+    .btn-accept:hover, .btn-reject:hover {
+      box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
+      transform: scale(1.05);
+    }
+
+    .btn-accept:disabled, .btn-reject:disabled {
+      background: #4a4a4a;
+      border-color: #666;
+      color: #888;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Footer Styles */
     .main-footer {
       text-align: center;
       padding: 10px 20px;
@@ -377,7 +453,7 @@
       box-shadow: 0 0 10px #00d4ff;
     }
 
-    /* Media Queries for Responsive Alignment */
+    /* Media Queries */
     @media (min-width: 769px) {
       .sidebar-toggle {
         display: block;
@@ -431,7 +507,7 @@
         margin-left: 20px;
       }
       .main-content {
-        margin-left: 0; /* No offset since sidebar is hidden by default */
+        margin-left: 0;
         padding: 15px;
       }
       .main-content.collapsed {
@@ -443,14 +519,94 @@
       .search-bar input, .search-bar button {
         width: 100%;
       }
+      .table th, .table td {
+        font-size: 0.85rem;
+        padding: 8px;
+      }
+      .table th.name-column, .table td.name-column {
+        min-width: 100px;
+      }
+      .table th.status-column, .table td.status-column {
+        min-width: 90px;
+      }
+      .table td.date-column {
+        min-width: 90px;
+      }
+      .table th, .table td:nth-child(5), .table td:nth-child(6), .table td:nth-child(7) {
+        min-width: 100px;
+      }
+      .table th.status-column-status, .table td.status-column-status {
+        min-width: 90px;
+      }
+      .action-buttons {
+        gap: 6px;
+        min-width: 120px;
+      }
+      .btn-view, .btn-accept, .btn-reject {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+      }
     }
 
     @media (max-width: 480px) {
       .topbar { padding: 6px; }
       .topbar .admin-icon { font-size: 1.5rem; }
       .table th, .table td {
-        font-size: 0.9rem;
-        padding: 8px;
+        font-size: 0.75rem;
+        padding: 6px;
+      }
+      .table th.name-column, .table td.name-column {
+        min-width: 90px;
+      }
+      .table th.status-column, .table td.status-column {
+        min-width: 80px;
+      }
+      .table td.date-column {
+        min-width: 80px;
+      }
+      .table th, .table td:nth-child(5), .table td:nth-child(6), .table td:nth-child(7) {
+        min-width: 90px;
+      }
+      .table th.status-column-status, .table td.status-column-status {
+        min-width: 80px;
+      }
+      .action-buttons {
+        gap: 4px;
+        min-width: 100px;
+      }
+      .btn-view, .btn-accept, .btn-reject {
+        padding: 3px 6px;
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .table th, .table td {
+        font-size: 0.7rem;
+        padding: 5px;
+      }
+      .table th.name-column, .table td.name-column {
+        min-width: 80px;
+      }
+      .table th.status-column, .table td.status-column {
+        min-width: 70px;
+      }
+      .table td.date-column {
+        min-width: 70px;
+      }
+      .table th, .table td:nth-child(5), .table td:nth-child(6), .table td:nth-child(7) {
+        min-width: 80px;
+      }
+      .table th.status-column-status, .table td.status-column-status {
+        min-width: 70px;
+      }
+      .action-buttons {
+        gap: 3px;
+        min-width: 90px;
+      }
+      .btn-view, .btn-accept, .btn-reject {
+        padding: 2px 5px;
+        font-size: 0.7rem;
       }
     }
   </style>
@@ -496,9 +652,9 @@
         </div>
       </div>
       <div class="sidebar-item">
-        <a href="#" id="topup-toggle" ><i class="fas fa-wallet"></i> <span>Topup</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
+        <a href="#" id="topup-toggle"><i class="fas fa-wallet"></i> <span>Topup</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="topup-submenu">
-          <a href="initiate-topup.html " data-section="topup-initiate" ><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
+          <a href="initiate-topup.html" data-section="topup-initiate"><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
           <a href="topup-history.html" data-section="topup-history"><i class="fas fa-history"></i> <span>Topup History</span></a>
           <a href="topup-refund.html" data-section="topup-refund"><i class="fas fa-undo"></i> <span>Topup Refund</span></a>
           <a href="topup-refund-history.html" data-section="topup-refund-history"><i class="fas fa-file-alt"></i> <span>Topup Refund History</span></a>
@@ -521,11 +677,11 @@
         </div>
       </div>
       <div class="sidebar-item">
-        <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="invoice-submenu">
+        <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin" ><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds" ><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
+          <a href="invoice-tds.html" data-section="invoice-tds"><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -538,8 +694,8 @@
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
       <div class="sidebar-item">
-        <a href="#" id="gallery-toggle" ><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="gallery-submenu">
+        <a href="#" id="gallery-toggle"><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="gallery-submenu">
           <a href="gallery-plan.html" data-section="gallery-plan"><i class="fas fa-file-pdf"></i> <span>Business Plan</span></a>
           <a href="#" data-section="gallery-photo"><i class="fas fa-camera"></i> <span>Photo</span></a>
           <a href="gallery-news.html" data-section="gallery-news"><i class="fas fa-newspaper"></i> <span>News</span></a>
@@ -568,24 +724,19 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>ID</th>
-                <th>Name</th>
+                <th>USER ID</th>
+                <th class="name-column">USER Name</th>
                 <th>Date</th>
-                <th>Status</th>
-                
+                <th class="status-column">Aadhar card .no</th>
+                <th>PAN Card .no</th>
+                <th>Account Number</th>
+                <th class="status-column-status">Status</th>
+                <th>Action</th>
               </tr>
             </thead>
-            
-              <tr>
-                <td>1</td>
-                <td>124</td>
-                <td>Smith</td>
-                <td class="date-column">01-04-2025</td>
-                <td class="status-rejected">Rejected</td>
-               
-              </tr>
-              
-           
+            <tbody id="kyc-table">
+              <!-- Table rows will be populated by JavaScript -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -611,8 +762,8 @@
           const isCollapsed = sidebar.classList.toggle('collapsed');
           mainContent.classList.toggle('collapsed');
           sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
-          document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
-          document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
+          document.querySelectorAll('.submenu').forEach((submenu) => submenu.classList.remove('active'));
+          document.querySelectorAll('.dropdown-icon').forEach((icon) => icon.classList.remove('active'));
         });
         sidebarExpand.addEventListener('click', () => {
           sidebar.classList.remove('collapsed');
@@ -663,7 +814,7 @@
             e.preventDefault();
             const isActive = submenuEl.classList.toggle('active');
             icon.classList.toggle('active');
-            submenuToggles.forEach(other => {
+            submenuToggles.forEach((other) => {
               if (other.submenu !== submenu) {
                 document.getElementById(other.submenu).classList.remove('active');
                 document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
@@ -672,7 +823,7 @@
           });
 
           const submenuLinks = submenuEl.querySelectorAll('a');
-          submenuLinks.forEach(link => {
+          submenuLinks.forEach((link) => {
             link.addEventListener('click', () => {
               if (window.innerWidth <= 768) {
                 sidebar.classList.remove('active');
@@ -691,10 +842,58 @@
         }
       });
 
-      // Mock data for KYC History
+      // Mock data for KYC History with additional entries
       const mockData = [
-        { id: '124', name: 'Jane Smith', status: 'Rejected', date: '2025-04-30' },
-        { id: '126', name: 'Bob Johnson', status: 'Approved', date: '2025-05-01' },
+        {
+          id: '125',
+          name: 'Alice Brown',
+          date: '2025-04-29',
+          aadhar: '1234 5678 9120',
+          pan: 'ABCDE1234F',
+          account: '12345678901',
+          status: 'Pending',
+          actionTaken: false,
+        },
+        {
+          id: '126',
+          name: 'John Doe',
+          date: '2025-05-01',
+          aadhar: '5678 1234 4567',
+          pan: 'XYZAB5678G',
+          account: '98765432109',
+          status: 'Approved',
+          actionTaken: true,
+        },
+        {
+          id: '127',
+          name: 'Jane Smith',
+          date: '2025-05-03',
+          aadhar: '9012 3456 7890',
+          pan: 'PQRST9012H',
+          account: '45678912345',
+          status: 'Rejected',
+          actionTaken: true,
+        },
+        {
+          id: '128',
+          name: 'Robert Johnson',
+          date: '2025-05-05',
+          aadhar: '2345 6789 1234',
+          pan: 'LMNOP3456J',
+          account: '67890123456',
+          status: 'Pending',
+          actionTaken: false,
+        },
+        {
+          id: '129',
+          name: 'Emily Davis',
+          date: '2025-05-07',
+          aadhar: '3456 7890 2345',
+          pan: 'UVWXZ7890K',
+          account: '78901234567',
+          status: 'Approved',
+          actionTaken: true,
+        }
       ];
 
       // Function to format dates as "MMM DD, YYYY"
@@ -704,30 +903,91 @@
         return date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
       }
 
-      // KYC Functions
+      // Handle View Button Click for specific field
+      window.viewKycField = (id, field) => {
+        const entry = mockData.find((item) => item.id === id);
+        if (entry) {
+          let fieldName;
+          let value;
+          switch (field) {
+            case 'aadhar':
+              fieldName = 'Aadhar Card Number';
+              value = entry.aadhar;
+              break;
+            case 'pan':
+              fieldName = 'PAN Card Number';
+              value = entry.pan;
+              break;
+            case 'account':
+              fieldName = 'Account Number';
+              value = entry.account;
+              break;
+            default:
+              return;
+          }
+          alert(`${fieldName} for ${entry.name}: ${value}`);
+          // Optionally, extend to open a modal or redirect to a details page
+        }
+      };
+
+      // Handle KYC Action (Accept/Reject)
+      window.handleKycAction = (id, newStatus, button) => {
+        const entry = mockData.find((item) => item.id === id);
+        if (entry && !entry.actionTaken) {
+          entry.status = newStatus;
+          entry.actionTaken = true;
+          // Disable both buttons in the same row
+          const row = button.closest('tr');
+          const buttons = row.querySelectorAll('.btn-accept, .btn-reject');
+          buttons.forEach((btn) => (btn.disabled = true));
+          // Update the table
+          renderKycTable(mockData);
+        }
+      };
+
+      // KYC Search Function
       window.searchKyc = () => {
         const id = document.getElementById('kyc-id-search').value;
         const startDate = document.getElementById('kyc-start-date').value;
         const endDate = document.getElementById('kyc-end-date').value;
         let filtered = mockData;
-        if (id) filtered = filtered.filter(item => item.id.includes(id));
-        if (startDate) filtered = filtered.filter(item => item.date >= startDate);
-        if (endDate) filtered = filtered.filter(item => item.date <= endDate);
+        if (id) filtered = filtered.filter((item) => item.id.includes(id));
+        if (startDate) filtered = filtered.filter((item) => item.date >= startDate);
+        if (endDate) filtered = filtered.filter((item) => item.date <= endDate);
         renderKycTable(filtered);
       };
 
+      // Render KYC Table
       function renderKycTable(data = mockData) {
         const tbody = document.getElementById('kyc-table');
-        tbody.innerHTML = data.map(item => `
+        tbody.innerHTML = data.length > 0 ? data.map((item, index) => `
           <tr>
+            <td>${index + 1}</td>
             <td>${item.id}</td>
-            <td>${item.name}</td>
-            <td ${item.status === 'Rejected' ? 'class="status-rejected"' : ''}>
-              ${item.status === 'Rejected' ? `${item.status} ` : item.status}
-            </td>
+            <td class="name-column">${item.name}</td>
             <td class="date-column">${formatDate(item.date)}</td>
+            <td class="status-column">
+              <button class="btn-view" data-id="${item.id}" onclick="viewKycField('${item.id}', 'aadhar')">View</button>
+            </td>
+            <td>
+              <button class="btn-view" data-id="${item.id}" onclick="viewKycField('${item.id}', 'pan')">View</button>
+            </td>
+            <td>
+              <button class="btn-view" data-id="${item.id}" onclick="viewKycField('${item.id}', 'account')">View</button>
+            </td>
+            <td class="status-column-status">${item.status}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-accept" data-id="${item.id}" onclick="handleKycAction('${item.id}', 'Approved', this)" ${item.actionTaken ? 'disabled' : ''}>Accept</button>
+                <button class="btn-reject" data-id="${item.id}" onclick="handleKycAction('${item.id}', 'Rejected', this)" ${item.actionTaken ? 'disabled' : ''}>Reject</button>
+              </div>
+            </td>
           </tr>
-        `).join('');
+        `).join('') : `
+          <tr>
+            <td colspan="9" style="text-align: center; color: #b3e0ff;">No KYC records found</td>
+          </tr>
+        `;
       }
 
       // Initial render

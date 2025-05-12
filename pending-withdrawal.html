@@ -611,11 +611,13 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>Withdrawal ID</th>
-                <th>Date</th>
                 <th>User ID</th>
+                <th>User Name</th>
+                <th>Date</th>
+                <th>Account Number</th>
                 <th>Amount</th>
-                <th>Status</th>
+                <th>Admin Charge 5%</th>
+                <th>TDS 5%</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -756,15 +758,20 @@
           }
         });
 
-        const mockData = [
-          {
-            id: 'WDR12346',
-            date: '2025-05-02',
-            userId: 'U12346',
-            amount: '₹3000',
+        const mockData = Array.from({ length: 2 }, (_, i) => {
+          const amount = 3000 + i * 1000;
+          return {
+            id: `WDR1234${6 + i}`,
+            date: `2025-05-0${2 + i}`,
+            userId: `U1234${6 + i}`,
+            userName: i % 2 === 0 ? 'John Doe' : 'Jane Smith',
+            accountNumber: `ACC${1234567890 + i}`,
+            amount: `₹${amount}`,
+            adminCharge: `₹${(amount * 0.05).toFixed(2)}`,
+            tds: `₹${(amount * 0.05).toFixed(2)}`,
             status: 'Pending'
-          }
-        ];
+          };
+        });
 
         function formatDate(dateStr) {
           try {
@@ -836,11 +843,13 @@
               return `
                 <tr>
                   <td>${index + 1}</td>
-                  <td>${item.id}</td>
-                  <td class="date-column">${formattedDate}</td>
                   <td>${item.userId}</td>
+                  <td>${item.userName}</td>
+                  <td class="date-column">${formattedDate}</td>
+                  <td>${item.accountNumber}</td>
                   <td>${item.amount}</td>
-                  <td class="status-${item.status.toLowerCase()}">${item.status}</td>
+                  <td>${item.adminCharge}</td>
+                  <td>${item.tds}</td>
                   <td class="action-buttons">
                     ${item.status === 'Pending' ? `
                       <button class="approve-btn" onclick="updateWithdrawalStatus('${item.id}', 'Approved')">Approve</button>
@@ -851,7 +860,7 @@
               `;
             }).join('') : `
               <tr>
-                <td colspan="7" style="text-align: center; color: #b3e0ff;">No withdrawals found</td>
+                <td colspan="9" style="text-align: center; color: #b3e0ff;">No withdrawals found</td>
               </tr>
             `;
           } catch (error) {

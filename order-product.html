@@ -495,6 +495,34 @@
         font-size: 0.7rem;
       }
     }
+
+    .product-action-buttons button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+      margin-right: 5px;
+    }
+
+    .product-action-buttons .view-details-btn {
+      background: #007bff;
+      color: #ffffff;
+    }
+
+    .product-action-buttons .view-details-btn:hover {
+      background: #0056b3;
+    }
+
+    .product-action-buttons .edit-btn {
+      background: #ffc107;
+      color: #ffffff;
+    }
+
+    .product-action-buttons .edit-btn:hover {
+      background: #e0a800;
+    }
   </style>
 </head>
 <body>
@@ -601,7 +629,7 @@
           <select id="status-filter">
             <option value="">All Statuses</option>
             <option value="Pending">Pending</option>
-            <option value="Approved">Approved</option>
+            <option value=""></option>
             <option value="Rejected">Rejected</option>
           </select>
           <button onclick="searchProductOrders()">Search</button>
@@ -614,6 +642,7 @@
                 <th>Order ID</th>
                 <th>Date</th>
                 <th>User ID</th>
+                <th>User Name</th>
                 <th>Product</th>
                 <th>Quantity</th>
                 <th>Amount</th>
@@ -726,18 +755,59 @@
         }
       });
 
-      const mockData = [
-        {
-          id: 'ORD12345',
-          date: '2025-05-03',
-          userId: 'U12345',
-          product: 'Health Supplement',
-          quantity: 2,
-          amount: '₹800',
-          address: '123 Main St, City, Country',
-          status: 'Pending'
-        }
-      ];
+      // Helper functions for random data generation
+      function generateRandomOrderId() {
+        return 'ORD' + Math.floor(10000 + Math.random() * 90000);
+      }
+
+      function generateRandomDate() {
+        const start = new Date(2024, 0, 1);
+        const end = new Date(2025, 4, 12);
+        const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+        return date.toISOString().split('T')[0];
+      }
+
+      function generateRandomUserId() {
+        return 'U' + Math.floor(10000 + Math.random() * 90000);
+      }
+
+      function generateRandomUserName() {
+        const names = ['John Doe', 'Jane Smith', 'Alice Brown', 'Bob Johnson', 'Emma Davis', 'Michael Lee', 'Sarah Wilson', 'David Clark'];
+        return names[Math.floor(Math.random() * names.length)];
+      }
+
+      function generateRandomQuantity() {
+        return Math.floor(1 + Math.random() * 10);
+      }
+
+      function generateRandomAmount() {
+        return '₹' + (Math.floor(100 + Math.random() * 1900)).toString();
+      }
+
+      function generateRandomAddress() {
+        const streets = ['Main St', 'Park Ave', 'Cedar Rd', 'Oak Dr', 'Elm St'];
+        const cities = ['Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Kolkata'];
+        const street = streets[Math.floor(Math.random() * streets.length)];
+        const city = cities[Math.floor(Math.random() * cities.length)];
+        return `${Math.floor(1 + Math.random() * 999)} ${street}, ${city}, India`;
+      }
+
+      function generateRandomStatus() {
+        const statuses = ['Pending', 'Approved', 'Rejected'];
+        return statuses[Math.floor(Math.random() * statuses.length)];
+      }
+
+      // Generate mock data (2 rows)
+      const mockData = Array.from({ length: 2 }, () => ({
+        id: generateRandomOrderId(),
+        date: generateRandomDate(),
+        userId: generateRandomUserId(),
+        userName: generateRandomUserName(),
+        quantity: generateRandomQuantity(),
+        amount: generateRandomAmount(),
+        address: generateRandomAddress(),
+        status: generateRandomStatus()
+      }));
 
       function formatDate(dateStr) {
         try {
@@ -755,6 +825,11 @@
           return 'Error';
         }
       }
+
+      window.viewProductDetails = (orderId) => {
+        console.log(`Viewing product details for Order ID: ${orderId}`);
+        // Placeholder for future functionality (e.g., open modal or redirect)
+      };
 
       window.searchProductOrders = () => {
         const id = document.getElementById('order-id-search').value.trim();
@@ -781,7 +856,7 @@
 
       window.updateOrderStatus = (id, status) => {
         const item = mockData.find(item => item.id === id);
-        if (item && item.status === 'Pending') {
+        if (item) {
           item.status = status;
           console.log(`Updated status for Order ID: ${id} to ${status}`);
           renderProductOrderTable();
@@ -803,22 +878,21 @@
               <td>${item.id}</td>
               <td class="date-column">${formattedDate}</td>
               <td>${item.userId}</td>
-              <td>${item.product}</td>
+              <td>${item.userName}</td>
+              <td><button class="text-blue-400 underline" onclick="viewProductDetails('${item.id}')">View</button></td>
               <td>${item.quantity}</td>
               <td>${item.amount}</td>
               <td>${item.address}</td>
               <td class="status-${item.status.toLowerCase()}">${item.status}</td>
               <td class="action-buttons">
-                ${item.status === 'Pending' ? `
-                  <button class="approve-btn" onclick="updateOrderStatus('${item.id}', 'Approved')">Approve</button>
-                  <button class="reject-btn" onclick="updateOrderStatus('${item.id}', 'Rejected')">Reject</button>
-                ` : ''}
+                <button class="approve-btn" onclick="updateOrderStatus('${item.id}', 'Approved')">Approve</button>
+                <button class="reject-btn" onclick="updateOrderStatus('${item.id}', 'Rejected')">Reject</button>
               </td>
             </tr>
           `;
         }).join('') : `
           <tr>
-            <td colspan="10" style="text-align: center; color: #b3e0ff;">No orders found</td>
+            <td colspan="11" style="text-align: center; color: #b3e0ff;">No orders found</td>
           </tr>
         `;
       }

@@ -569,11 +569,12 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>Transaction ID</th>
-                <th>Date</th>
-               
                 <th>User ID</th>
+                <th>User Name</th>
+                <th>Date</th>
+                <th>Rank</th>
                 <th>Amount</th>
+                <th>Pair</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -717,13 +718,44 @@
         const mockData = [
           {
             id: 'CAP20000-001',
+            userId: 'U54321',
+            userName: 'Michael Brown',
             date: '2025-05-05',
-           
-            userId: 'U12349',
-            amount: '₹20000.00',
+            rank: 'Diamond',
+            amount: '₹20000',
+            pair: '3',
             status: 'Achieved'
           },
-         
+          {
+            id: 'CAP20000-002',
+            userId: 'U54322',
+            userName: 'Sarah Davis',
+            date: '2025-05-06',
+            rank: 'Platinum',
+            amount: '₹18000',
+            pair: '2',
+            status: 'Pending'
+          },
+          {
+            id: 'CAP20000-003',
+            userId: 'U54323',
+            userName: 'David Lee',
+            date: '2025-05-07',
+            rank: 'Emerald',
+            amount: '₹20000',
+            pair: '2',
+            status: 'Achieved'
+          },
+          {
+            id: 'CAP20000-004',
+            userId: 'U54324',
+            userName: 'Emily Clark',
+            date: '2025-05-08',
+            rank: 'Gold',
+            amount: '₹19000',
+            pair: '2',
+            status: 'Pending'
+          }
         ];
 
         function formatDate(dateStr) {
@@ -743,6 +775,33 @@
           }
         }
 
+        window.searchTransactions = () => {
+          try {
+            const id = document.getElementById('transaction-id-search').value.trim();
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            const status = document.getElementById('status-filter').value;
+            let filtered = mockData;
+
+            if (startDate) {
+              filtered = filtered.filter(item => item.date >= startDate);
+            }
+            if (endDate) {
+              filtered = filtered.filter(item => item.date <= endDate);
+            }
+            if (id) {
+              filtered = filtered.filter(item => item.id.toLowerCase().includes(id.toLowerCase()));
+            }
+            if (status) {
+              filtered = filtered.filter(item => item.status === status);
+            }
+
+            renderTable(filtered);
+          } catch (error) {
+            console.error('Error searching transactions:', error);
+          }
+        };
+
         function renderTable(data = mockData) {
           try {
             const tbody = document.getElementById('capping-table');
@@ -752,17 +811,16 @@
             }
             tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
               const formattedDate = formatDate(item.date);
-              const formattedStartDate = formatDate(item.startDate);
-              const formattedEndDate = formatDate(item.endDate);
               console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
               return `
                 <tr>
                   <td>${index + 1}</td>
-                  <td>${item.id}</td>
-                  <td class="date-column">${formattedDate}</td>
-                  
                   <td>${item.userId}</td>
+                  <td>${item.userName}</td>
+                  <td class="date-column">${formattedDate}</td>
+                  <td>${item.rank}</td>
                   <td>${item.amount}</td>
+                  <td>${item.pair}</td>
                   <td class="status-${item.status.toLowerCase()}">${item.status}</td>
                 </tr>
               `;

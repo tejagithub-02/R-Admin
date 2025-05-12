@@ -284,10 +284,6 @@
       overflow-x: auto; /* Enable horizontal scrolling on small screens */
     }
 
-    .table-container:hover {
-      transform: scale(1.03);
-    }
-
     .table {
       width: 100%;
       min-width: 900px; /* Ensure table has a minimum width for readability */
@@ -312,10 +308,6 @@
       min-width: 120px;
     }
 
-    .table td.date-column {
-      color: #b3e0ff;
-    }
-
     .table tbody tr:nth-child(odd) {
       background: #0f3460;
     }
@@ -331,9 +323,10 @@
       justify-content: center;
       width: 100%;
       max-width: 1200px;
+      flex-wrap: wrap;
     }
 
-    .search-bar input, .search-bar button {
+    .search-bar input, .search-bar select, .search-bar button {
       padding: 8px;
       border: 1px solid #00d4ff;
       border-radius: 5px;
@@ -351,6 +344,10 @@
 
     .search-bar input::placeholder {
       color: #b3e0ff;
+    }
+
+    .search-bar select {
+      background: #0f3460;
     }
 
     .search-bar button {
@@ -493,7 +490,7 @@
       .search-bar {
         flex-direction: column;
       }
-      .search-bar input, .search-bar button {
+      .search-bar input, .search-bar select, .search-bar button {
         width: 100%;
         padding: 6px;
         font-size: 0.9rem;
@@ -525,7 +522,7 @@
       .table th.status-column, .table td.status-column {
         min-width: 80px;
       }
-      .search-bar input, .search-bar button {
+      .search-bar input, .search-bar select, .search-bar button {
         padding: 5px;
         font-size: 0.8rem;
       }
@@ -622,14 +619,14 @@
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
       <div class="sidebar-item">
-        <a href="#" id="gallery-toggle" ><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
+        <a href="#" id="gallery-toggle"><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="gallery-submenu">
           <a href="gallery-plan.html" data-section="gallery-plan"><i class="fas fa-file-pdf"></i> <span>Business Plan</span></a>
-          <a href="gallery-photo.html" data-section="gallery-photo" ><i class="fas fa-camera"></i> <span>Photo</span></a>
+          <a href="gallery-photo.html" data-section="gallery-photo"><i class="fas fa-camera"></i> <span>Photo</span></a>
           <a href="gallery-news.html" data-section="gallery-news"><i class="fas fa-newspaper"></i> <span>News</span></a>
           <a href="gallery-event.html" data-section="gallery-event"><i class="fas fa-calendar"></i> <span>Event</span></a>
           <a href="gallery-video.html" data-section="gallery-video"><i class="fas fa-video"></i> <span>Video</span></a>
-          <a href="gallery-product.html" data-section="gallery-product" ><i class="fas fa-box"></i> <span>Product Image</span></a>
+          <a href="gallery-product.html" data-section="gallery-product"><i class="fas fa-box"></i> <span>Product Image</span></a>
           <a href="gallery-add-product.html" data-section="gallery-add-product"><i class="fas fa-plus"></i> <span>Add Product</span></a>
         </div>
       </div>
@@ -642,9 +639,13 @@
         <!-- Rank & Reward Section -->
         <h2 class="text-2xl font-bold mb-4 text-white">Rank & Reward</h2>
         <div class="search-bar">
-          <input type="text" placeholder="Reward ID" id="rank-reward-id-search">
           <input type="date" id="rank-reward-start-date" placeholder="mm/dd/yyyy">
           <input type="date" id="rank-reward-end-date" placeholder="mm/dd/yyyy">
+          <select id="status-filter">
+            <option value="">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Paid">Paid</option>
+          </select>
           <button onclick="searchRankReward()">Search</button>
         </div>
         <div class="table-container">
@@ -652,48 +653,18 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>Date</th>
-                <th>Reward ID</th>
+                <th>User ID</th>
                 <th>User Name</th>
+                <th>Date</th>
                 <th>Rank</th>
                 <th>Reward Amount</th>
                 <th class="status-column">Status</th>
                 <th>Action</th>
               </tr>
             </thead>
-           
-              <tr>
-                <td>1</td>
-                <td class="date-column">Apr 03, 2025</td>
-                <td>RR12345</td>
-                <td>John Doe</td>
-                <td>Silver</td>
-                <td>₹1000</td>
-                <td class="status-paid status-column">Paid</td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="btn-paid" data-id="RR12345" onclick="handleRankRewardAction('RR12345', 'Paid', this)">Mark as Paid</button>
-                    <button class="btn-unpaid" data-id="RR12345" onclick="handleRankRewardAction('RR12345', 'Pending', this)">Mark as Unpaid</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td class="date-column">Apr 10, 2025</td>
-                <td>RR12346</td>
-                <td>Jane Smith</td>
-                <td>Gold</td>
-                <td>₹2000</td>
-                <td class="status-pending status-column">Pending</td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="btn-paid" data-id="RR12346" onclick="handleRankRewardAction('RR12346', 'Paid', this)">Mark as Paid</button>
-                    <button class="btn-unpaid" data-id="RR12346" onclick="handleRankRewardAction('RR12346', 'Pending', this)">Mark as Unpaid</button>
-                  </div>
-                </td>
-              </tr>
-             
-           
+            <tbody id="rank-reward-table">
+              <!-- Table rows populated by JavaScript -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -705,163 +676,240 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const sidebarToggle = document.getElementById('sidebar-toggle');
-      const sidebarExpand = document.getElementById('sidebar-expand');
-      const sidebar = document.querySelector('.sidebar');
-      const mainContent = document.querySelector('.main-content');
-      const menuToggle = document.getElementById('menu-toggle');
-      const adminIcon = document.getElementById('admin-icon');
-      const adminDropdown = document.getElementById('admin-dropdown');
+      try {
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarExpand = document.getElementById('sidebar-expand');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const menuToggle = document.getElementById('menu-toggle');
+        const adminIcon = document.getElementById('admin-icon');
+        const adminDropdown = document.getElementById('admin-dropdown');
 
-      // Sidebar collapse/expand for desktop
-      if (sidebarToggle && sidebarExpand && sidebar && mainContent) {
-        sidebarToggle.addEventListener('click', () => {
-          const isCollapsed = sidebar.classList.toggle('collapsed');
-          mainContent.classList.toggle('collapsed');
-          sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
-          document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
-          document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
-        });
-        sidebarExpand.addEventListener('click', () => {
-          sidebar.classList.remove('collapsed');
-          mainContent.classList.remove('collapsed');
-          sidebarExpand.style.display = 'none';
-        });
-      }
+        // Sidebar collapse/expand for desktop
+        if (sidebarToggle && sidebarExpand && sidebar && mainContent) {
+          sidebarToggle.addEventListener('click', () => {
+            const isCollapsed = sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('collapsed');
+            sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
+            document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
+            document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
+          });
+          sidebarExpand.addEventListener('click', () => {
+            sidebar.classList.remove('collapsed');
+            mainContent.classList.remove('collapsed');
+            sidebarExpand.style.display = 'none';
+          });
+        }
 
-      // Sidebar toggle for mobile
-      if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', () => {
-          sidebar.classList.toggle('active');
-        });
-      }
+        // Sidebar toggle for mobile
+        if (menuToggle && sidebar) {
+          menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+          });
+        }
 
-      // Admin dropdown toggle
-      if (adminIcon && adminDropdown) {
-        adminIcon.addEventListener('click', (e) => {
-          e.stopPropagation();
-          adminDropdown.classList.toggle('active');
-        });
+        // Close sidebar on mobile when clicking outside
         document.addEventListener('click', (e) => {
-          if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
-            adminDropdown.classList.remove('active');
+          try {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+              sidebar.classList.remove('active');
+            }
+          } catch (error) {
+            console.error('Error in outside click handler:', error);
           }
         });
-      }
 
-      // Submenu toggle
-      const submenuToggles = [
-        { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
-        { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
-        { toggle: 'topup-toggle', submenu: 'topup-submenu' },
-        { toggle: 'order-toggle', submenu: 'order-submenu' },
-        { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
-        { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
-        { toggle: 'capping-toggle', submenu: 'capping-submenu' },
-        { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
-      ];
-
-      submenuToggles.forEach(({ toggle, submenu }) => {
-        const toggleEl = document.getElementById(toggle);
-        const submenuEl = document.getElementById(submenu);
-        const icon = toggleEl?.querySelector('.dropdown-icon');
-
-        if (toggleEl && submenuEl && icon) {
-          toggleEl.addEventListener('click', (e) => {
-            e.preventDefault();
-            const isActive = submenuEl.classList.toggle('active');
-            icon.classList.toggle('active');
-            submenuToggles.forEach(other => {
-              if (other.submenu !== submenu) {
-                document.getElementById(other.submenu).classList.remove('active');
-                document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
-              }
-            });
+        // Admin dropdown toggle
+        if (adminIcon && adminDropdown) {
+          adminIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            adminDropdown.classList.toggle('active');
           });
-
-          const submenuLinks = submenuEl.querySelectorAll('a');
-          submenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              if (window.innerWidth <= 768) {
-                sidebar.classList.remove('active');
-              }
-            });
-          });
-
           document.addEventListener('click', (e) => {
-            if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
-              if (submenu !== 'earnings-submenu') {
-                submenuEl.classList.remove('active');
-                icon.classList.remove('active');
-              }
+            if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
+              adminDropdown.classList.remove('active');
             }
           });
         }
-      });
 
-      // Mock data for Rank & Reward (admin view - includes users with rank-based rewards)
-      const mockData = [
-        { id: 'RR12345', date: '2025-04-03', name: 'John Doe', rank: 'Silver', amount: '$80.00', status: 'Paid', actionTaken: false },
-        { id: 'RR12346', date: '2025-04-10', name: 'Jane Smith', rank: 'Gold', amount: '$200.00', status: 'Pending', actionTaken: false },
-        { id: 'RR12347', date: '2025-04-22', name: 'Alice Brown', rank: 'Platinum', amount: '$300.00', status: 'Pending', actionTaken: false },
-      ];
+        // Submenu toggle
+        const submenuToggles = [
+          { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
+          { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
+          { toggle: 'topup-toggle', submenu: 'topup-submenu' },
+          { toggle: 'order-toggle', submenu: 'order-submenu' },
+          { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
+          { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
+          { toggle: 'capping-toggle', submenu: 'capping-submenu' },
+          { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
+        ];
 
-      // Function to format dates as "MMM DD, YYYY"
-      function formatDate(dateStr) {
-        const date = new Date(dateStr);
-        const options = { year: 'numeric', month: 'short', day: '2-digit' };
-        return date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
-      }
+        submenuToggles.forEach(({ toggle, submenu }) => {
+          const toggleEl = document.getElementById(toggle);
+          const submenuEl = document.getElementById(submenu);
+          const icon = toggleEl?.querySelector('.dropdown-icon');
 
-      // Handle Rank & Reward Action (Mark as Paid/Unpaid)
-      window.handleRankRewardAction = (id, newStatus, button) => {
-        const entry = mockData.find(item => item.id === id);
-        if (entry && !entry.actionTaken) {
-          entry.status = newStatus;
-          entry.actionTaken = true;
-          // Disable both buttons in the same row
-          const row = button.closest('tr');
-          const buttons = row.querySelectorAll('.btn-paid, .btn-unpaid');
-          buttons.forEach(btn => btn.disabled = true);
-          // Update the table
-          renderRankRewardTable(mockData);
+          if (toggleEl && submenuEl && icon) {
+            toggleEl.addEventListener('click', (e) => {
+              e.preventDefault();
+              const isActive = submenuEl.classList.toggle('active');
+              icon.classList.toggle('active');
+              submenuToggles.forEach(other => {
+                if (other.submenu !== submenu) {
+                  document.getElementById(other.submenu).classList.remove('active');
+                  document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
+                }
+              });
+            });
+
+            const submenuLinks = submenuEl.querySelectorAll('a');
+            submenuLinks.forEach(link => {
+              link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                  sidebar.classList.remove('active');
+                }
+              });
+            });
+
+            document.addEventListener('click', (e) => {
+              if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
+                if (submenu !== 'earnings-submenu') {
+                  submenuEl.classList.remove('active');
+                  icon.classList.remove('active');
+                }
+              }
+            });
+          }
+        });
+
+        // Mock data for Rank & Reward (admin view - includes users with rank-based rewards)
+        const mockData = [
+          { id: 'RR12345', userId: 'U10001', name: 'John Doe', date: '2025-04-03', rank: 'Star', amount: '₹50.00', status: 'Approved', actionTaken: false },
+          { id: 'RR12346', userId: 'U10002', name: 'Jane Smith', date: '2025-04-04', rank: 'Double Star', amount: '₹75.00', status: 'Pending', actionTaken: false },
+          { id: 'RR12347', userId: 'U10003', name: 'Alice Brown', date: '2025-04-05', rank: 'Bronze', amount: '₹100.00', status: 'Pending', actionTaken: false },
+          { id: 'RR12348', userId: 'U10004', name: 'Bob Johnson', date: '2025-04-06', rank: 'Silver', amount: '₹150.00', status: 'Approved', actionTaken: false },
+          { id: 'RR12349', userId: 'U10005', name: 'Emily Davis', date: '2025-04-07', rank: 'Gold', amount: '₹200.00', status: 'Pending', actionTaken: false },
+          { id: 'RR12350', userId: 'U10006', name: 'Michael Lee', date: '2025-04-08', rank: 'Platinum', amount: '₹250.00', status: 'Approved', actionTaken: false },
+          { id: 'RR12351', userId: 'U10007', name: 'Sarah Wilson', date: '2025-04-09', rank: 'Titanium', amount: '₹300.00', status: 'Pending', actionTaken: false },
+          { id: 'RR12352', userId: 'U10008', name: 'David Clark', date: '2025-04-10', rank: 'Emerald', amount: '₹350.00', status: 'Approved', actionTaken: false },
+          { id: 'RR12353', userId: 'U10009', name: 'Laura Martinez', date: '2025-04-11', rank: 'Ruby', amount: '₹400.00', status: 'Pending', actionTaken: false },
+          { id: 'RR12354', userId: 'U10010', name: 'James White', date: '2025-04-12', rank: 'Diamond', amount: '₹450.00', status: 'Approved', actionTaken: false },
+          { id: 'RR12355', userId: 'U10011', name: 'Olivia Harris', date: '2025-04-13', rank: 'Blue Diamond', amount: '₹500.00', status: 'Pending', actionTaken: false },
+          { id: 'RR12356', userId: 'U10012', name: 'William Turner', date: '2025-04-14', rank: 'Black Diamond', amount: '₹550.00', status: 'Approved', actionTaken: false },
+          { id: 'RR12357', userId: 'U10013', name: 'Sophia Lewis', date: '2025-04-15', rank: 'Red Diamond', amount: '₹600.00', status: 'Pending', actionTaken: false },
+          { id: 'RR12358', userId: 'U10014', name: 'Henry Walker', date: '2025-04-16', rank: 'Crown', amount: '₹700.00', status: 'Approved', actionTaken: false },
+          { id: 'RR12359', userId: 'U10015', name: 'Ava Scott', date: '2025-04-17', rank: 'Ambassador', amount: '₹800.00', status: 'Pending', actionTaken: false },
+          { id: 'RR12360', userId: 'U10016', name: 'Ethan Adams', date: '2025-04-18', rank: 'Royal', amount: '₹900.00', status: 'Approved', actionTaken: false },
+          { id: 'RR12361', userId: 'U10017', name: 'Isabella King', date: '2025-04-19', rank: 'Royal King', amount: '₹1000.00', status: 'Pending', actionTaken: false }
+        ];
+
+        // Function to format dates as "MMM DD, YYYY"
+        function formatDate(dateStr) {
+          try {
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) {
+              console.warn(`Invalid date: ${dateStr}`);
+              return 'Invalid Date';
+            }
+            const options = { year: 'numeric', month: 'short', day: '2-digit' };
+            const formatted = date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
+            console.log(`Formatted date for ${dateStr}: ${formatted}`);
+            return formatted;
+          } catch (error) {
+            console.error('Error formatting date:', error);
+            return 'Error';
+          }
         }
-      };
 
-      // Rank & Reward Functions
-      window.searchRankReward = () => {
-        const id = document.getElementById('rank-reward-id-search').value;
-        const startDate = document.getElementById('rank-reward-start-date').value;
-        const endDate = document.getElementById('rank-reward-end-date').value;
-        let filtered = mockData;
-        if (id) filtered = filtered.filter(item => item.id.includes(id));
-        if (startDate) filtered = filtered.filter(item => item.date >= startDate);
-        if (endDate) filtered = filtered.filter(item => item.date <= endDate);
-        renderRankRewardTable(filtered);
-      };
+        // Handle Rank & Reward Action (Mark as Paid/Unpaid)
+        window.handleRankRewardAction = (id, newStatus, button) => {
+          try {
+            const entry = mockData.find(item => item.id === id);
+            if (entry && !entry.actionTaken) {
+              entry.status = newStatus;
+              entry.actionTaken = true;
+              // Disable both buttons in the same row
+              const row = button.closest('tr');
+              const buttons = row.querySelectorAll('.btn-paid, .btn-unpaid');
+              buttons.forEach(btn => btn.disabled = true);
+              // Update the table
+              renderRankRewardTable(mockData);
+            }
+          } catch (error) {
+            console.error('Error handling rank reward action:', error);
+          }
+        };
 
-      function renderRankRewardTable(data = mockData) {
-        const tbody = document.getElementById('rank-reward-table');
-        tbody.innerHTML = data.map(item => `
-          <tr>
-            <td class="date-column">${formatDate(item.date)}</td>
-            <td>${item.id}</td>
-            <td>${item.name}</td>
-            <td>${item.rank}</td>
-            <td>${item.amount}</td>
-            <td class="${item.status === 'Paid' ? 'status-paid' : 'status-pending'} status-column">${item.status}</td>
-            <td>
-              <div class="action-buttons">
-                <button class="btn-paid" data-id="${item.id}" onclick="handleRankRewardAction('${item.id}', 'Paid', this)" ${item.actionTaken ? 'disabled' : ''}>Mark as Paid</button>
-                <button class="btn-unpaid" data-id="${item.id}" onclick="handleRankRewardAction('${item.id}', 'Pending', this)" ${item.actionTaken ? 'disabled' : ''}>Mark as Unpaid</button>
-              </div>
-            </td>
-          </tr>
-        `).join('');
+        // Rank & Reward Functions
+        window.searchRankReward = () => {
+          try {
+            const startDate = document.getElementById('rank-reward-start-date').value;
+            const endDate = document.getElementById('rank-reward-end-date').value;
+            const status = document.getElementById('status-filter').value;
+            let filtered = mockData;
+
+            if (startDate) {
+              filtered = filtered.filter(item => item.date >= startDate);
+            }
+            if (endDate) {
+              filtered = filtered.filter(item => item.date <= endDate);
+            }
+            if (status) {
+              filtered = filtered.filter(item => item.status === status);
+            }
+
+            renderRankRewardTable(filtered);
+          } catch (error) {
+            console.error('Error searching rank rewards:', error);
+          }
+        };
+
+        function renderRankRewardTable(data = mockData) {
+          try {
+            const tbody = document.getElementById('rank-reward-table');
+            if (!tbody) {
+              console.error('Table body element not found');
+              return;
+            }
+            tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
+              const formattedDate = formatDate(item.date);
+              console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
+              return `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${item.userId}</td>
+                  <td>${item.name}</td>
+                  <td class="date-column">${formattedDate}</td>
+                  <td>${item.rank}</td>
+                  <td>${item.amount}</td>
+                  <td class="${item.status === 'Paid' ? 'status-paid' : 'status-pending'} status-column">${item.status}</td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="btn-paid" data-id="${item.id}" onclick="handleRankRewardAction('${item.id}', 'Paid', this)" ${item.actionTaken ? 'disabled' : ''}>Approved</button>
+                      <button class="btn-unpaid" data-id="${item.id}" onclick="handleRankRewardAction('${item.id}', 'Pending', this)" ${item.actionTaken ? 'disabled' : ''}>Rejected</button>
+                    </div>
+                  </td>
+                </tr>
+              `;
+            }).join('') : `
+              <tr>
+                <td colspan="8" style="text-align: center; color: #b3e0ff;">No rewards found</td>
+              </tr>
+            `;
+          } catch (error) {
+            console.error('Error rendering rank reward table:', error);
+          }
+        }
+
+        // Initial render
+        try {
+          renderRankRewardTable();
+        } catch (error) {
+          console.error('Error rendering rank reward table:', error);
+        }
+      } catch (error) {
+        console.error('Error in DOMContentLoaded:', error);
       }
-
-      // Initial render
-      renderRankRewardTable();
     });
   </script>
 </body>

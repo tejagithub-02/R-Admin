@@ -498,6 +498,47 @@
         min-width: 70px;
       }
     }
+    .action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+}
+
+.btn-accept, .btn-reject {
+  padding: 6px 10px;
+  border: 2px solid #00d4ff;
+  border-radius: 6px;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+  box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+.btn-accept {
+  background: #28a745;
+}
+
+.btn-reject {
+  background: #dc3545;
+}
+
+.btn-accept:hover, .btn-reject:hover {
+  box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
+  transform: scale(1.05);
+}
+
+.btn-accept:disabled, .btn-reject:disabled {
+  background: #4a4a4a;
+  border-color: #666;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
   </style>
 </head>
 <body>
@@ -614,31 +655,37 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>ID</th>
+                <th>USER ID</th>
+                <th class="name-column">USER Name</th>
                 <th>Qualified Date</th>
-                <th class="name-column">Name</th>
-                <th> Travel Date</th>
-                <th>Rank</th>
-                <th>RV Points</th>
-                <th class="destination-column">Tour</th>
-                <th class="status-column">Status</th>
                 
+              
+                <th>Rank</th>
+                <th>Pair</th>
+                <th>Travel Date</th>
+                <th class="status-column">Status</th>
+                <th>Action</th>
               </tr>
             </thead>
-
+           
               <tr>
                 <td>1</td>
-                <td>401</td>
-                <td>Apr 01,2025</td>
-                <td class="name-column">Sophia Martinez</td>
-                <td class="date-column">Apr 28, 2025</td>
+                <td>301</td>
+                <td class="name-column">Emma Wilson</td>
+                <td>Apr 01, 2025</td>
+              
+               
                 <td>Silver</td>
-                <td>100</td>
-                <td class="destination-column">New York</td>
-                <td class="status-completed status-column">Completed</td>
-                
+                <td>2</td>
+                <td>May 15 2025</td>
+                <td class="status-pending status-column">Pending</td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="btn-accept" data-id="301" onclick="handleTourAction('301', 'Approved', this)">Accept</button>
+                    <button class="btn-reject" data-id="301" onclick="handleTourAction('301', 'Rejected', this)">Reject</button>
+                  </div>
+                </td>
               </tr>
-            
            
           </table>
         </div>
@@ -649,143 +696,184 @@
     </div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const sidebarToggle = document.getElementById('sidebar-toggle');
-      const sidebarExpand = document.getElementById('sidebar-expand');
-      const sidebar = document.querySelector('.sidebar');
-      const mainContent = document.querySelector('.main-content');
-      const menuToggle = document.getElementById('menu-toggle');
-      const adminIcon = document.getElementById('admin-icon');
-      const adminDropdown = document.getElementById('admin-dropdown');
+ <script>document.addEventListener('DOMContentLoaded', () => {
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebarExpand = document.getElementById('sidebar-expand');
+  const sidebar = document.querySelector('.sidebar');
+  const mainContent = document.querySelector('.main-content');
+  const menuToggle = document.getElementById('menu-toggle');
+  const adminIcon = document.getElementById('admin-icon');
+  const adminDropdown = document.getElementById('admin-dropdown');
 
-      // Sidebar collapse/expand for desktop
-      if (sidebarToggle && sidebarExpand && sidebar && mainContent) {
-        sidebarToggle.addEventListener('click', () => {
-          const isCollapsed = sidebar.classList.toggle('collapsed');
-          mainContent.classList.toggle('collapsed');
-          sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
-          document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
-          document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
-        });
-        sidebarExpand.addEventListener('click', () => {
-          sidebar.classList.remove('collapsed');
-          mainContent.classList.remove('collapsed');
-          sidebarExpand.style.display = 'none';
-        });
+  // Sidebar collapse/expand for desktop
+  if (sidebarToggle && sidebarExpand && sidebar && mainContent) {
+    sidebarToggle.addEventListener('click', () => {
+      const isCollapsed = sidebar.classList.toggle('collapsed');
+      mainContent.classList.toggle('collapsed');
+      sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
+      document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
+      document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
+    });
+    sidebarExpand.addEventListener('click', () => {
+      sidebar.classList.remove('collapsed');
+      mainContent.classList.remove('collapsed');
+      sidebarExpand.style.display = 'none';
+    });
+  }
+
+  // Sidebar toggle for mobile
+  if (menuToggle && sidebar) {
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+  }
+
+  // Admin dropdown toggle
+  if (adminIcon && adminDropdown) {
+    adminIcon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      adminDropdown.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
+        adminDropdown.classList.remove('active');
       }
+    });
+  }
 
-      // Sidebar toggle for mobile
-      if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', () => {
-          sidebar.classList.toggle('active');
-        });
-      }
+  // Submenu toggle
+  const submenuToggles = [
+    { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
+    { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
+    { toggle: 'topup-toggle', submenu: 'topup-submenu' },
+    { toggle: 'order-toggle', submenu: 'order-submenu' },
+    { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
+    { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
+    { toggle: 'capping-toggle', submenu: 'capping-submenu' },
+    { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
+  ];
 
-      // Admin dropdown toggle
-      if (adminIcon && adminDropdown) {
-        adminIcon.addEventListener('click', (e) => {
-          e.stopPropagation();
-          adminDropdown.classList.toggle('active');
-        });
-        document.addEventListener('click', (e) => {
-          if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
-            adminDropdown.classList.remove('active');
+  submenuToggles.forEach(({ toggle, submenu }) => {
+    const toggleEl = document.getElementById(toggle);
+    const submenuEl = document.getElementById(submenu);
+    const icon = toggleEl?.querySelector('.dropdown-icon');
+
+    if (toggleEl && submenuEl && icon) {
+      toggleEl.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isActive = submenuEl.classList.toggle('active');
+        icon.classList.toggle('active');
+        submenuToggles.forEach(other => {
+          if (other.submenu !== submenu) {
+            document.getElementById(other.submenu).classList.remove('active');
+            document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
           }
         });
-      }
-
-      // Submenu toggle
-      const submenuToggles = [
-        { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
-        { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
-        { toggle: 'topup-toggle', submenu: 'topup-submenu' },
-        { toggle: 'order-toggle', submenu: 'order-submenu' },
-        { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
-        { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
-        { toggle: 'capping-toggle', submenu: 'capping-submenu' },
-        { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
-      ];
-
-      submenuToggles.forEach(({ toggle, submenu }) => {
-        const toggleEl = document.getElementById(toggle);
-        const submenuEl = document.getElementById(submenu);
-        const icon = toggleEl?.querySelector('.dropdown-icon');
-
-        if (toggleEl && submenuEl && icon) {
-          toggleEl.addEventListener('click', (e) => {
-            e.preventDefault();
-            const isActive = submenuEl.classList.toggle('active');
-            icon.classList.toggle('active');
-            submenuToggles.forEach(other => {
-              if (other.submenu !== submenu) {
-                document.getElementById(other.submenu).classList.remove('active');
-                document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
-              }
-            });
-          });
-
-          const submenuLinks = submenuEl.querySelectorAll('a');
-          submenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              if (window.innerWidth <= 768) {
-                sidebar.classList.remove('active');
-              }
-            });
-          });
-
-          document.addEventListener('click', (e) => {
-            if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
-              if (submenu !== 'earnings-submenu') {
-                submenuEl.classList.remove('active');
-                icon.classList.remove('active');
-              }
-            }
-          });
-        }
       });
 
-      // Mock data for Complete Tour
-      const mockData = [
-        { id: '401', name: 'Sophia Martinez', destination: 'New York', status: 'Completed', date: '2025-04-28' },
-        { id: '402', name: 'James Lee', destination: 'London', status: 'Completed', date: '2025-04-29' },
-      ];
+      const submenuLinks = submenuEl.querySelectorAll('a');
+      submenuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 768) {
+            sidebar.classList.remove('active');
+          }
+        });
+      });
 
-      // Function to format dates as "MMM DD, YYYY"
-      function formatDate(dateStr) {
-        const date = new Date(dateStr);
-        const options = { year: 'numeric', month: 'short', day: '2-digit' };
-        return date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
-      }
+      document.addEventListener('click', (e) => {
+        if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
+          if (submenu !== 'earnings-submenu') {
+            submenuEl.classList.remove('active');
+            icon.classList.remove('active');
+          }
+        }
+      });
+    }
+  });
 
-      // Tour Functions
-      window.searchTour = () => {
-        const id = document.getElementById('tour-id-search').value;
-        const startDate = document.getElementById('tour-start-date').value;
-        const endDate = document.getElementById('tour-end-date').value;
-        let filtered = mockData;
-        if (id) filtered = filtered.filter(item => item.id.includes(id));
-        if (startDate) filtered = filtered.filter(item => item.date >= startDate);
-        if (endDate) filtered = filtered.filter(item => item.date <= endDate);
-        renderTourTable(filtered);
-      };
+  // Mock data for Complete Tour
+  const mockData = [
+    {
+      id: '401',
+      qualifiedDate: '2025-04-01',
+      name: 'Sophia Martinez',
+      date: '2025-04-28',
+      rank: 'Silver',
+      rvPoints: '100',
+      destination: 'New York',
+      status: 'Completed',
+      actionTaken: false
+    },
+    {
+      id: '402',
+      qualifiedDate: '2025-04-02',
+      name: 'James Lee',
+      date: '2025-04-29',
+      rank: 'Gold',
+      rvPoints: '150',
+      destination: 'London',
+      status: 'Completed',
+      actionTaken: false
+    },
+  ];
 
-      function renderTourTable(data = mockData) {
-        const tbody = document.getElementById('tour-table');
-        tbody.innerHTML = data.map(item => `
-          <tr>
-            <td>${item.id}</td>
-            <td class="name-column">${item.name}</td>
-            <td class="destination-column">${item.destination}</td>
-            <td class="status-completed status-column">${item.status}</td>
-            <td class="date-column">${formatDate(item.date)}</td>
-          </tr>
-        `).join('');
-      }
+  // Function to format dates as "MMM DD, YYYY"
+  function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const options = { year: 'numeric', month: 'short', day: '2-digit' };
+    return date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
+  }
 
-      // Initial render
-      renderTourTable();
-    });
-  </script>
+  // Handle Tour Action (Accept/Reject)
+  window.handleTourAction = (id, newStatus, button) => {
+    const entry = mockData.find(item => item.id === id);
+    if (entry && !entry.actionTaken) {
+      entry.status = newStatus;
+      entry.actionTaken = true;
+      const row = button.closest('tr');
+      const buttons = row.querySelectorAll('.btn-accept, .btn-reject');
+      buttons.forEach(btn => btn.disabled = true);
+      renderTourTable(mockData);
+    }
+  };
+
+  // Tour Functions
+  window.searchTour = () => {
+    const id = document.getElementById('tour-id-search').value;
+    const startDate = document.getElementById('tour-start-date').value;
+    const endDate = document.getElementById('tour-end-date').value;
+    let filtered = mockData;
+    if (id) filtered = filtered.filter(item => item.id.includes(id));
+    if (startDate) filtered = filtered.filter(item => item.date >= startDate);
+    if (endDate) filtered = filtered.filter(item => item.date <= endDate);
+    renderTourTable(filtered);
+  };
+
+  function renderTourTable(data = mockData) {
+    const tbody = document.getElementById('tour-table');
+    tbody.innerHTML = data.map((item, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${item.id}</td>
+        <td>${formatDate(item.qualifiedDate)}</td>
+        <td class="name-column">${item.name}</td>
+        <td class="date-column">${formatDate(item.date)}</td>
+        <td>${item.rank}</td>
+        <td>${item.rvPoints}</td>
+        <td class="destination-column">${item.destination}</td>
+        <td class="status-completed status-column">${item.status}</td>
+        <td>
+          <div class="action-buttons">
+            <button class="btn-accept" data-id="${item.id}" onclick="handleTourAction('${item.id}', 'Approved', this)" ${item.actionTaken ? 'disabled' : ''}>Accept</button>
+            <button class="btn-reject" data-id="${item.id}" onclick="handleTourAction('${item.id}', 'Rejected', this)" ${item.actionTaken ? 'disabled' : ''}>Reject</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // Initial render
+  renderTourTable();
+});</script>
 </body>
 </html>

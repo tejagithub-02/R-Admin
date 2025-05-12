@@ -604,19 +604,17 @@
             <thead>
               <tr>
                 <th>SI.No</th>
-                <th>Date</th>
-                <th>Transaction ID</th>
                 <th>User ID</th>
-                <th>Product</th>
+                <th>User Name</th>
+                <th>Date</th>
                 <th>Amount</th>
+                <th>Transaction ID</th>
                 <th>Screenshot</th>
                 <th class="status-column">Status</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="order-transaction-table">
-              <!-- Table rows populated by JavaScript -->
-            </tbody>
+            <tbody></tbody>
           </table>
         </div>
       </div>
@@ -626,226 +624,239 @@
     </div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      try {
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        const sidebarExpand = document.getElementById('sidebar-expand');
-        const sidebar = document.querySelector('.sidebar');
-        const mainContent = document.querySelector('.main-content');
-        const menuToggle = document.getElementById('menu-toggle');
-        const adminIcon = document.getElementById('admin-icon');
-        const adminDropdown = document.getElementById('admin-dropdown');
+ <!-- Replace the script section in your HTML with the following -->
 
-        if (!sidebar || !mainContent) {
-          console.error('Sidebar or main-content element not found');
-          return;
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebarExpand = document.getElementById('sidebar-expand');
+      const sidebar = document.querySelector('.sidebar');
+      const mainContent = document.querySelector('.main-content');
+      const menuToggle = document.getElementById('menu-toggle');
+      const adminIcon = document.getElementById('admin-icon');
+      const adminDropdown = document.getElementById('admin-dropdown');
+
+      if (!sidebar || !mainContent) {
+        console.error('Sidebar or main-content element not found');
+        return;
+      }
+
+      if (sidebarToggle && sidebarExpand) {
+        sidebarToggle.addEventListener('click', () => {
+          const isCollapsed = sidebar.classList.toggle('collapsed');
+          mainContent.classList.toggle('collapsed');
+          sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
+          document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
+          document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
+        });
+        sidebarExpand.addEventListener('click', () => {
+          sidebar.classList.remove('collapsed');
+          mainContent.classList.remove('collapsed');
+          sidebarExpand.style.display = 'none';
+        });
+      } else {
+        console.warn('Sidebar toggle or expand elements not found');
+      }
+
+      if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const isActive = sidebar.classList.toggle('active');
+          sidebar.style.transform = isActive ? 'translateX(0)' : 'translateX(-100%)';
+        });
+      } else {
+        console.warn('Menu toggle or sidebar element not found');
+      }
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+          sidebar.classList.remove('active');
+          sidebar.style.transform = 'translateX(-100%)';
         }
+      });
 
-        if (sidebarToggle && sidebarExpand) {
-          sidebarToggle.addEventListener('click', () => {
-            const isCollapsed = sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('collapsed');
-            sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
-            document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
-            document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
-          });
-          sidebarExpand.addEventListener('click', () => {
-            sidebar.classList.remove('collapsed');
-            mainContent.classList.remove('collapsed');
-            sidebarExpand.style.display = 'none';
-          });
-        } else {
-          console.warn('Sidebar toggle or expand elements not found');
-        }
-
-        if (menuToggle && sidebar) {
-          menuToggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const isActive = sidebar.classList.toggle('active');
-            sidebar.style.transform = isActive ? 'translateX(0)' : 'translateX(-100%)';
-          });
-        } else {
-          console.warn('Menu toggle or sidebar element not found');
-        }
-
+      if (adminIcon && adminDropdown) {
+        adminIcon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          adminDropdown.classList.toggle('active');
+        });
         document.addEventListener('click', (e) => {
-          if (window.innerWidth <= 768 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-            sidebar.classList.remove('active');
-            sidebar.style.transform = 'translateX(-100%)';
+          if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
+            adminDropdown.classList.remove('active');
           }
         });
+      }
 
-        if (adminIcon && adminDropdown) {
-          adminIcon.addEventListener('click', (e) => {
-            e.stopPropagation();
-            adminDropdown.classList.toggle('active');
-          });
-          document.addEventListener('click', (e) => {
-            if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
-              adminDropdown.classList.remove('active');
-            }
-          });
-        }
+      const submenuToggles = [
+        { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
+        { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
+        { toggle: 'topup-toggle', submenu: 'topup-submenu' },
+        { toggle: 'order-toggle', submenu: 'order-submenu' },
+        { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
+        { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
+        { toggle: 'capping-toggle', submenu: 'capping-submenu' },
+        { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
+      ];
 
-        const submenuToggles = [
-          { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
-          { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
-          { toggle: 'topup-toggle', submenu: 'topup-submenu' },
-          { toggle: 'order-toggle', submenu: 'order-submenu' },
-          { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
-          { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
-          { toggle: 'capping-toggle', submenu: 'capping-submenu' },
-          { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
-        ];
+      submenuToggles.forEach(({ toggle, submenu }) => {
+        const toggleEl = document.getElementById(toggle);
+        const submenuEl = document.getElementById(submenu);
+        const icon = toggleEl?.querySelector('.dropdown-icon');
 
-        submenuToggles.forEach(({ toggle, submenu }) => {
-          const toggleEl = document.getElementById(toggle);
-          const submenuEl = document.getElementById(submenu);
-          const icon = toggleEl?.querySelector('.dropdown-icon');
-
-          if (toggleEl && submenuEl && icon) {
-            toggleEl.addEventListener('click', (e) => {
-              e.preventDefault();
-              const isActive = submenuEl.classList.toggle('active');
-              icon.classList.toggle('active');
-              submenuToggles.forEach(other => {
-                if (other.submenu !== submenu) {
-                  document.getElementById(other.submenu).classList.remove('active');
-                  document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
-                }
-              });
-            });
-
-            const submenuLinks = submenuEl.querySelectorAll('a');
-            submenuLinks.forEach(link => {
-              link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                  sidebar.classList.remove('active');
-                  sidebar.style.transform = 'translateX(-100%)';
-                }
-              });
-            });
-
-            document.addEventListener('click', (e) => {
-              if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
-                if (submenu !== 'order-submenu') {
-                  submenuEl.classList.remove('active');
-                  icon.classList.remove('active');
-                }
+        if (toggleEl && submenuEl && icon) {
+          toggleEl.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isActive = submenuEl.classList.toggle('active');
+            icon.classList.toggle('active');
+            submenuToggles.forEach(other => {
+              if (other.submenu !== submenu) {
+                document.getElementById(other.submenu).classList.remove('active');
+                document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
               }
             });
-          }
-        });
+          });
 
-        const mockData = [
-          {
-            id: 'TX12345',
-            date: '2025-05-01',
-            userId: 'U12345',
-            product: 'Health Supplement',
-            amount: '$100.00',
-            screenshot: '#',
-            status: 'Pending'
-          }
-        ];
+          const submenuLinks = submenuEl.querySelectorAll('a');
+          submenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+                sidebar.style.transform = 'translateX(-100%)';
+              }
+            });
+          });
 
-        function formatDate(dateStr) {
-          try {
-            const date = new Date(dateStr);
-            if (isNaN(date.getTime())) {
-              console.warn(`Invalid date: ${dateStr}`);
-              return 'Invalid Date';
+          document.addEventListener('click', (e) => {
+            if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
+              if (submenu !== 'order-submenu') {
+                submenuEl.classList.remove('active');
+                icon.classList.remove('active');
+              }
             }
-            const options = { year: 'numeric', month: 'short', day: '2-digit' };
-            const formatted = date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
-            console.log(`Formatted date for ${dateStr}: ${formatted}`);
-            return formatted;
-          } catch (error) {
-            console.error('Error formatting date:', error);
-            return 'Error';
-          }
+          });
         }
+      });
 
-        window.searchOrderTransaction = () => {
-          try {
-            const id = document.getElementById('order-transaction-id-search').value.trim();
-            const startDate = document.getElementById('order-transaction-start-date').value;
-            const endDate = document.getElementById('order-transaction-end-date').value;
-            let filtered = mockData;
-            if (id) {
-              filtered = filtered.filter(item => item.id.toLowerCase().includes(id.toLowerCase()));
-            }
-            if (startDate) {
-              filtered = filtered.filter(item => item.date >= startDate);
-            }
-            if (endDate) {
-              filtered = filtered.filter(item => item.date <= endDate);
-            }
-            renderOrderTransactionTable(filtered);
-          } catch (error) {
-            console.error('Error searching transactions:', error);
+      // Updated mock data to match table columns
+      const mockData = [
+        {
+          transactionId: 'TX12345',
+          userId: 'U12345',
+          userName: 'John Doe',
+          date: '2025-05-01',
+          amount: ' ₹1000.00',
+          screenshot: '#',
+          status: 'Pending'
+        },
+        {
+          transactionId: 'TX12346',
+          userId: 'U12346',
+          userName: 'Jane Smith',
+          date: '2025-05-02',
+          amount: ' ₹1500.00',
+          screenshot: '#',
+          status: 'Approved'
+        }
+      ];
+
+      function formatDate(dateStr) {
+        try {
+          const date = new Date(dateStr);
+          if (isNaN(date.getTime())) {
+            console.warn(`Invalid date: ${dateStr}`);
+            return 'Invalid Date';
           }
-        };
+          const options = { year: 'numeric', month: 'short', day: '2-digit' };
+          const formatted = date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
+          console.log(`Formatted date for ${dateStr}: ${formatted}`);
+          return formatted;
+        } catch (error) {
+          console.error('Error formatting date:', error);
+          return 'Error';
+        }
+      }
 
-        window.updateStatus = (id, status) => {
-          try {
-            const item = mockData.find(item => item.id === id);
-            if (item && item.status === 'Pending') {
-              item.status = status;
-              renderOrderTransactionTable();
-            }
-          } catch (error) {
-            console.error('Error updating status:', error);
+      window.searchOrderTransaction = () => {
+        try {
+          const transactionId = document.getElementById('order-transaction-id-search').value.trim();
+          const startDate = document.getElementById('order-transaction-start-date').value;
+          const endDate = document.getElementById('order-transaction-end-date').value;
+          let filtered = mockData;
+          if (transactionId) {
+            filtered = filtered.filter(item => item.transactionId.toLowerCase().includes(transactionId.toLowerCase()));
           }
-        };
+          if (startDate) {
+            filtered = filtered.filter(item => item.date >= startDate);
+          }
+          if (endDate) {
+            filtered = filtered.filter(item => item.date <= endDate);
+          }
+          renderOrderTransactionTable(filtered);
+        } catch (error) {
+          console.error('Error searching transactions:', error);
+        }
+      };
 
-        function renderOrderTransactionTable(data = mockData) {
-          try {
-            const tbody = document.getElementById('order-transaction-table');
-            if (!tbody) {
-              console.error('Table body element not found');
-              return;
-            }
-            tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
-              const formattedDate = formatDate(item.date);
-              console.log(`Rendering row with date: ${formattedDate}`);
-              return `
-                <tr>
-                  <td>${index + 1}</td>
-                  <td class="date-column">${formattedDate}</td>
-                  <td>${item.id}</td>
-                  <td>${item.userId}</td>
-                  <td>${item.product}</td>
-                  <td>${item.amount}</td>
-                  <td><a href="${item.screenshot}" class="screenshot-link" target="_blank">View</a></td>
-                  <td class="status-${item.status.toLowerCase()} status-column">${item.status}</td>
-                  <td class="action-buttons">
-                    <button class="approve-btn" ${item.status !== 'Pending' ? 'disabled' : ''} onclick="updateStatus('${item.id}', 'Approved')">Approve</button>
-                    <button class="reject-btn" ${item.status !== 'Pending' ? 'disabled' : ''} onclick="updateStatus('${item.id}', 'Rejected')">Reject</button>
-                  </td>
-                </tr>
-              `;
-            }).join('') : `
+      window.updateStatus = (transactionId, status) => {
+        try {
+          const item = mockData.find(item => item.transactionId === transactionId);
+          if (item && item.status === 'Pending') {
+            item.status = status;
+            renderOrderTransactionTable();
+          }
+        } catch (error) {
+          console.error('Error updating status:', error);
+        }
+      };
+
+      function renderOrderTransactionTable(data = mockData) {
+        try {
+          const tbody = document.querySelector('.table tbody');
+          if (!tbody) {
+            console.error('Table body element not found');
+            return;
+          }
+          tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
+            const formattedDate = formatDate(item.date);
+            console.log(`Rendering row with date: ${formattedDate}`);
+            return `
               <tr>
-                <td colspan="9" style="text-align: center; color: #b3e0ff;">No transactions found</td>
+                <td>${index + 1}</td>
+                <td>${item.userId}</td>
+                <td>${item.userName}</td>
+                <td class="date-column">${formattedDate}</td>
+                <td>${item.amount}</td>
+                <td>${item.transactionId}</td>
+                <td><a href="${item.screenshot}" class="screenshot-link" target="_blank">View</a></td>
+                <td class="status-${item.status.toLowerCase()} status-column">${item.status}</td>
+                <td class="action-buttons">
+                  <button class="approve-btn" ${item.status !== 'Pending' ? 'disabled' : ''} onclick="updateStatus('${item.transactionId}', 'Approved')">Approve</button>
+                  <button class="reject-btn" ${item.status !== 'Pending' ? 'disabled' : ''} onclick="updateStatus('${item.transactionId}', 'Rejected')">Reject</button>
+                </td>
               </tr>
             `;
-          } catch (error) {
-            console.error('Error rendering table:', error);
-          }
-        }
-
-        try {
-          renderOrderTransactionTable();
+          }).join('') : `
+            <tr>
+              <td colspan="9" style="text-align: center; color: #b3e0ff;">No transactions found</td>
+            </tr>
+          `;
         } catch (error) {
           console.error('Error rendering table:', error);
         }
-      } catch (error) {
-        console.error('Error in DOMContentLoaded:', error);
       }
-    });
-  </script>
+
+      try {
+        // Initialize table with mock data
+        renderOrderTransactionTable();
+      } catch (error) {
+        console.error('Error rendering table:', error);
+      }
+    } catch (error) {
+      console.error('Error in DOMContentLoaded:', error);
+    }
+  });
+</script>
 </body>
 </html>

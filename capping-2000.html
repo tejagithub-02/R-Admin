@@ -105,7 +105,6 @@
       width: 50%;
       transition: width 0.3s ease;
     }
-   
     .table-container {
       background: #0f3460;
       border-radius: 15px;
@@ -222,7 +221,6 @@
       .card p {
         font-size: 1.2rem;
       }
-    
       .table th, .table td {
         font-size: 0.85rem;
         padding: 8px;
@@ -239,7 +237,6 @@
       .topbar .admin-icon { font-size: 1.5rem; }
       .card h4 { font-size: 1rem; }
       .card p { font-size: 1.2rem; }
-      
       .table th, .table td {
         font-size: 0.75rem;
         padding: 6px;
@@ -369,10 +366,12 @@
             <thead>
               <tr>
                 <th>SI.NO</th>
-                <th>Transaction ID</th>
-                <th>Date</th>
                 <th>User ID</th>
+                <th>User Name</th>
+                <th>Date</th>
+                <th>Rank</th>
                 <th>Amount</th>
+                <th>Pair</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -516,12 +515,44 @@
         const mockData = [
           {
             id: 'CAP2000-001',
-            date: '2025-05-01',
             userId: 'U12345',
-            amount: '₹2000.00',
+            userName: 'John Doe',
+            date: '2025-05-01',
+            rank: 'Bronze',
+            amount: '₹2000',
+            pair: '2',
             status: 'Achieved'
           },
-         
+          {
+            id: 'CAP2000-002',
+            userId: 'U12346',
+            userName: 'Jane Smith',
+            date: '2025-05-02',
+            rank: 'Starter',
+            amount: '₹1500',
+            pair: '2',
+            status: 'Pending'
+          },
+          {
+            id: 'CAP2000-003',
+            userId: 'U12347',
+            userName: 'Alice Johnson',
+            date: '2025-05-03',
+            rank: 'Silver',
+            amount: '₹2000',
+            pair: '2',
+            status: 'Achieved'
+          },
+          {
+            id: 'CAP2000-004',
+            userId: 'U12348',
+            userName: 'Bob Wilson',
+            date: '2025-05-04',
+            rank: 'Starter',
+            amount: '₹1800',
+            pair: '2',
+            status: 'Pending'
+          }
         ];
 
         function formatDate(dateStr) {
@@ -581,16 +612,18 @@
               return `
                 <tr>
                   <td>${index + 1}</td>
-                  <td>${item.id}</td>
-                  <td class="date-column">${formattedDate}</td>
                   <td>${item.userId}</td>
+                  <td>${item.userName}</td>
+                  <td class="date-column">${formattedDate}</td>
+                  <td>${item.rank}</td>
                   <td>${item.amount}</td>
+                  <td>${item.pair}</td>
                   <td class="status-${item.status.toLowerCase()}">${item.status}</td>
                 </tr>
               `;
             }).join('') : `
               <tr>
-                <td colspan="6" style="text-align: center; color: #b3e0ff;">No transactions found</td>
+                <td colspan="8" style="text-align: center; color: #b3e0ff;">No transactions found</td>
               </tr>
             `;
           } catch (error) {
