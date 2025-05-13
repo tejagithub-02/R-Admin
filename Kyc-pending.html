@@ -649,7 +649,7 @@
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -663,16 +663,15 @@
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds"><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu" id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>20000</span></a>
+        <div class="submenu "id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
@@ -712,7 +711,7 @@
                 <th>Date</th>
                 <th class="status-column">Aadhar card .no</th>
                 <th>PAN Card .no</th>
-                <th>Account Number</th>
+                <th>Account Details</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -836,26 +835,8 @@
           status: 'Pending',
           actionTaken: false,
         },
-        {
-          id: '126',
-          name: 'John Doe',
-          date: '2025-05-01',
-          aadhar: '5678 1234 4567',
-          pan: 'XYZAB5678G',
-          account: '98765432109',
-          status: 'Approved',
-          actionTaken: true,
-        },
-        {
-          id: '127',
-          name: 'Jane Smith',
-          date: '2025-05-03',
-          aadhar: '9012 3456 7890',
-          pan: 'PQRST9012H',
-          account: '45678912345',
-          status: 'Rejected',
-          actionTaken: true,
-        },
+      
+       
         {
           id: '128',
           name: 'Robert Johnson',
@@ -865,16 +846,6 @@
           account: '67890123456',
           status: 'Pending',
           actionTaken: false,
-        },
-        {
-          id: '129',
-          name: 'Emily Davis',
-          date: '2025-05-07',
-          aadhar: '3456 7890 2345',
-          pan: 'UVWXZ7890K',
-          account: '78901234567',
-          status: 'Approved',
-          actionTaken: true,
         }
       ];
 

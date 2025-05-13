@@ -7,6 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -88,7 +89,7 @@
       height: calc(100vh - 48px);
       overflow-y: auto;
       z-index: 1000;
-      transition: width 0.3s ease, left 0.3s ease-in-out
+      transition: width 0.3s ease, left 0.3s ease-in-out;
     }
 
     .sidebar.collapsed {
@@ -286,7 +287,7 @@
 
     .table td.date-column {
       color: black !important;
-      background-color: #ffffff!important;
+      background-color: #ffffff !important;
       font-weight: normal;
       opacity: 1 !important;
     }
@@ -344,6 +345,29 @@
       background: #00ffcc;
     }
 
+    .search-bar .btn-delete {
+      background: #dc3545;
+    }
+
+    .search-bar .btn-delete:hover {
+      background: #c82333;
+    }
+
+    .download-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+      background: #00d4ff;
+      color: #0f3460;
+    }
+
+    .download-btn:hover {
+      background: #00ffcc;
+    }
+
     .action-buttons button {
       padding: 6px 12px;
       border: none;
@@ -397,6 +421,15 @@
       margin-top: auto;
       background: #0f3460;
       box-shadow: 0 0 10px #00d4ff;
+    }
+
+    .checkbox-column {
+      width: 40px;
+      text-align: center;
+    }
+
+    .checkbox-hidden {
+      display: none;
     }
 
     @media (min-width: 769px) {
@@ -476,6 +509,13 @@
         padding: 5px 10px;
         font-size: 0.8rem;
       }
+      .download-btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+      }
+      .checkbox-column {
+        width: 30px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -493,6 +533,13 @@
       .action-buttons button {
         padding: 4px 8px;
         font-size: 0.7rem;
+      }
+      .download-btn {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+      }
+      .checkbox-column {
+        width: 25px;
       }
     }
 
@@ -546,10 +593,10 @@
       <i class="fas fa-times sidebar-expand" id="sidebar-expand"></i>
       <a href="index.html" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
       <div class="sidebar-item">
-        <a href="#" id="kyc-toggle" ><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="kyc-submenu">
+        <a href="#" id="kyc-toggle"><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="kyc-submenu">
           <a href="Kyc-pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <span>Pending KYC</span></a>
-          <a href="Kyc-history.html" data-section="kyc-history" ><i class="fas fa-history"></i> <span>KYC History</span></a>
+          <a href="Kyc-history.html" data-section="kyc-history"><i class="fas fa-history"></i> <span>KYC History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -563,9 +610,9 @@
         </div>
       </div>
       <div class="sidebar-item">
-        <a href="#" id="topup-toggle" ><i class="fas fa-wallet"></i> <span>Topup</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
+        <a href="#" id="topup-toggle"><i class="fas fa-wallet"></i> <span>Topup</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="topup-submenu">
-          <a href="initiate-topup.html " data-section="topup-initiate" ><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
+          <a href="initiate-topup.html" data-section="topup-initiate"><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
           <a href="topup-history.html" data-section="topup-history"><i class="fas fa-history"></i> <span>Topup History</span></a>
           <a href="topup-refund.html" data-section="topup-refund"><i class="fas fa-undo"></i> <span>Topup Refund</span></a>
           <a href="topup-refund-history.html" data-section="topup-refund-history"><i class="fas fa-file-alt"></i> <span>Topup Refund History</span></a>
@@ -577,7 +624,7 @@
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product" class="active"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history" ><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -588,25 +635,24 @@
         </div>
       </div>
       <div class="sidebar-item">
-        <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="invoice-submenu">
+        <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin" ><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds" ><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu" id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>20000</span></a>
+        <div class="submenu "id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
       <div class="sidebar-item">
-        <a href="#" id="gallery-toggle" ><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="gallery-submenu">
+        <a href="#" id="gallery-toggle"><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="gallery-submenu">
           <a href="gallery-plan.html" data-section="gallery-plan"><i class="fas fa-file-pdf"></i> <span>Business Plan</span></a>
           <a href="#" data-section="gallery-photo"><i class="fas fa-camera"></i> <span>Photo</span></a>
           <a href="gallery-news.html" data-section="gallery-news"><i class="fas fa-newspaper"></i> <span>News</span></a>
@@ -629,15 +675,19 @@
           <select id="status-filter">
             <option value="">All Statuses</option>
             <option value="Pending">Pending</option>
-            <option value=""></option>
+            <option value="Approved">Approved</option>
             <option value="Rejected">Rejected</option>
           </select>
           <button onclick="searchProductOrders()">Search</button>
+          <button class="btn-delete" onclick="toggleDeleteMode()">Delete</button>
         </div>
         <div class="table-container">
           <table class="table">
             <thead>
               <tr>
+                <th class="checkbox-column checkbox-hidden">
+                  <input type="checkbox" id="select-all" onchange="selectAll(this.checked)">
+                </th>
                 <th>SI.NO</th>
                 <th>Order ID</th>
                 <th>Date</th>
@@ -647,13 +697,12 @@
                 <th>Quantity</th>
                 <th>Amount</th>
                 <th>Address</th>
+                <th>Invoice</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="product-order-table">
-              <!-- Table rows populated by JavaScript -->
-            </tbody>
+            <tbody id="product-order-table"></tbody>
           </table>
         </div>
       </div>
@@ -665,242 +714,430 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const sidebarToggle = document.getElementById('sidebar-toggle');
-      const sidebarExpand = document.getElementById('sidebar-expand');
-      const sidebar = document.querySelector('.sidebar');
-      const mainContent = document.querySelector('.main-content');
-      const menuToggle = document.getElementById('menu-toggle');
-      const adminIcon = document.getElementById('admin-icon');
-      const adminDropdown = document.getElementById('admin-dropdown');
+      try {
+        const { jsPDF } = window.jspdf;
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarExpand = document.getElementById('sidebar-expand');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const menuToggle = document.getElementById('menu-toggle');
+        const adminIcon = document.getElementById('admin-icon');
+        const adminDropdown = document.getElementById('admin-dropdown');
 
-      if (sidebarToggle && sidebarExpand && sidebar && mainContent) {
-        sidebarToggle.addEventListener('click', () => {
-          const isCollapsed = sidebar.classList.toggle('collapsed');
-          mainContent.classList.toggle('collapsed');
-          sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
-          document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
-          document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
-        });
-        sidebarExpand.addEventListener('click', () => {
-          sidebar.classList.remove('collapsed');
-          mainContent.classList.remove('collapsed');
-          sidebarExpand.style.display = 'none';
-        });
-      }
+        if (!sidebar || !mainContent) {
+          console.error('Sidebar or main-content element not found');
+          return;
+        }
 
-      if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', () => {
-          sidebar.classList.toggle('active');
-        });
-      }
+        if (sidebarToggle && sidebarExpand) {
+          sidebarToggle.addEventListener('click', () => {
+            const isCollapsed = sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('collapsed');
+            sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
+            document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
+            document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
+          });
+          sidebarExpand.addEventListener('click', () => {
+            sidebar.classList.remove('collapsed');
+            mainContent.classList.remove('collapsed');
+            sidebarExpand.style.display = 'none';
+          });
+        } else {
+          console.warn('Sidebar toggle or expand elements not found');
+        }
 
-      if (adminIcon && adminDropdown) {
-        adminIcon.addEventListener('click', (e) => {
-          e.stopPropagation();
-          adminDropdown.classList.toggle('active');
-        });
+        if (menuToggle && sidebar) {
+          menuToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const isActive = sidebar.classList.toggle('active');
+            sidebar.style.transform = isActive ? 'translateX(0)' : 'translateX(-100%)';
+          });
+        } else {
+          console.warn('Menu toggle or sidebar element not found');
+        }
+
         document.addEventListener('click', (e) => {
-          if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
-            adminDropdown.classList.remove('active');
+          if (window.innerWidth <= 768 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+            sidebar.classList.remove('active');
+            sidebar.style.transform = 'translateX(-100%)';
           }
         });
-      }
 
-      const submenuToggles = [
-        { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
-        { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
-        { toggle: 'topup-toggle', submenu: 'topup-submenu' },
-        { toggle: 'order-toggle', submenu: 'order-submenu' },
-        { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
-        { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
-        { toggle: 'capping-toggle', submenu: 'capping-submenu' },
-        { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
-      ];
-
-      submenuToggles.forEach(({ toggle, submenu }) => {
-        const toggleEl = document.getElementById(toggle);
-        const submenuEl = document.getElementById(submenu);
-        const icon = toggleEl?.querySelector('.dropdown-icon');
-
-        if (toggleEl && submenuEl && icon) {
-          toggleEl.addEventListener('click', (e) => {
-            e.preventDefault();
-            const isActive = submenuEl.classList.toggle('active');
-            icon.classList.toggle('active');
-            submenuToggles.forEach(other => {
-              if (other.submenu !== submenu) {
-                document.getElementById(other.submenu).classList.remove('active');
-                document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
-              }
-            });
+        if (adminIcon && adminDropdown) {
+          adminIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            adminDropdown.classList.toggle('active');
           });
-
-          const submenuLinks = submenuEl.querySelectorAll('a');
-          submenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              if (window.innerWidth <= 768) {
-                sidebar.classList.remove('active');
-              }
-            });
-          });
-
           document.addEventListener('click', (e) => {
-            if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
-              if (submenu !== 'order-submenu') {
-                submenuEl.classList.remove('active');
-                icon.classList.remove('active');
-              }
+            if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
+              adminDropdown.classList.remove('active');
             }
           });
         }
-      });
 
-      // Helper functions for random data generation
-      function generateRandomOrderId() {
-        return 'ORD' + Math.floor(10000 + Math.random() * 90000);
-      }
+        const submenuToggles = [
+          { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
+          { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
+          { toggle: 'topup-toggle', submenu: 'topup-submenu' },
+          { toggle: 'order-toggle', submenu: 'order-submenu' },
+          { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
+          { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
+          { toggle: 'capping-toggle', submenu: 'capping-submenu' },
+          { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
+        ];
 
-      function generateRandomDate() {
-        const start = new Date(2024, 0, 1);
-        const end = new Date(2025, 4, 12);
-        const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-        return date.toISOString().split('T')[0];
-      }
+        submenuToggles.forEach(({ toggle, submenu }) => {
+          const toggleEl = document.getElementById(toggle);
+          const submenuEl = document.getElementById(submenu);
+          const icon = toggleEl?.querySelector('.dropdown-icon');
 
-      function generateRandomUserId() {
-        return 'U' + Math.floor(10000 + Math.random() * 90000);
-      }
+          if (toggleEl && submenuEl && icon) {
+            toggleEl.addEventListener('click', (e) => {
+              e.preventDefault();
+              const isActive = submenuEl.classList.toggle('active');
+              icon.classList.toggle('active');
+              submenuToggles.forEach(other => {
+                if (other.submenu !== submenu) {
+                  document.getElementById(other.submenu).classList.remove('active');
+                  document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
+                }
+              });
+            });
 
-      function generateRandomUserName() {
-        const names = ['John Doe', 'Jane Smith', 'Alice Brown', 'Bob Johnson', 'Emma Davis', 'Michael Lee', 'Sarah Wilson', 'David Clark'];
-        return names[Math.floor(Math.random() * names.length)];
-      }
+            const submenuLinks = submenuEl.querySelectorAll('a');
+            submenuLinks.forEach(link => {
+              link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                  sidebar.classList.remove('active');
+                  sidebar.style.transform = 'translateX(-100%)';
+                }
+              });
+            });
 
-      function generateRandomQuantity() {
-        return Math.floor(1 + Math.random() * 10);
-      }
-
-      function generateRandomAmount() {
-        return '₹' + (Math.floor(100 + Math.random() * 1900)).toString();
-      }
-
-      function generateRandomAddress() {
-        const streets = ['Main St', 'Park Ave', 'Cedar Rd', 'Oak Dr', 'Elm St'];
-        const cities = ['Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Kolkata'];
-        const street = streets[Math.floor(Math.random() * streets.length)];
-        const city = cities[Math.floor(Math.random() * cities.length)];
-        return `${Math.floor(1 + Math.random() * 999)} ${street}, ${city}, India`;
-      }
-
-      function generateRandomStatus() {
-        const statuses = ['Pending', 'Approved', 'Rejected'];
-        return statuses[Math.floor(Math.random() * statuses.length)];
-      }
-
-      // Generate mock data (2 rows)
-      const mockData = Array.from({ length: 2 }, () => ({
-        id: generateRandomOrderId(),
-        date: generateRandomDate(),
-        userId: generateRandomUserId(),
-        userName: generateRandomUserName(),
-        quantity: generateRandomQuantity(),
-        amount: generateRandomAmount(),
-        address: generateRandomAddress(),
-        status: generateRandomStatus()
-      }));
-
-      function formatDate(dateStr) {
-        try {
-          const date = new Date(dateStr);
-          if (isNaN(date.getTime())) {
-            console.warn(`Invalid date: ${dateStr}`);
-            return 'Invalid Date';
+            document.addEventListener('click', (e) => {
+              if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
+                if (submenu !== 'order-submenu') {
+                  submenuEl.classList.remove('active');
+                  icon.classList.remove('active');
+                }
+              }
+            });
           }
-          const options = { year: 'numeric', month: 'short', day: '2-digit' };
-          const formatted = date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
-          console.log(`Formatted date for ${dateStr}: ${formatted}`);
-          return formatted;
-        } catch (error) {
-          console.error('Error formatting date:', error);
-          return 'Error';
-        }
-      }
+        });
 
-      window.viewProductDetails = (orderId) => {
-        console.log(`Viewing product details for Order ID: ${orderId}`);
-        // Placeholder for future functionality (e.g., open modal or redirect)
-      };
-
-      window.searchProductOrders = () => {
-        const id = document.getElementById('order-id-search').value.trim();
-        const startDate = document.getElementById('start-date').value;
-        const endDate = document.getElementById('end-date').value;
-        const status = document.getElementById('status-filter').value;
-        let filtered = mockData;
-
-        if (id) {
-          filtered = filtered.filter(item => item.id.toLowerCase().includes(id.toLowerCase()));
-        }
-        if (startDate) {
-          filtered = filtered.filter(item => item.date >= startDate);
-        }
-        if (endDate) {
-          filtered = filtered.filter(item => item.date <= endDate);
-        }
-        if (status) {
-          filtered = filtered.filter(item => item.status === status);
+        // Helper functions for random data generation
+        function generateRandomOrderId() {
+          return 'ORD' + Math.floor(10000 + Math.random() * 90000);
         }
 
-        renderProductOrderTable(filtered);
-      };
+        function generateRandomInvoiceId() {
+          return 'INV' + Math.floor(10000 + Math.random() * 90000);
+        }
 
-      window.updateOrderStatus = (id, status) => {
-        const item = mockData.find(item => item.id === id);
-        if (item) {
-          item.status = status;
-          console.log(`Updated status for Order ID: ${id} to ${status}`);
+        function generateRandomDate() {
+          const start = new Date(2024, 0, 1);
+          const end = new Date(2025, 4, 12);
+          const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+          return date.toISOString().split('T')[0];
+        }
+
+        function generateRandomUserId() {
+          return 'U' + Math.floor(10000 + Math.random() * 90000);
+        }
+
+        function generateRandomUserName() {
+          const names = ['John Doe', 'Jane Smith', 'Alice Brown', 'Bob Johnson', 'Emma Davis', 'Michael Lee', 'Sarah Wilson', 'David Clark'];
+          return names[Math.floor(Math.random() * names.length)];
+        }
+
+        function generateRandomProduct() {
+          const products = ['Protein Powder', 'Vitamin Supplements', 'Health Drink', 'Energy Bar', 'Fitness Tracker'];
+          return products[Math.floor(Math.random() * products.length)];
+        }
+
+        function generateRandomQuantity() {
+          return Math.floor(1 + Math.random() * 10);
+        }
+
+        function generateRandomAmount() {
+          return '₹' + (Math.floor(100 + Math.random() * 1900)).toString();
+        }
+
+        function generateRandomAddress() {
+          const streets = ['Main St', 'Park Ave', 'Cedar Rd', 'Oak Dr', 'Elm St'];
+          const cities = ['Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Kolkata'];
+          const street = streets[Math.floor(Math.random() * streets.length)];
+          const city = cities[Math.floor(Math.random() * cities.length)];
+          return `${Math.floor(1 + Math.random() * 999)} ${street}, ${city}, India`;
+        }
+
+        function generateRandomStatus() {
+          const statuses = ['Pending', 'Approved', 'Rejected'];
+          return statuses[Math.floor(Math.random() * statuses.length)];
+        }
+
+        // Generate mock data (2 rows)
+        let mockData = Array.from({ length: 2 }, () => ({
+          id: generateRandomOrderId(),
+          invoiceId: generateRandomInvoiceId(),
+          date: generateRandomDate(),
+          userId: generateRandomUserId(),
+          userName: generateRandomUserName(),
+          product: generateRandomProduct(),
+          quantity: generateRandomQuantity(),
+          amount: generateRandomAmount(),
+          address: generateRandomAddress(),
+          status: generateRandomStatus(),
+          customerName: generateRandomUserName(),
+          customerAddress: generateRandomAddress(),
+          selected: false
+        }));
+
+        let deleteMode = false;
+
+        function formatDate(dateStr) {
+          try {
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) {
+              console.warn(`Invalid date: ${dateStr}`);
+              return 'Invalid Date';
+            }
+            const options = { year: 'numeric', month: 'short', day: '2-digit' };
+            const formatted = date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
+            console.log(`Formatted date for ${dateStr}: ${formatted}`);
+            return formatted;
+          } catch (error) {
+            console.error('Error formatting date:', error);
+            return 'Error';
+          }
+        }
+
+        window.toggleDeleteMode = () => {
+          try {
+            deleteMode = !deleteMode;
+            const deleteButton = document.querySelector('.btn-delete');
+            if (deleteMode) {
+              deleteButton.textContent = 'Confirm Delete';
+              document.querySelectorAll('.checkbox-column').forEach(el => el.classList.remove('checkbox-hidden'));
+            } else {
+              deleteButton.textContent = 'Delete';
+              document.querySelectorAll('.checkbox-column').forEach(el => el.classList.add('checkbox-hidden'));
+              mockData = mockData.filter(item => !item.selected);
+              mockData.forEach(item => item.selected = false);
+              renderProductOrderTable();
+            }
+          } catch (error) {
+            console.error('Error toggling delete mode:', error);
+          }
+        };
+
+        window.toggleCheckbox = (id) => {
+          try {
+            const entry = mockData.find(item => item.id === id);
+            if (entry) {
+              entry.selected = !entry.selected;
+              renderProductOrderTable();
+            }
+          } catch (error) {
+            console.error('Error toggling checkbox:', error);
+          }
+        };
+
+        window.selectAll = (checked) => {
+          try {
+            mockData.forEach(item => item.selected = checked);
+            renderProductOrderTable();
+          } catch (error) {
+            console.error('Error selecting all:', error);
+          }
+        };
+
+        window.viewProductDetails = (orderId) => {
+          try {
+            console.log(`Viewing product details for Order ID: ${orderId}`);
+            // Placeholder for future functionality (e.g., open modal or redirect)
+          } catch (error) {
+            console.error('Error viewing product details:', error);
+          }
+        };
+
+        window.downloadInvoice = (order) => {
+          try {
+            const doc = new jsPDF();
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 20;
+            const lineSpacing = 10;
+            let y = margin;
+
+            // Header
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Raanvi Invoice', pageWidth / 2, y, { align: 'center' });
+            y += lineSpacing * 2;
+
+            // Company Info
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Raanvi Enterprises', margin, y);
+            y += lineSpacing;
+            doc.text('456 Business Ave, City, Country', margin, y);
+            y += lineSpacing;
+            doc.text('Email: contact@raanvi.com', margin, y);
+            y += lineSpacing * 2;
+
+            // Invoice Details
+            doc.setFont('helvetica', 'bold');
+            doc.text(`Invoice ID: ${order.invoiceId}`, margin, y);
+            doc.text(`Order ID: ${order.id}`, pageWidth - margin, y, { align: 'right' });
+            y += lineSpacing;
+            doc.text(`Date: ${formatDate(order.date)}`, margin, y);
+            doc.text(`Status: ${order.status}`, pageWidth - margin, y, { align: 'right' });
+            y += lineSpacing * 2;
+
+            // Customer Info
+            doc.setFont('helvetica', 'bold');
+            doc.text('Bill To:', margin, y);
+            y += lineSpacing;
+            doc.setFont('helvetica', 'normal');
+            doc.text(order.customerName, margin, y);
+            y += lineSpacing;
+            doc.text(order.customerAddress, margin, y);
+            y += lineSpacing * 2;
+
+            // Table Header
+            doc.setFont('helvetica', 'bold');
+            doc.setFillColor(0, 212, 255);
+            doc.rect(margin, y, pageWidth - 2 * margin, lineSpacing, 'F');
+            doc.setTextColor(15, 52, 96);
+            doc.text('Product', margin + 5, y + 7);
+            doc.text('Quantity', margin + 80, y + 7);
+            doc.text('Amount', margin + 120, y + 7);
+            y += lineSpacing;
+
+            // Table Row
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(0, 0, 0);
+            doc.text(order.product, margin + 5, y + 7);
+            doc.text(order.quantity.toString(), margin + 80, y + 7);
+            doc.text(order.amount, margin + 120, y + 7);
+            y += lineSpacing * 2;
+
+            // Total
+            doc.setFont('helvetica', 'bold');
+            doc.text(`Total: ${order.amount}`, pageWidth - margin, y, { align: 'right' });
+            y += lineSpacing * 2;
+
+            // Footer
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Thank you for your business!', pageWidth / 2, y, { align: 'center' });
+            y += lineSpacing;
+           
+            // Save PDF
+            doc.save(`invoice_${order.invoiceId}.pdf`);
+          } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Failed to generate invoice PDF. Please try again.');
+          }
+        };
+
+        window.searchProductOrders = () => {
+          try {
+            const id = document.getElementById('order-id-search').value.trim();
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            const status = document.getElementById('status-filter').value;
+            let filtered = mockData;
+
+            if (id) {
+              filtered = filtered.filter(item => item.id.toLowerCase().includes(id.toLowerCase()));
+            }
+            if (startDate) {
+              filtered = filtered.filter(item => item.date >= startDate);
+            }
+            if (endDate) {
+              filtered = filtered.filter(item => item.date <= endDate);
+            }
+            if (status) {
+              filtered = filtered.filter(item => item.status === status);
+            }
+
+            renderProductOrderTable(filtered);
+          } catch (error) {
+            console.error('Error searching product orders:', error);
+          }
+        };
+
+        window.updateOrderStatus = (id, status) => {
+          try {
+            const item = mockData.find(item => item.id === id);
+            if (item) {
+              item.status = status;
+              console.log(`Updated status for Order ID: ${id} to ${status}`);
+              renderProductOrderTable();
+            }
+          } catch (error) {
+            console.error('Error updating order status:', error);
+          }
+        };
+
+        function renderProductOrderTable(data = mockData) {
+          try {
+            const tbody = document.getElementById('product-order-table');
+            if (!tbody) {
+              console.error('Table body element not found');
+              return;
+            }
+            const allSelected = data.length > 0 && data.every(item => item.selected);
+            const selectAllCheckbox = document.getElementById('select-all');
+            if (selectAllCheckbox) {
+              selectAllCheckbox.checked = allSelected;
+            }
+            tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
+              const formattedDate = formatDate(item.date);
+              console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
+              return `
+                <tr>
+                  <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
+                    <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
+                  </td>
+                  <td>${index + 1}</td>
+                  <td>${item.id}</td>
+                  <td class="date-column">${formattedDate}</td>
+                  <td>${item.userId}</td>
+                  <td>${item.userName}</td>
+                  <td><button class="text-blue-400 underline" onclick="viewProductDetails('${item.id}')">View</button></td>
+                  <td>${item.quantity}</td>
+                  <td>${item.amount}</td>
+                  <td>${item.address}</td>
+                  <td>
+                    <button class="download-btn" onclick='downloadInvoice(${JSON.stringify(item)})'>Download</button>
+                  </td>
+                  <td class="status-${item.status.toLowerCase()}">${item.status}</td>
+                  <td class="action-buttons">
+                    <button class="approve-btn" onclick="updateOrderStatus('${item.id}', 'Approved')">Approve</button>
+                    <button class="reject-btn" onclick="updateOrderStatus('${item.id}', 'Rejected')">Reject</button>
+                  </td>
+                </tr>
+              `;
+            }).join('') : `
+              <tr>
+                <td colspan="13" style="text-align: center; color: #b3e0ff;">No orders found</td>
+              </tr>
+            `;
+          } catch (error) {
+            console.error('Error rendering table:', error);
+          }
+        }
+
+        try {
           renderProductOrderTable();
+        } catch (error) {
+          console.error('Error rendering table:', error);
         }
-      };
-
-      function renderProductOrderTable(data = mockData) {
-        const tbody = document.getElementById('product-order-table');
-        if (!tbody) {
-          console.error('Table body element not found');
-          return;
-        }
-        tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
-          const formattedDate = formatDate(item.date);
-          console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
-          return `
-            <tr>
-              <td>${index + 1}</td>
-              <td>${item.id}</td>
-              <td class="date-column">${formattedDate}</td>
-              <td>${item.userId}</td>
-              <td>${item.userName}</td>
-              <td><button class="text-blue-400 underline" onclick="viewProductDetails('${item.id}')">View</button></td>
-              <td>${item.quantity}</td>
-              <td>${item.amount}</td>
-              <td>${item.address}</td>
-              <td class="status-${item.status.toLowerCase()}">${item.status}</td>
-              <td class="action-buttons">
-                <button class="approve-btn" onclick="updateOrderStatus('${item.id}', 'Approved')">Approve</button>
-                <button class="reject-btn" onclick="updateOrderStatus('${item.id}', 'Rejected')">Reject</button>
-              </td>
-            </tr>
-          `;
-        }).join('') : `
-          <tr>
-            <td colspan="11" style="text-align: center; color: #b3e0ff;">No orders found</td>
-          </tr>
-        `;
-      }
-
-      try {
-        renderProductOrderTable();
       } catch (error) {
-        console.error('Error rendering table:', error);
+        console.error('Error in DOMContentLoaded:', error);
       }
     });
   </script>

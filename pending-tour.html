@@ -8,6 +8,8 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="assets/style.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.3/jspdf.plugin.autotable.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -342,9 +344,10 @@
       justify-content: center;
       width: 100%;
       max-width: 1200px;
+      flex-wrap: wrap;
     }
 
-    .search-bar input, .search-bar button {
+    .search-bar input, .search-bar button, .search-bar select {
       padding: 8px;
       border: 1px solid #00d4ff;
       border-radius: 5px;
@@ -363,6 +366,21 @@
       color: #b3e0ff;
     }
 
+    .search-bar select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b3e0ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.5rem center;
+      background-size: 1em;
+      padding-right: 1.5rem;
+    }
+
+    .search-bar select:focus {
+      outline: none;
+      border-color: #00ffcc;
+      box-shadow: 0 0 5px #00ffcc;
+    }
+
     .search-bar button {
       background: #00d4ff;
       color: #0f3460;
@@ -372,6 +390,22 @@
 
     .search-bar button:hover {
       background: #00ffcc;
+    }
+
+    .search-bar .btn-delete {
+      background: #dc3545;
+    }
+
+    .search-bar .btn-delete:hover {
+      background: #c82333;
+    }
+
+    .search-bar .btn-print {
+      background: #28a745;
+    }
+
+    .search-bar .btn-print:hover {
+      background: #218838;
     }
 
     .status-pending {
@@ -432,6 +466,15 @@
       margin-top: auto;
       background: #0f3460;
       box-shadow: 0 0 10px #00d4ff;
+    }
+
+    .checkbox-column {
+      width: 40px;
+      text-align: center;
+    }
+
+    .checkbox-hidden {
+      display: none;
     }
 
     @media (min-width: 769px) {
@@ -496,8 +539,11 @@
       .search-bar {
         flex-direction: column;
       }
-      .search-bar input, .search-bar button {
+      .search-bar input, .search-bar button, .search-bar select {
         width: 100%;
+      }
+      .checkbox-column {
+        width: 30px;
       }
     }
 
@@ -528,6 +574,9 @@
         padding: 4px 8px;
         font-size: 0.8rem;
       }
+      .checkbox-column {
+        width: 25px;
+      }
     }
 
     @media (max-width: 400px) {
@@ -554,6 +603,9 @@
       .btn-accept, .btn-reject {
         padding: 3px 6px;
         font-size: 0.75rem;
+      }
+      .checkbox-column {
+        width: 20px;
       }
     }
   </style>
@@ -613,7 +665,7 @@
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -627,16 +679,15 @@
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds"><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu" id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>20000</span></a>
+        <div class="submenu "id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
@@ -661,48 +712,55 @@
         <!-- Pending Tour Section -->
         <h2 class="text-2xl font-bold mb-4 text-white">Pending Tour</h2>
         <div class="search-bar">
-          <input type="text" placeholder="ID Number" id="tour-id-search">
-          <input type="date" id="tour-start-date" placeholder="mm/dd/yyyy">
-          <input type="date" id="tour-end-date" placeholder="mm/dd/yyyy">
+          <select id="tour-rank-search" onchange="searchTour()">
+            <option value="" disabled selected>Select Rank</option>
+            <option value="All Ranks">All Ranks</option>
+            <option value="Star">Star</option>
+            <option value="Double Star">Double Star</option>
+            <option value="Bronze">Bronze</option>
+            <option value="Silver">Silver</option>
+            <option value="Gold">Gold</option>
+            <option value="Platinum">Platinum</option>
+            <option value="Titanium">Titanium</option>
+            <option value="Emerald">Emerald</option>
+            <option value="Ruby">Ruby</option>
+            <option value="Diamond">Diamond</option>
+            <option value="Blue Diamond">Blue Diamond</option>
+            <option value="Black Diamond">Black Diamond</option>
+            <option value="Red Diamond">Red Diamond</option>
+            <option value="Crown">Crown</option>
+            <option value="Ambassador">Ambassador</option>
+            <option value="Royal">Royal</option>
+            <option value="Royal King">Royal King</option>
+          </select>
+          <input type="date" id="tour-start-date" placeholder="mm/dd/yyyy" onchange="searchTour()">
+          <input type="date" id="tour-end-date" placeholder="mm/dd/yyyy" onchange="searchTour()">
           <button onclick="searchTour()">Search</button>
+          <button class="btn-delete" onclick="toggleDeleteMode()">Delete</button>
+          <button class="btn-print" onclick="printCompletedTours()">Print</button>
         </div>
         <div class="table-container">
           <table class="table">
             <thead>
               <tr>
+                <th class="checkbox-column checkbox-hidden">
+                  <input type="checkbox" id="select-all" onchange="selectAll(this.checked)">
+                </th>
                 <th>SI.NO</th>
                 <th>USER ID</th>
                 <th class="name-column">USER Name</th>
+                <th>Mobile Number</th>
                 <th>Qualified Date</th>
-                
-              
                 <th>Rank</th>
-                <th>Pair</th>
-                
+                <th>Total Pair</th>
+                <th>Current Pair</th>
                 <th class="status-column">Status</th>
                 <th>Action</th>
               </tr>
             </thead>
-           
-              <tr>
-                <td>1</td>
-                <td>301</td>
-                <td class="name-column">Emma Wilson</td>
-                <td>Apr 01, 2025</td>
-              
-               
-                <td>Silver</td>
-                <td>2</td>
-                
-                <td class="status-pending status-column">Pending</td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="btn-accept" data-id="301" onclick="handleTourAction('301', 'Approved', this)">Accept</button>
-                    <button class="btn-reject" data-id="301" onclick="handleTourAction('301', 'Rejected', this)">Reject</button>
-                  </div>
-                </td>
-              </tr>
-           
+            <tbody id="tour-table">
+              <!-- Table rows will be populated by JavaScript -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -714,6 +772,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const { jsPDF } = window.jspdf;
       const sidebarToggle = document.getElementById('sidebar-toggle');
       const sidebarExpand = document.getElementById('sidebar-expand');
       const sidebar = document.querySelector('.sidebar');
@@ -824,7 +883,46 @@
       });
 
       // Mock data for Pending Tour
-      
+      let mockData = [
+        {
+          id: '301',
+          name: 'Emma Wilson',
+          mobile: '9876543210',
+          qualifiedDate: '2025-04-01',
+          rank: 'Silver',
+          totalPair: 10,
+          currentPair: 3,
+          status: 'Pending',
+          actionTaken: false,
+          selected: false
+        },
+        {
+          id: '311',
+          name: 'Emma',
+          mobile: '9876983210',
+          qualifiedDate: '2025-04-01',
+          rank: 'Gold',
+          totalPair: 20,
+          currentPair: 5,
+          status: 'Completed',
+          actionTaken: true,
+          selected: false
+        },
+        {
+          id: '321',
+          name: 'John Doe',
+          mobile: '9123456789',
+          qualifiedDate: '2025-04-05',
+          rank: 'Bronze',
+          totalPair: 15,
+          currentPair: 4,
+          status: 'Pending',
+          actionTaken: false,
+          selected: false
+        }
+      ];
+
+      let deleteMode = false;
 
       // Function to format dates as "MMM DD, YYYY"
       function formatDate(dateStr) {
@@ -842,43 +940,137 @@
           const row = button.closest('tr');
           const buttons = row.querySelectorAll('.btn-accept, .btn-reject');
           buttons.forEach(btn => btn.disabled = true);
-          renderTourTable(mockData);
+          renderTourTable();
         }
       };
 
-      // Tour Functions
+      // Toggle Delete Mode
+      window.toggleDeleteMode = () => {
+        deleteMode = !deleteMode;
+        const deleteButton = document.querySelector('.btn-delete');
+        if (deleteMode) {
+          deleteButton.textContent = 'Confirm Delete';
+          document.querySelectorAll('.checkbox-column').forEach(el => el.classList.remove('checkbox-hidden'));
+        } else {
+          deleteButton.textContent = 'Delete';
+          document.querySelectorAll('.checkbox-column').forEach(el => el.classList.add('checkbox-hidden'));
+          mockData = mockData.filter(item => !item.selected);
+          mockData.forEach(item => item.selected = false);
+          renderTourTable();
+        }
+      };
+
+      // Handle Checkbox Toggle
+      window.toggleCheckbox = (id) => {
+        const entry = mockData.find(item => item.id === id);
+        if (entry) {
+          entry.selected = !entry.selected;
+          renderTourTable();
+        }
+      };
+
+      // Handle Select All Checkbox
+      window.selectAll = (checked) => {
+        mockData.forEach(item => item.selected = checked);
+        renderTourTable();
+      };
+
+      // Print Completed Tours
+      window.printCompletedTours = () => {
+        try {
+          const completedTours = mockData.filter(item => item.status.toLowerCase() === 'completed');
+          if (completedTours.length === 0) {
+            alert('No completed tours found.');
+            return;
+          }
+
+          const doc = new jsPDF();
+          doc.setFontSize(16);
+          doc.text('Completed Tours Report', 10, 10);
+          doc.setFontSize(12);
+
+          const headers = ['SI.NO', 'USER ID', 'USER Name', 'Mobile Number', 'Qualified Date', 'Rank', 'Total Pair', 'Current Pair', 'Status'];
+          const data = completedTours.map((item, index) => [
+            index + 1,
+            item.id,
+            item.name,
+            item.mobile,
+            formatDate(item.qualifiedDate),
+            item.rank,
+            item.totalPair,
+            item.currentPair,
+            item.status
+          ]);
+
+          doc.autoTable({
+            head: [headers],
+            body: data,
+            startY: 20,
+            styles: { fontSize: 10, cellPadding: 2, textColor: [0, 0, 0] },
+            headStyles: { fillColor: [15, 52, 96], textColor: [0, 255, 204] },
+            alternateRowStyles: { fillColor: [245, 245, 245] },
+            tableWidth: 'auto'
+          });
+
+          doc.save('completed_tours.pdf');
+        } catch (error) {
+          console.error('Error generating PDF:', error);
+          alert('Failed to generate PDF. Please try again.');
+        }
+      };
+
+      // Tour Search Function
       window.searchTour = () => {
-        const id = document.getElementById('tour-id-search').value;
+        const rank = document.getElementById('tour-rank-search').value;
         const startDate = document.getElementById('tour-start-date').value;
         const endDate = document.getElementById('tour-end-date').value;
         let filtered = mockData;
-        if (id) filtered = filtered.filter(item => item.id.includes(id));
-        if (startDate) filtered = filtered.filter(item => item.date >= startDate);
-        if (endDate) filtered = filtered.filter(item => item.date <= endDate);
+        if (rank && rank !== 'All Ranks') {
+          filtered = filtered.filter(item => item.rank.toLowerCase() === rank.toLowerCase());
+        }
+        if (startDate) {
+          filtered = filtered.filter(item => item.qualifiedDate >= startDate);
+        }
+        if (endDate) {
+          filtered = filtered.filter(item => item.qualifiedDate <= endDate);
+        }
         renderTourTable(filtered);
       };
 
+      // Render Tour Table
       function renderTourTable(data = mockData) {
         const tbody = document.getElementById('tour-table');
-        tbody.innerHTML = data.map((item, index) => `
+        const allSelected = data.length > 0 && data.every(item => item.selected);
+        const selectAllCheckbox = document.getElementById('select-all');
+        if (selectAllCheckbox) {
+          selectAllCheckbox.checked = allSelected;
+        }
+        tbody.innerHTML = data.length > 0 ? data.map((item, index) => `
           <tr>
+            <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
+              <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
+            </td>
             <td>${index + 1}</td>
             <td>${item.id}</td>
-            <td>${formatDate(item.qualifiedDate)}</td>
             <td class="name-column">${item.name}</td>
-            <td class="date-column">${formatDate(item.date)}</td>
+            <td>${item.mobile}</td>
+            <td class="date-column">${formatDate(item.qualifiedDate)}</td>
             <td>${item.rank}</td>
-            <td>${item.rvPoints}</td>
-            <td class="destination-column">${item.destination}</td>
+            <td>${item.totalPair}</td>
+            <td>${item.currentPair}</td>
             <td class="status-pending status-column">${item.status}</td>
             <td>
               <div class="action-buttons">
-                <button class="btn-accept" data-id="${item.id}" onclick="handleTourAction('${item.id}', 'Approved', this)" ${item.actionTaken ? 'disabled' : ''}>Accept</button>
+                <button class="btn-accept" data-id="${item.id}" onclick="handleTourAction('${item.id}', '', this)" ${item.actionTaken ? 'disabled' : ''}>Accept</button>
                 <button class="btn-reject" data-id="${item.id}" onclick="handleTourAction('${item.id}', 'Rejected', this)" ${item.actionTaken ? 'disabled' : ''}>Reject</button>
               </div>
             </td>
           </tr>
-        `).join('');
+        `).join('') : `
+          <tr>
+            <td colspan="10" style="text-align: center; color: #b3e0ff;">No tour records found</td>
+          </tr>
+        `;
       }
 
       // Initial render

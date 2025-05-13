@@ -7,6 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -261,7 +262,7 @@
     }
 
     .table {
-      width: 100;
+      width: 100%;
       border-collapse: collapse;
       color: #ffffff;
     }
@@ -284,7 +285,6 @@
       min-width: 100px;
     }
 
-
     .table tbody tr:nth-child(odd) {
       background: #0f3460;
     }
@@ -301,6 +301,7 @@
       width: 100%;
       max-width: 1400px;
       flex-wrap: wrap;
+      align-items: center;
     }
 
     .search-bar input, .search-bar select, .search-bar button {
@@ -348,6 +349,11 @@
       font-weight: bold;
     }
 
+    .status-rejected {
+      color: #dc3545;
+      font-weight: bold;
+    }
+
     .main-footer {
       text-align: center;
       padding: 10px 20px;
@@ -386,7 +392,7 @@
         box-shadow: 0 0 10px #00d4ff;
       }
       .sidebar.active {
-        left:0;
+        left: 0;
       }
       .sidebar.collapsed {
         width: 250px;
@@ -473,9 +479,7 @@
       <div class="sidebar-item">
         <a href="#" id="kyc-toggle"><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="kyc-submenu">
-          <a href="Kyc-
-
-pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <span>Pending KYC</span></a>
+          <a href="Kyc-pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <span>Pending KYC</span></a>
           <a href="Kyc-history.html" data-section="kyc-history"><i class="fas fa-history"></i> <span>KYC History</span></a>
         </div>
       </div>
@@ -490,9 +494,9 @@ pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <
         </div>
       </div>
       <div class="sidebar-item">
-        <a href="#" id="topup-toggle" ><i class="fas fa-wallet"></i> <span>Topup</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
+        <a href="#" id="topup-toggle"><i class="fas fa-wallet"></i> <span>Topup</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="topup-submenu">
-          <a href="initiate-topup.html " data-section="topup-initiate" ><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
+          <a href="initiate-topup.html" data-section="topup-initiate"><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
           <a href="topup-history.html" data-section="topup-history"><i class="fas fa-history"></i> <span>Topup History</span></a>
           <a href="topup-refund.html" data-section="topup-refund"><i class="fas fa-undo"></i> <span>Topup Refund</span></a>
           <a href="topup-refund-history.html" data-section="topup-refund-history"><i class="fas fa-file-alt"></i> <span>Topup Refund History</span></a>
@@ -504,7 +508,7 @@ pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -516,24 +520,23 @@ pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <
       </div>
       <div class="sidebar-item">
         <a href="#" id="invoice-toggle" class="active"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon active"></i></a>
-        <div class="submenu active" id="invoice-submenu">
+        <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst" class="active"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin" ><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds"><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>20000</span></a>
+          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
       <div class="sidebar-item">
-        <a href="#" id="gallery-toggle" ><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="gallery-submenu">
+        <a href="#" id="gallery-toggle"><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="gallery-submenu">
           <a href="gallery-plan.html" data-section="gallery-plan"><i class="fas fa-file-pdf"></i> <span>Business Plan</span></a>
           <a href="#" data-section="gallery-photo"><i class="fas fa-camera"></i> <span>Photo</span></a>
           <a href="gallery-news.html" data-section="gallery-news"><i class="fas fa-newspaper"></i> <span>News</span></a>
@@ -551,26 +554,29 @@ pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <
         <h2 class="text-2xl font-bold mb-4 text-white">GST 12% Statement</h2>
         <div class="search-bar">
           <input type="text" placeholder="Transaction ID" id="transaction-id-search">
+          <input type="text" placeholder="Product Name" id="product-name-search">
           <input type="date" id="start-date">
           <input type="date" id="end-date">
           <select id="status-filter">
             <option value="">All Statuses</option>
             <option value="Processed">Processed</option>
             <option value="Pending">Pending</option>
+            <option value="Rejected">Rejected</option>
           </select>
           <button onclick="searchTransactions()">Search</button>
+          <button onclick="exportToExcel()">Export to Excel</button>
         </div>
         <div class="table-container">
           <table class="table">
             <thead>
               <tr>
                 <th>SI.No</th>
-                <th>Transaction ID</th>
                 <th>Date</th>
-                <th>User ID</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
                 <th>Amount</th>
-                <th>GST Amount (12%)</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="gst-table">
@@ -635,7 +641,6 @@ pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <
           console.warn('Menu toggle or sidebar element not found');
         }
 
-        // Close sidebar when clicking outside on mobile
         document.addEventListener('click', (e) => {
           try {
             if (window.innerWidth <= 768 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
@@ -711,19 +716,29 @@ pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <
           }
         });
 
-        const mockData = [
+        let mockData = [
           {
             id: 'GST12345',
             date: '2025-05-01',
-            userId: 'U12345',
+            productName: 'Health Supplement',
+            quantity: 10,
             amount: '₹41665.00',
             status: 'Processed'
           },
           {
             id: 'GST12346',
             date: '2025-05-03',
-            userId: 'U12346',
+            productName: 'Skincare Kit',
+            quantity: 5,
             amount: '₹24999.00',
+            status: 'Pending'
+          },
+          {
+            id: 'GST12347',
+            date: '2025-05-05',
+            productName: 'Protein Powder',
+            quantity: 8,
+            amount: '₹32000.00',
             status: 'Pending'
           }
         ];
@@ -745,27 +760,15 @@ pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <
           }
         }
 
-        function calculateGST(amount) {
-          try {
-            const amountNum = parseFloat(amount.replace('₹', '')) || 0;
-            const gst = (amountNum * 0.12).toFixed(2);
-            console.log(`Calculated GST for ${amount}: ₹${gst}`);
-            return `₹${gst}`;
-          } catch (error) {
-            console.error('Error calculating GST:', error);
-            return '₹0.00';
-          }
-        }
-
         window.searchTransactions = () => {
           try {
-            const id = document.getElementById('transaction-id-search').value.trim();
+            const id = document.getElementById('transaction-id-search').value.trim().toLowerCase();
+            const productName = document.getElementById('product-name-search').value.trim().toLowerCase();
             const startDate = document.getElementById('start-date').value;
             const endDate = document.getElementById('end-date').value;
             const status = document.getElementById('status-filter').value;
             let filtered = mockData;
 
-            // Prioritize date-wise filtering
             if (startDate) {
               filtered = filtered.filter(item => item.date >= startDate);
             }
@@ -773,7 +776,10 @@ pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <
               filtered = filtered.filter(item => item.date <= endDate);
             }
             if (id) {
-              filtered = filtered.filter(item => item.id.toLowerCase().includes(id.toLowerCase()));
+              filtered = filtered.filter(item => item.id.toLowerCase().includes(id));
+            }
+            if (productName) {
+              filtered = filtered.filter(item => item.productName.toLowerCase().includes(productName));
             }
             if (status) {
               filtered = filtered.filter(item => item.status === status);
@@ -782,6 +788,64 @@ pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <
             renderTable(filtered);
           } catch (error) {
             console.error('Error searching transactions:', error);
+          }
+        };
+
+        window.approveTransaction = (id) => {
+          try {
+            mockData = mockData.map(item =>
+              item.id === id ? { ...item, status: 'Processed' } : item
+            );
+            console.log(`Approved transaction: ${id}`);
+            renderTable();
+          } catch (error) {
+            console.error('Error approving transaction:', error);
+          }
+        };
+
+        window.rejectTransaction = (id) => {
+          try {
+            mockData = mockData.map(item =>
+              item.id === id ? { ...item, status: 'Rejected' } : item
+            );
+            console.log(`Rejected transaction: ${id}`);
+            renderTable();
+          } catch (error) {
+            console.error('Error rejecting transaction:', error);
+          }
+        };
+
+        window.revertToPending = (id) => {
+          try {
+            mockData = mockData.map(item =>
+              item.id === id ? { ...item, status: 'Pending' } : item
+            );
+            console.log(`Reverted transaction to Pending: ${id}`);
+            renderTable();
+          } catch (error) {
+            console.error('Error reverting transaction to Pending:', error);
+          }
+        };
+
+        window.exportToExcel = () => {
+          try {
+            const dataToExport = mockData.map((item, index) => ({
+              'SI.No': index + 1,
+              'Date': formatDate(item.date),
+              'Product Name': item.productName,
+              'Quantity': item.quantity,
+              'Amount': item.amount,
+              'Status': item.status
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'GST Statement');
+            XLSX.writeFile(workbook, 'GST_Statement.xlsx');
+            console.log('Exported table to Excel');
+          } catch (error) {
+            console.error('Error exporting to Excel:', error);
+            alert('Failed to export to Excel. Please try again.');
           }
         };
 
@@ -794,17 +858,32 @@ pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <
             }
             tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
               const formattedDate = formatDate(item.date);
-              const gstAmount = calculateGST(item.amount);
+              let actionButtons = '';
+              if (item.status === 'Pending') {
+                actionButtons = `
+                  <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-1" onclick="approveTransaction('${item.id}')">Approve</button>
+                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" onclick="rejectTransaction('${item.id}')">Reject</button>
+                `;
+              } else if (item.status === 'Processed') {
+                actionButtons = `
+                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-1" onclick="rejectTransaction('${item.id}')">Reject</button>
+                  <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded" onclick="revertToPending('${item.id}')">Revert to Pending</button>
+                `;
+              } else if (item.status === 'Rejected') {
+                actionButtons = `
+                  <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded" onclick="revertToPending('${item.id}')">Revert to Pending</button>
+                `;
+              }
               console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
               return `
                 <tr>
                   <td>${index + 1}</td>
-                  <td>${item.id}</td>
-                  <td class="date-column">${formattedDate}</td>
-                  <td>${item.userId}</td>
+                  <td>${formattedDate}</td>
+                  <td>${item.productName}</td>
+                  <td>${item.quantity}</td>
                   <td>${item.amount}</td>
-                  <td>${gstAmount}</td>
                   <td class="status-${item.status.toLowerCase()}">${item.status}</td>
+                  <td>${actionButtons}</td>
                 </tr>
               `;
             }).join('') : `

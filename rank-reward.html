@@ -281,12 +281,12 @@
       max-width: 1200px;
       margin: 0 auto;
       transition: transform 0.3s;
-      overflow-x: auto; /* Enable horizontal scrolling on small screens */
+      overflow-x: auto;
     }
 
     .table {
       width: 100%;
-      min-width: 900px; /* Ensure table has a minimum width for readability */
+      min-width: 1000px;
       border-collapse: collapse;
       color: #ffffff;
     }
@@ -295,7 +295,7 @@
       padding: 12px;
       border: 1px solid #00d4ff;
       text-align: center;
-      white-space: nowrap; /* Prevent text wrapping */
+      white-space: nowrap;
     }
 
     .table th {
@@ -306,6 +306,10 @@
 
     .table th.status-column, .table td.status-column {
       min-width: 120px;
+    }
+
+    .table th.pair-column, .table td.pair-column {
+      min-width: 100px;
     }
 
     .table tbody tr:nth-child(odd) {
@@ -367,7 +371,7 @@
       text-align: center;
     }
 
-    .status-paid {
+    .status-achieved {
       color: #28a745;
       font-weight: bold;
       text-align: center;
@@ -380,7 +384,7 @@
       gap: 12px;
     }
 
-    .btn-paid, .btn-unpaid {
+    .btn-achieved, .btn-pending {
       padding: 6px 12px;
       border: 2px solid #00d4ff;
       border-radius: 6px;
@@ -392,20 +396,20 @@
       font-size: 0.9rem;
     }
 
-    .btn-paid {
+    .btn-achieved {
       background: #28a745;
     }
 
-    .btn-unpaid {
+    .btn-pending {
       background: #dc3545;
     }
 
-    .btn-paid:hover, .btn-unpaid:hover {
+    .btn-achieved:hover, .btn-pending:hover {
       box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
       transform: scale(1.05);
     }
 
-    .btn-paid:disabled, .btn-unpaid:disabled {
+    .btn-achieved:disabled, .btn-pending:disabled {
       background: #4a4a4a;
       border-color: #666;
       color: #888;
@@ -502,11 +506,14 @@
       .table th.status-column, .table td.status-column {
         min-width: 100px;
       }
+      .table th.pair-column, .table td.pair-column {
+        min-width: 80px;
+      }
       .action-buttons {
         flex-direction: column;
         gap: 8px;
       }
-      .btn-paid, .btn-unpaid {
+      .btn-achieved, .btn-pending {
         padding: 5px 10px;
         font-size: 0.85rem;
       }
@@ -522,11 +529,14 @@
       .table th.status-column, .table td.status-column {
         min-width: 80px;
       }
+      .table th.pair-column, .table td.pair-column {
+        min-width: 70px;
+      }
       .search-bar input, .search-bar select, .search-bar button {
         padding: 5px;
         font-size: 0.8rem;
       }
-      .btn-paid, .btn-unpaid {
+      .btn-achieved, .btn-pending {
         padding: 4px 8px;
         font-size: 0.75rem;
       }
@@ -591,7 +601,7 @@
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -605,16 +615,15 @@
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds"><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu" id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>20000</span></a>
+        <div class="submenu "id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
@@ -639,12 +648,33 @@
         <!-- Rank & Reward Section -->
         <h2 class="text-2xl font-bold mb-4 text-white">Rank & Reward</h2>
         <div class="search-bar">
+          <select id="rank-reward-rank-search" onchange="searchRankReward()">
+            <option value="" disabled selected>Select Rank</option>
+            <option value="All Ranks">All Ranks</option>
+            <option value="Star">Star</option>
+            <option value="Double Star">Double Star</option>
+            <option value="Bronze">Bronze</option>
+            <option value="Silver">Silver</option>
+            <option value="Gold">Gold</option>
+            <option value="Platinum">Platinum</option>
+            <option value="Titanium">Titanium</option>
+            <option value="Emerald">Emerald</option>
+            <option value="Ruby">Ruby</option>
+            <option value="Diamond">Diamond</option>
+            <option value="Blue Diamond">Blue Diamond</option>
+            <option value="Black Diamond">Black Diamond</option>
+            <option value="Red Diamond">Red Diamond</option>
+            <option value="Crown">Crown</option>
+            <option value="Ambassador">Ambassador</option>
+            <option value="Royal">Royal</option>
+            <option value="Royal King">Royal King</option>
+          </select>
           <input type="date" id="rank-reward-start-date" placeholder="mm/dd/yyyy">
           <input type="date" id="rank-reward-end-date" placeholder="mm/dd/yyyy">
           <select id="status-filter">
             <option value="">All Statuses</option>
+            <option value="Achieved">Achieved</option>
             <option value="Pending">Pending</option>
-            <option value="Paid">Paid</option>
           </select>
           <button onclick="searchRankReward()">Search</button>
         </div>
@@ -657,7 +687,9 @@
                 <th>User Name</th>
                 <th>Date</th>
                 <th>Rank</th>
-                <th>Reward Amount</th>
+                <th>Reward</th>
+                <th class="pair-column">Total Pair</th>
+                <th class="pair-column">Current Pair</th>
                 <th class="status-column">Status</th>
                 <th>Action</th>
               </tr>
@@ -784,23 +816,23 @@
 
         // Mock data for Rank & Reward (admin view - includes users with rank-based rewards)
         const mockData = [
-          { id: 'RR12345', userId: 'U10001', name: 'John Doe', date: '2025-04-03', rank: 'Star', amount: '₹50.00', status: 'Approved', actionTaken: false },
-          { id: 'RR12346', userId: 'U10002', name: 'Jane Smith', date: '2025-04-04', rank: 'Double Star', amount: '₹75.00', status: 'Pending', actionTaken: false },
-          { id: 'RR12347', userId: 'U10003', name: 'Alice Brown', date: '2025-04-05', rank: 'Bronze', amount: '₹100.00', status: 'Pending', actionTaken: false },
-          { id: 'RR12348', userId: 'U10004', name: 'Bob Johnson', date: '2025-04-06', rank: 'Silver', amount: '₹150.00', status: 'Approved', actionTaken: false },
-          { id: 'RR12349', userId: 'U10005', name: 'Emily Davis', date: '2025-04-07', rank: 'Gold', amount: '₹200.00', status: 'Pending', actionTaken: false },
-          { id: 'RR12350', userId: 'U10006', name: 'Michael Lee', date: '2025-04-08', rank: 'Platinum', amount: '₹250.00', status: 'Approved', actionTaken: false },
-          { id: 'RR12351', userId: 'U10007', name: 'Sarah Wilson', date: '2025-04-09', rank: 'Titanium', amount: '₹300.00', status: 'Pending', actionTaken: false },
-          { id: 'RR12352', userId: 'U10008', name: 'David Clark', date: '2025-04-10', rank: 'Emerald', amount: '₹350.00', status: 'Approved', actionTaken: false },
-          { id: 'RR12353', userId: 'U10009', name: 'Laura Martinez', date: '2025-04-11', rank: 'Ruby', amount: '₹400.00', status: 'Pending', actionTaken: false },
-          { id: 'RR12354', userId: 'U10010', name: 'James White', date: '2025-04-12', rank: 'Diamond', amount: '₹450.00', status: 'Approved', actionTaken: false },
-          { id: 'RR12355', userId: 'U10011', name: 'Olivia Harris', date: '2025-04-13', rank: 'Blue Diamond', amount: '₹500.00', status: 'Pending', actionTaken: false },
-          { id: 'RR12356', userId: 'U10012', name: 'William Turner', date: '2025-04-14', rank: 'Black Diamond', amount: '₹550.00', status: 'Approved', actionTaken: false },
-          { id: 'RR12357', userId: 'U10013', name: 'Sophia Lewis', date: '2025-04-15', rank: 'Red Diamond', amount: '₹600.00', status: 'Pending', actionTaken: false },
-          { id: 'RR12358', userId: 'U10014', name: 'Henry Walker', date: '2025-04-16', rank: 'Crown', amount: '₹700.00', status: 'Approved', actionTaken: false },
-          { id: 'RR12359', userId: 'U10015', name: 'Ava Scott', date: '2025-04-17', rank: 'Ambassador', amount: '₹800.00', status: 'Pending', actionTaken: false },
-          { id: 'RR12360', userId: 'U10016', name: 'Ethan Adams', date: '2025-04-18', rank: 'Royal', amount: '₹900.00', status: 'Approved', actionTaken: false },
-          { id: 'RR12361', userId: 'U10017', name: 'Isabella King', date: '2025-04-19', rank: 'Royal King', amount: '₹1000.00', status: 'Pending', actionTaken: false }
+          { id: 'RR12345', userId: 'U10001', name: 'John Doe', date: '2025-04-03', rank: 'Star', amount: '₹50.00', totalPair: 5, currentPair: 3, status: 'Achieved', actionTaken: false },
+          { id: 'RR12346', userId: 'U10002', name: 'Jane Smith', date: '2025-04-04', rank: 'Double Star', amount: '₹75.00', totalPair: 7, currentPair: 4, status: 'Pending', actionTaken: false },
+          { id: 'RR12347', userId: 'U10003', name: 'Alice Brown', date: '2025-04-05', rank: 'Bronze', amount: '₹100.00', totalPair: 10, currentPair: 6, status: 'Pending', actionTaken: false },
+          { id: 'RR12348', userId: 'U10004', name: 'Bob Johnson', date: '2025-04-06', rank: 'Silver', amount: '₹150.00', totalPair: 12, currentPair: 8, status: 'Achieved', actionTaken: false },
+          { id: 'RR12349', userId: 'U10005', name: 'Emily Davis', date: '2025-04-07', rank: 'Gold', amount: '₹200.00', totalPair: 15, currentPair: 10, status: 'Pending', actionTaken: false },
+          { id: 'RR12350', userId: 'U10006', name: 'Michael Lee', date: '2025-04-08', rank: 'Platinum', amount: '₹250.00', totalPair: 20, currentPair: 12, status: 'Achieved', actionTaken: false },
+          { id: 'RR12351', userId: 'U10007', name: 'Sarah Wilson', date: '2025-04-07', rank: 'Titanium', amount: '₹300.00', totalPair: 25, currentPair: 15, status: 'Pending', actionTaken: false },
+          { id: 'RR12352', userId: 'U10008', name: 'David Clark', date: '2025-04-10', rank: 'Emerald', amount: '₹350.00', totalPair: 30, currentPair: 18, status: 'Achieved', actionTaken: false },
+          { id: 'RR12353', userId: 'U10009', name: 'Laura Martinez', date: '2025-04-11', rank: 'Ruby', amount: '₹400.00', totalPair: 35, currentPair: 20, status: 'Pending', actionTaken: false },
+          { id: 'RR12354', userId: 'U10010', name: 'James White', date: '2025-04-12', rank: 'Diamond', amount: '₹450.00', totalPair: 40, currentPair: 25, status: 'Achieved', actionTaken: false },
+          { id: 'RR12355', userId: 'U10011', name: 'Olivia Harris', date: '2025-04-13', rank: 'Blue Diamond', amount: '₹500.00', totalPair: 45, currentPair: 28, status: 'Pending', actionTaken: false },
+          { id: 'RR12356', userId: 'U10012', name: 'William Turner', date: '2025-04-14', rank: 'Black Diamond', amount: '₹550.00', totalPair: 50, currentPair: 30, status: 'Achieved', actionTaken: false },
+          { id: 'RR12357', userId: 'U10013', name: 'Sophia Lewis', date: '2025-04-15', rank: 'Red Diamond', amount: '₹600.00', totalPair: 55, currentPair: 35, status: 'Pending', actionTaken: false },
+          { id: 'RR12358', userId: 'U10014', name: 'Henry Walker', date: '2025-04-16', rank: 'Crown', amount: '₹700.00', totalPair: 60, currentPair: 40, status: 'Achieved', actionTaken: false },
+          { id: 'RR12359', userId: 'U10015', name: 'Ava Scott', date: '2025-04-17', rank: 'Ambassador', amount: '₹800.00', totalPair: 65, currentPair: 45, status: 'Pending', actionTaken: false },
+          { id: 'RR12360', userId: 'U10016', name: 'Ethan Adams', date: '2025-04-18', rank: 'Royal', amount: '₹900.00', totalPair: 70, currentPair: 50, status: 'Achieved', actionTaken: false },
+          { id: 'RR12361', userId: 'U10017', name: 'Isabella King', date: '2025-04-19', rank: 'Royal King', amount: '₹1000.00', totalPair: 75, currentPair: 55, status: 'Pending', actionTaken: false }
         ];
 
         // Function to format dates as "MMM DD, YYYY"
@@ -821,7 +853,7 @@
           }
         }
 
-        // Handle Rank & Reward Action (Mark as Paid/Unpaid)
+        // Handle Rank & Reward Action (Mark as Achieved/Pending)
         window.handleRankRewardAction = (id, newStatus, button) => {
           try {
             const entry = mockData.find(item => item.id === id);
@@ -830,7 +862,7 @@
               entry.actionTaken = true;
               // Disable both buttons in the same row
               const row = button.closest('tr');
-              const buttons = row.querySelectorAll('.btn-paid, .btn-unpaid');
+              const buttons = row.querySelectorAll('.btn-achieved, .btn-pending');
               buttons.forEach(btn => btn.disabled = true);
               // Update the table
               renderRankRewardTable(mockData);
@@ -843,11 +875,15 @@
         // Rank & Reward Functions
         window.searchRankReward = () => {
           try {
+            const rank = document.getElementById('rank-reward-rank-search').value;
             const startDate = document.getElementById('rank-reward-start-date').value;
             const endDate = document.getElementById('rank-reward-end-date').value;
             const status = document.getElementById('status-filter').value;
             let filtered = mockData;
 
+            if (rank && rank !== 'All Ranks') {
+              filtered = filtered.filter(item => item.rank.toLowerCase() === rank.toLowerCase());
+            }
             if (startDate) {
               filtered = filtered.filter(item => item.date >= startDate);
             }
@@ -882,18 +918,20 @@
                   <td class="date-column">${formattedDate}</td>
                   <td>${item.rank}</td>
                   <td>${item.amount}</td>
-                  <td class="${item.status === 'Paid' ? 'status-paid' : 'status-pending'} status-column">${item.status}</td>
+                  <td class="pair-column">${item.totalPair}</td>
+                  <td class="pair-column">${item.currentPair}</td>
+                  <td class="${item.status === 'Achieved' ? 'status-achieved' : 'status-pending'} status-column">${item.status}</td>
                   <td>
                     <div class="action-buttons">
-                      <button class="btn-paid" data-id="${item.id}" onclick="handleRankRewardAction('${item.id}', 'Paid', this)" ${item.actionTaken ? 'disabled' : ''}>Approved</button>
-                      <button class="btn-unpaid" data-id="${item.id}" onclick="handleRankRewardAction('${item.id}', 'Pending', this)" ${item.actionTaken ? 'disabled' : ''}>Rejected</button>
+                      <button class="btn-achieved" data-id="${item.id}" onclick="handleRankRewardAction('${item.id}', 'Achieved', this)" ${item.actionTaken ? 'disabled' : ''}>Mark  As Achieved</button>
+                      <button class="btn-pending" data-id="${item.id}" onclick="handleRankRewardAction('${item.id}', 'Pending', this)" ${item.actionTaken ? 'disabled' : ''}>Mark As Pending</button>
                     </div>
                   </td>
                 </tr>
               `;
             }).join('') : `
               <tr>
-                <td colspan="8" style="text-align: center; color: #b3e0ff;">No rewards found</td>
+                <td colspan="10" style="text-align: center; color: #b3e0ff;">No rewards found</td>
               </tr>
             `;
           } catch (error) {

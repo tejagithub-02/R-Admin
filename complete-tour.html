@@ -342,6 +342,7 @@
       justify-content: center;
       width: 100%;
       max-width: 1200px;
+      flex-wrap: wrap; /* Added for responsiveness */
     }
 
     .search-bar input, .search-bar button {
@@ -374,6 +375,14 @@
       background: #00ffcc;
     }
 
+    .search-bar .btn-delete {
+      background: #dc3545;
+    }
+
+    .search-bar .btn-delete:hover {
+      background: #c82333;
+    }
+
     .status-completed {
       color: #28a745;
       font-weight: bold;
@@ -390,6 +399,57 @@
       margin-top: auto;
       background: #0f3460;
       box-shadow: 0 0 10px #00d4ff;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-width: 140px;
+    }
+
+    .btn-accept, .btn-reject {
+      padding: 6px 10px;
+      border: 2px solid #00d4ff;
+      border-radius: 6px;
+      color: #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+      box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+      font-size: 0.9rem;
+    }
+
+    .btn-accept {
+      background: #28a745;
+    }
+
+    .btn-reject {
+      background: #dc3545;
+    }
+
+    .btn-accept:hover, .btn-reject:hover {
+      box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
+      transform: scale(1.05);
+    }
+
+    .btn-accept:disabled, .btn-reject:disabled {
+      background: #4a4a4a;
+      border-color: #666;
+      color: #888;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .checkbox-column {
+      width: 40px;
+      text-align: center;
+    }
+
+    .checkbox-hidden {
+      display: none;
     }
 
     @media (min-width: 769px) {
@@ -457,6 +517,9 @@
       .search-bar input, .search-bar button {
         width: 100%;
       }
+      .checkbox-column {
+        width: 30px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -478,6 +541,17 @@
       .table td.date-column {
         min-width: 80px;
       }
+      .action-buttons {
+        gap: 6px;
+        min-width: 120px;
+      }
+      .btn-accept, .btn-reject {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+      }
+      .checkbox-column {
+        width: 25px;
+      }
     }
 
     @media (max-width: 400px) {
@@ -497,48 +571,18 @@
       .table td.date-column {
         min-width: 70px;
       }
+      .action-buttons {
+        gap: 4px;
+        min-width: 100px;
+      }
+      .btn-accept, .btn-reject {
+        padding: 3px 6px;
+        font-size: 0.75rem;
+      }
+      .checkbox-column {
+        width: 20px;
+      }
     }
-    .action-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  min-width: 140px;
-}
-
-.btn-accept, .btn-reject {
-  padding: 6px 10px;
-  border: 2px solid #00d4ff;
-  border-radius: 6px;
-  color: #ffffff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
-  box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
-  font-size: 0.9rem;
-}
-
-.btn-accept {
-  background: #28a745;
-}
-
-.btn-reject {
-  background: #dc3545;
-}
-
-.btn-accept:hover, .btn-reject:hover {
-  box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
-  transform: scale(1.05);
-}
-
-.btn-accept:disabled, .btn-reject:disabled {
-  background: #4a4a4a;
-  border-color: #666;
-  color: #888;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
   </style>
 </head>
 <body>
@@ -596,7 +640,7 @@
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -610,24 +654,23 @@
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds"><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
-        <a href="#" id="capping-toggle" ><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000" ><i class="fas fa-star"></i> <span>20000</span></a>
+        <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu "id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
       <div class="sidebar-item">
-        <a href="#" id="gallery-toggle" ><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu " id="gallery-submenu">
+        <a href="#" id="gallery-toggle"><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="gallery-submenu">
           <a href="gallery-plan.html" data-section="gallery-plan"><i class="fas fa-file-pdf"></i> <span>Business Plan</span></a>
-          <a href="#" data-section="gallery-photo" ><i class="fas fa-camera"></i> <span>Photo</span></a>
+          <a href="#" data-section="gallery-photo"><i class="fas fa-camera"></i> <span>Photo</span></a>
           <a href="gallery-news.html" data-section="gallery-news"><i class="fas fa-newspaper"></i> <span>News</span></a>
           <a href="gallery-event.html" data-section="gallery-event"><i class="fas fa-calendar"></i> <span>Event</span></a>
           <a href="gallery-video.html" data-section="gallery-video"><i class="fas fa-video"></i> <span>Video</span></a>
@@ -637,7 +680,6 @@
       </div>
       <a href="#" id="sidebar-sign-out"><i class="fas fa-sign-out-alt"></i> <span>Sign Out</span></a>
     </div>
-
 
     <!-- Main Content -->
     <div class="main-content">
@@ -649,44 +691,28 @@
           <input type="date" id="tour-start-date" placeholder="mm/dd/yyyy">
           <input type="date" id="tour-end-date" placeholder="mm/dd/yyyy">
           <button onclick="searchTour()">Search</button>
+          <button class="btn-delete" onclick="toggleDeleteMode()">Delete</button>
         </div>
         <div class="table-container">
           <table class="table">
             <thead>
               <tr>
+                <th class="checkbox-column checkbox-hidden">
+                  <input type="checkbox" id="select-all" onchange="selectAll(this.checked)">
+                </th>
                 <th>SI.NO</th>
                 <th>USER ID</th>
                 <th class="name-column">USER Name</th>
                 <th>Qualified Date</th>
-                
-              
                 <th>Rank</th>
-                <th>Pair</th>
+                <th>Total Pair</th>
                 <th>Travel Date</th>
                 <th class="status-column">Status</th>
-                <th>Action</th>
               </tr>
             </thead>
-           
-              <tr>
-                <td>1</td>
-                <td>301</td>
-                <td class="name-column">Emma Wilson</td>
-                <td>Apr 01, 2025</td>
-              
-               
-                <td>Silver</td>
-                <td>2</td>
-                <td>May 15 2025</td>
-                <td class="status-pending status-column">Pending</td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="btn-accept" data-id="301" onclick="handleTourAction('301', 'Approved', this)">Accept</button>
-                    <button class="btn-reject" data-id="301" onclick="handleTourAction('301', 'Rejected', this)">Reject</button>
-                  </div>
-                </td>
-              </tr>
-           
+            <tbody id="tour-table">
+              <!-- Table rows will be populated by JavaScript -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -696,184 +722,245 @@
     </div>
   </div>
 
- <script>document.addEventListener('DOMContentLoaded', () => {
-  const sidebarToggle = document.getElementById('sidebar-toggle');
-  const sidebarExpand = document.getElementById('sidebar-expand');
-  const sidebar = document.querySelector('.sidebar');
-  const mainContent = document.querySelector('.main-content');
-  const menuToggle = document.getElementById('menu-toggle');
-  const adminIcon = document.getElementById('admin-icon');
-  const adminDropdown = document.getElementById('admin-dropdown');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebarExpand = document.getElementById('sidebar-expand');
+      const sidebar = document.querySelector('.sidebar');
+      const mainContent = document.querySelector('.main-content');
+      const menuToggle = document.getElementById('menu-toggle');
+      const adminIcon = document.getElementById('admin-icon');
+      const adminDropdown = document.getElementById('admin-dropdown');
 
-  // Sidebar collapse/expand for desktop
-  if (sidebarToggle && sidebarExpand && sidebar && mainContent) {
-    sidebarToggle.addEventListener('click', () => {
-      const isCollapsed = sidebar.classList.toggle('collapsed');
-      mainContent.classList.toggle('collapsed');
-      sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
-      document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
-      document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
-    });
-    sidebarExpand.addEventListener('click', () => {
-      sidebar.classList.remove('collapsed');
-      mainContent.classList.remove('collapsed');
-      sidebarExpand.style.display = 'none';
-    });
-  }
-
-  // Sidebar toggle for mobile
-  if (menuToggle && sidebar) {
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
-  }
-
-  // Admin dropdown toggle
-  if (adminIcon && adminDropdown) {
-    adminIcon.addEventListener('click', (e) => {
-      e.stopPropagation();
-      adminDropdown.classList.toggle('active');
-    });
-    document.addEventListener('click', (e) => {
-      if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
-        adminDropdown.classList.remove('active');
+      // Sidebar collapse/expand for desktop
+      if (sidebarToggle && sidebarExpand && sidebar && mainContent) {
+        sidebarToggle.addEventListener('click', () => {
+          const isCollapsed = sidebar.classList.toggle('collapsed');
+          mainContent.classList.toggle('collapsed');
+          sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
+          document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
+          document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
+        });
+        sidebarExpand.addEventListener('click', () => {
+          sidebar.classList.remove('collapsed');
+          mainContent.classList.remove('collapsed');
+          sidebarExpand.style.display = 'none';
+        });
       }
-    });
-  }
 
-  // Submenu toggle
-  const submenuToggles = [
-    { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
-    { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
-    { toggle: 'topup-toggle', submenu: 'topup-submenu' },
-    { toggle: 'order-toggle', submenu: 'order-submenu' },
-    { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
-    { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
-    { toggle: 'capping-toggle', submenu: 'capping-submenu' },
-    { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
-  ];
-
-  submenuToggles.forEach(({ toggle, submenu }) => {
-    const toggleEl = document.getElementById(toggle);
-    const submenuEl = document.getElementById(submenu);
-    const icon = toggleEl?.querySelector('.dropdown-icon');
-
-    if (toggleEl && submenuEl && icon) {
-      toggleEl.addEventListener('click', (e) => {
-        e.preventDefault();
-        const isActive = submenuEl.classList.toggle('active');
-        icon.classList.toggle('active');
-        submenuToggles.forEach(other => {
-          if (other.submenu !== submenu) {
-            document.getElementById(other.submenu).classList.remove('active');
-            document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
-          }
+      // Sidebar toggle for mobile
+      if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', () => {
+          sidebar.classList.toggle('active');
         });
-      });
+      }
 
-      const submenuLinks = submenuEl.querySelectorAll('a');
-      submenuLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          if (window.innerWidth <= 768) {
-            sidebar.classList.remove('active');
-          }
-        });
-      });
-
+      // Close sidebar on mobile when clicking outside
       document.addEventListener('click', (e) => {
-        if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
-          if (submenu !== 'earnings-submenu') {
-            submenuEl.classList.remove('active');
-            icon.classList.remove('active');
+        if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
+          if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+            sidebar.classList.remove('active');
           }
         }
       });
-    }
-  });
 
-  // Mock data for Complete Tour
-  const mockData = [
-    {
-      id: '401',
-      qualifiedDate: '2025-04-01',
-      name: 'Sophia Martinez',
-      date: '2025-04-28',
-      rank: 'Silver',
-      rvPoints: '100',
-      destination: 'New York',
-      status: 'Completed',
-      actionTaken: false
-    },
-    {
-      id: '402',
-      qualifiedDate: '2025-04-02',
-      name: 'James Lee',
-      date: '2025-04-29',
-      rank: 'Gold',
-      rvPoints: '150',
-      destination: 'London',
-      status: 'Completed',
-      actionTaken: false
-    },
-  ];
+      // Admin dropdown toggle
+      if (adminIcon && adminDropdown) {
+        adminIcon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          adminDropdown.classList.toggle('active');
+        });
+        document.addEventListener('click', (e) => {
+          if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
+            adminDropdown.classList.remove('active');
+          }
+        });
+      }
 
-  // Function to format dates as "MMM DD, YYYY"
-  function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    const options = { year: 'numeric', month: 'short', day: '2-digit' };
-    return date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
-  }
+      // Submenu toggle
+      const submenuToggles = [
+        { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
+        { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
+        { toggle: 'topup-toggle', submenu: 'topup-submenu' },
+        { toggle: 'order-toggle', submenu: 'order-submenu' },
+        { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
+        { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
+        { toggle: 'capping-toggle', submenu: 'capping-submenu' },
+        { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
+      ];
 
-  // Handle Tour Action (Accept/Reject)
-  window.handleTourAction = (id, newStatus, button) => {
-    const entry = mockData.find(item => item.id === id);
-    if (entry && !entry.actionTaken) {
-      entry.status = newStatus;
-      entry.actionTaken = true;
-      const row = button.closest('tr');
-      const buttons = row.querySelectorAll('.btn-accept, .btn-reject');
-      buttons.forEach(btn => btn.disabled = true);
-      renderTourTable(mockData);
-    }
-  };
+      submenuToggles.forEach(({ toggle, submenu }) => {
+        const toggleEl = document.getElementById(toggle);
+        const submenuEl = document.getElementById(submenu);
+        const icon = toggleEl?.querySelector('.dropdown-icon');
 
-  // Tour Functions
-  window.searchTour = () => {
-    const id = document.getElementById('tour-id-search').value;
-    const startDate = document.getElementById('tour-start-date').value;
-    const endDate = document.getElementById('tour-end-date').value;
-    let filtered = mockData;
-    if (id) filtered = filtered.filter(item => item.id.includes(id));
-    if (startDate) filtered = filtered.filter(item => item.date >= startDate);
-    if (endDate) filtered = filtered.filter(item => item.date <= endDate);
-    renderTourTable(filtered);
-  };
+        if (toggleEl && submenuEl && icon) {
+          toggleEl.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isActive = submenuEl.classList.toggle('active');
+            icon.classList.toggle('active');
+            submenuToggles.forEach(other => {
+              if (other.submenu !== submenu) {
+                document.getElementById(other.submenu).classList.remove('active');
+                document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
+              }
+            });
+          });
 
-  function renderTourTable(data = mockData) {
-    const tbody = document.getElementById('tour-table');
-    tbody.innerHTML = data.map((item, index) => `
-      <tr>
-        <td>${index + 1}</td>
-        <td>${item.id}</td>
-        <td>${formatDate(item.qualifiedDate)}</td>
-        <td class="name-column">${item.name}</td>
-        <td class="date-column">${formatDate(item.date)}</td>
-        <td>${item.rank}</td>
-        <td>${item.rvPoints}</td>
-        <td class="destination-column">${item.destination}</td>
-        <td class="status-completed status-column">${item.status}</td>
-        <td>
-          <div class="action-buttons">
-            <button class="btn-accept" data-id="${item.id}" onclick="handleTourAction('${item.id}', 'Approved', this)" ${item.actionTaken ? 'disabled' : ''}>Accept</button>
-            <button class="btn-reject" data-id="${item.id}" onclick="handleTourAction('${item.id}', 'Rejected', this)" ${item.actionTaken ? 'disabled' : ''}>Reject</button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
-  }
+          const submenuLinks = submenuEl.querySelectorAll('a');
+          submenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+              }
+            });
+          });
 
-  // Initial render
-  renderTourTable();
-});</script>
+          document.addEventListener('click', (e) => {
+            if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
+              if (submenu !== 'earnings-submenu') {
+                submenuEl.classList.remove('active');
+                icon.classList.remove('active');
+              }
+            }
+          });
+        }
+      });
+
+      // Mock data for Complete Tour
+      let mockData = [
+        {
+          id: '301',
+          name: 'Emma Wilson',
+          qualifiedDate: '2025-04-01',
+          rank: 'Silver',
+          rvPoints: '2',
+          date: '2025-05-15',
+          status: 'Completed',
+          actionTaken: false,
+          selected: false
+        },
+        {
+          id: '401',
+          name: 'Sophia Martinez',
+          qualifiedDate: '2025-04-01',
+          rank: 'Silver',
+          rvPoints: '100',
+          date: '2025-04-28',
+          status: 'Completed',
+          actionTaken: false,
+          selected: false
+        },
+        {
+          id: '402',
+          name: 'James Lee',
+          qualifiedDate: '2025-04-02',
+          rank: 'Gold',
+          rvPoints: '150',
+          date: '2025-04-29',
+          status: 'Completed',
+          actionTaken: false,
+          selected: false
+        }
+      ];
+
+      let deleteMode = false;
+
+      // Function to format dates as "MMM DD, YYYY"
+      function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const options = { year: 'numeric', month: 'short', day: '2-digit' };
+        return date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
+      }
+
+      // Handle Tour Action (Accept/Reject)
+      window.handleTourAction = (id, newStatus, button) => {
+        const entry = mockData.find(item => item.id === id);
+        if (entry && !entry.actionTaken) {
+          entry.status = newStatus;
+          entry.actionTaken = true;
+          const row = button.closest('tr');
+          const buttons = row.querySelectorAll('.btn-accept, .btn-reject');
+          buttons.forEach(btn => btn.disabled = true);
+          renderTourTable();
+        }
+      };
+
+      // Toggle Delete Mode
+      window.toggleDeleteMode = () => {
+        deleteMode = !deleteMode;
+        const deleteButton = document.querySelector('.btn-delete');
+        if (deleteMode) {
+          deleteButton.textContent = 'Confirm Delete';
+          document.querySelectorAll('.checkbox-column').forEach(el => el.classList.remove('checkbox-hidden'));
+        } else {
+          deleteButton.textContent = 'Delete';
+          document.querySelectorAll('.checkbox-column').forEach(el => el.classList.add('checkbox-hidden'));
+          mockData = mockData.filter(item => !item.selected);
+          mockData.forEach(item => item.selected = false);
+          renderTourTable();
+        }
+      };
+
+      // Handle Checkbox Toggle
+      window.toggleCheckbox = (id) => {
+        const entry = mockData.find(item => item.id === id);
+        if (entry) {
+          entry.selected = !entry.selected;
+          renderTourTable();
+        }
+      };
+
+      // Handle Select All Checkbox
+      window.selectAll = (checked) => {
+        mockData.forEach(item => item.selected = checked);
+        renderTourTable();
+      };
+
+      // Tour Search Function
+      window.searchTour = () => {
+        const id = document.getElementById('tour-id-search').value;
+        const startDate = document.getElementById('tour-start-date').value;
+        const endDate = document.getElementById('tour-end-date').value;
+        let filtered = mockData;
+        if (id) filtered = filtered.filter(item => item.id.includes(id));
+        if (startDate) filtered = filtered.filter(item => item.date >= startDate);
+        if (endDate) filtered = filtered.filter(item => item.date <= endDate);
+        renderTourTable(filtered);
+      };
+
+      // Render Tour Table
+      function renderTourTable(data = mockData) {
+        const tbody = document.getElementById('tour-table');
+        const allSelected = data.length > 0 && data.every(item => item.selected);
+        const selectAllCheckbox = document.getElementById('select-all');
+        if (selectAllCheckbox) {
+          selectAllCheckbox.checked = allSelected;
+        }
+        tbody.innerHTML = data.length > 0 ? data.map((item, index) => `
+          <tr>
+            <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
+              <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
+            </td>
+            <td>${index + 1}</td>
+            <td>${item.id}</td>
+            <td class="name-column">${item.name}</td>
+            <td class="date-column">${formatDate(item.qualifiedDate)}</td>
+            <td>${item.rank}</td>
+            <td>${item.rvPoints}</td>
+            <td class="date-column">${formatDate(item.date)}</td>
+            <td class="status-completed status-column">${item.status}</td>
+          </tr>
+        `).join('') : `
+          <tr>
+            <td colspan="9" style="text-align: center; color: #b3e0ff;">No tour records found</td>
+          </tr>
+        `;
+      }
+
+      // Initial render
+      renderTourTable();
+    });
+  </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raanvi Admin Topup Refund</title>
+  <title>Raanvi Admin Topup</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -267,147 +267,52 @@
       padding-top: 20px;
     }
 
-    .table-container {
+    .form-container {
       background: #0f3460;
       border-radius: 15px;
       padding: 20px;
       border: 2px solid #00d4ff;
       box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff inset;
       width: 100%;
-      max-width: 1200px;
+      max-width: 600px;
       margin: 0 auto;
       transition: transform 0.3s;
-      overflow-x: auto;
     }
 
-    .table-container:hover {
+    .form-container:hover {
       transform: scale(1.03);
     }
 
-    .table {
+    .form-container label {
+      color: #b3e0ff;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-container input,
+    .form-container select {
       width: 100%;
-      min-width: 900px;
-      border-collapse: collapse;
-      color: #ffffff;
-    }
-
-    .table th, .table td {
-      padding: 12px;
-      border: 1px solid #00d4ff;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    .table th {
-      background: #1a4a8a;
-      font-weight: bold;
-      color: #00ffcc;
-    }
-
-    .table th.status-column, .table td.status-column {
-      min-width: 120px;
-    }
-
-    
-
-    .table tbody tr:nth-child(odd) {
-      background: #0f3460;
-    }
-
-    .table tbody tr:hover {
-      background: #1a4a8a;
-    }
-
-    .search-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      justify-content: center;
-      width: 100%;
-      max-width: 1200px;
-    }
-
-    .search-bar input, .search-bar button {
       padding: 8px;
+      margin-bottom: 15px;
       border: 1px solid #00d4ff;
       border-radius: 5px;
-      background: #0f3460;
+      background: #1a1a2e;
       color: #ffffff;
-      font-size: 1rem;
     }
 
-    .search-bar input[type="date"]::-webkit-datetime-edit-text,
-    .search-bar input[type="date"]::-webkit-datetime-edit-month-field,
-    .search-bar input[type="date"]::-webkit-datetime-edit-day-field,
-    .search-bar input[type="date"]::-webkit-datetime-edit-year-field {
-      color: #888888;
-    }
-
-    .search-bar input::placeholder {
-      color: #b3e0ff;
-    }
-
-    .search-bar button {
+    .form-container button {
+      width: 100%;
+      padding: 10px;
       background: #00d4ff;
       color: #0f3460;
-      cursor: pointer;
       border: none;
-    }
-
-    .search-bar button:hover {
-      background: #00ffcc;
-    }
-
-    .status-success {
-      color: #28a745;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .status-pending {
-      color: #ffc107;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .status-refunded {
-      color: #dc3545;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .action-buttons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .btn-refund {
-      padding: 6px 12px;
-      border: 2px solid #00d4ff;
-      border-radius: 6px;
-      color: #ffffff;
-      font-weight: bold;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
-      box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
-      background: #dc3545;
-      font-size: 0.9rem;
+      font-weight: bold;
     }
 
-    .btn-refund:hover {
-      box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
-      transform: scale(1.05);
-    }
-
-    .btn-refund:disabled {
-      background: #4a4a4a;
-      border-color: #666;
-      color: #888;
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
+    .form-container button:hover {
+      background: #00ffcc;
     }
 
     .main-footer {
@@ -481,51 +386,22 @@
       .main-content.collapsed {
         margin-left: 0;
       }
-      .search-bar {
-        flex-direction: column;
-      }
-      .search-bar input, .search-bar button {
-        width: 100%;
+      .form-container input,
+      .form-container select,
+      .form-container button {
         padding: 6px;
         font-size: 0.9rem;
-      }
-      .table th, .table td {
-        font-size: 0.85rem;
-        padding: 8px;
-      }
-      .table th.status-column, .table td.status-column {
-        min-width: 100px;
-      }
-      .action-buttons {
-        flex-direction: column;
-        gap: 8px;
-      }
-      .btn-refund {
-        padding: 5px 10px;
-        font-size: 0.85rem;
       }
     }
 
     @media (max-width: 480px) {
       .topbar { padding: 6px; }
       .topbar .admin-icon { font-size: 1.5rem; }
-      .table th, .table td {
-        font-size: 0.75rem;
-        padding: 6px;
-      }
-      .table th.status-column, .table td.status-column {
-        min-width: 80px;
-      }
-      .search-bar input, .search-bar button {
+      .form-container input,
+      .form-container select,
+      .form-container button {
         padding: 5px;
         font-size: 0.8rem;
-      }
-      .btn-refund {
-        padding: 4px 8px;
-        font-size: 0.75rem;
-      }
-      .action-buttons {
-        gap: 6px;
       }
     }
   </style>
@@ -570,7 +446,7 @@
       <div class="sidebar-item">
         <a href="#" id="topup-toggle" class="active"><i class="fas fa-wallet"></i> <span>Topup</span> <i class="fas fa-chevron-down dropdown-icon active"></i></a>
         <div class="submenu active" id="topup-submenu">
-          <a href="initiate-topup.html " data-section="topup-initiate" ><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
+          <a href="initiate-topup.html" data-section="topup-initiate"><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
           <a href="topup-history.html" data-section="topup-history"><i class="fas fa-history"></i> <span>Topup History</span></a>
           <a href="topup-refund.html" data-section="topup-refund" class="active"><i class="fas fa-undo"></i> <span>Topup Refund</span></a>
           <a href="topup-refund-history.html" data-section="topup-refund-history"><i class="fas fa-file-alt"></i> <span>Topup Refund History</span></a>
@@ -582,7 +458,7 @@
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -596,22 +472,21 @@
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds"><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu" id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>20000</span></a>
+        <div class="submenu "id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
       <div class="sidebar-item">
-        <a href="#" id="gallery-toggle" ><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="gallery-submenu">
+        <a href="#" id="gallery-toggle"><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="gallery-submenu">
           <a href="gallery-plan.html" data-section="gallery-plan"><i class="fas fa-file-pdf"></i> <span>Business Plan</span></a>
           <a href="#" data-section="gallery-photo"><i class="fas fa-camera"></i> <span>Photo</span></a>
           <a href="gallery-news.html" data-section="gallery-news"><i class="fas fa-newspaper"></i> <span>News</span></a>
@@ -624,58 +499,20 @@
       <a href="#" id="sidebar-sign-out"><i class="fas fa-sign-out-alt"></i> <span>Sign Out</span></a>
     </div>
 
-
     <div class="main-content">
       <div class="section">
-        <h2 class="text-2xl font-bold mb-4 text-white">Topup Refund</h2>
-        <div class="search-bar">
-          <input type="text" placeholder="Topup ID" id="topup-refund-id-search">
-          <input type="date" id="topup-refund-start-date" placeholder="mm/dd/yyyy">
-          <input type="date" id="topup-refund-end-date" placeholder="mm/dd/yyyy">
-          <button onclick="searchTopupRefund()">Search</button>
-        </div>
-        <div class="table-container">
-          <table class="table">
-            <thead>
-              <tr>
-<th>SI.NO</th>
-                <th>Date</th>
-                <th>Topup ID</th>
-                <th>User ID</th>
-                <th>Amount</th>
-                <th class="status-column">Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-           
-              <tr>
-                <td>1</td>
-                <td class="date-column">Apr 01, 2025</td>
-                <td>TU12345</td>
-                <td>U12345</td>
-                <td>₹1000</td>
-                <td class="status-success status-column">Success</td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="btn-refund" data-id="TU12345" onclick="handleTopupRefund('TU12345', this)">Refund</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td class="date-column">Apr 05, 2025</td>
-                <td>TU12346</td>
-                <td>U12346</td>
-                <td>₹5000</td>
-                <td class="status-success status-column">Success</td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="btn-refund" data-id="TU12346" onclick="handleTopupRefund('TU12346', this)">Refund</button>
-                  </div>
-                </td>
-              </tr>
-              
-          </table>
+        <h2 class="text-2xl font-bold mb-4 text-white">Initiate Refund</h2>
+        <div class="form-container">
+          <label for="topup-user-id">User ID</label>
+          <input type="text" id="topup-user-id" placeholder="Enter User ID">
+          
+          <label for="topup-name">Name (Autofilled)</label>
+          <input type="text" id="topup-name" placeholder="Name will appear here" readonly>
+          
+          <label for="topup-rv-points">RV Points</label>
+          <input type="number" id="topup-rv-points" placeholder="Enter RV Points">
+          
+          <button onclick="initiateTopup()">Submit</button>
         </div>
       </div>
       <footer class="main-footer">
@@ -694,6 +531,34 @@
       const adminIcon = document.getElementById('admin-icon');
       const adminDropdown = document.getElementById('admin-dropdown');
 
+      // Dummy user data for name lookup
+      const userData = [
+        { id: 'RI001', name: 'Varun' },
+        { id: 'RI002', name: 'Kiran' },
+        { id: 'RI003', name: 'Johnson' },
+        { id: 'RI004', name: 'Emily' },
+        { id: 'RI005', name: 'David' }
+      ];
+
+      // Auto-populate name based on User ID
+      const userIdInput = document.getElementById('topup-user-id');
+      const nameInput = document.getElementById('topup-name');
+      if (userIdInput && nameInput) {
+        userIdInput.addEventListener('input', () => {
+          const userId = userIdInput.value.trim().toUpperCase();
+          const user = userData.find(u => u.id === userId);
+          if (user) {
+            nameInput.value = user.name;
+          } else {
+            nameInput.value = '';
+            if (userId) {
+              alert('User ID not found.');
+            }
+          }
+        });
+      }
+
+      // Sidebar collapse/expand for desktop
       if (sidebarToggle && sidebarExpand && sidebar && mainContent) {
         sidebarToggle.addEventListener('click', () => {
           const isCollapsed = sidebar.classList.toggle('collapsed');
@@ -709,12 +574,14 @@
         });
       }
 
+      // Sidebar toggle for mobile
       if (menuToggle && sidebar) {
         menuToggle.addEventListener('click', () => {
           sidebar.classList.toggle('active');
         });
       }
 
+      // Admin dropdown toggle
       if (adminIcon && adminDropdown) {
         adminIcon.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -727,6 +594,7 @@
         });
       }
 
+      // Submenu toggles
       const submenuToggles = [
         { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
         { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
@@ -776,59 +644,17 @@
         }
       });
 
-      const mockData = [
-        { id: 'TU12345', date: '2025-04-01', userId: 'U12345', amount: '$100.00', status: 'Success', refunded: false },
-        { id: 'TU12346', date: '2025-04-05', userId: 'U12346', amount: '$50.00', status: 'Success', refunded: false },
-        { id: 'TU12347', date: '2025-04-10', userId: 'U12347', amount: '$200.00', status: 'Refunded', refunded: true },
-      ];
-
-      function formatDate(dateStr) {
-        const date = new Date(dateStr);
-        const options = { year: 'numeric', month: 'short', day: '2-digit' };
-        return date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
-      }
-
-      window.handleTopupRefund = (id, button) => {
-        const entry = mockData.find(item => item.id === id);
-        if (entry && !entry.refunded) {
-          entry.status = 'Refunded';
-          entry.refunded = true;
-          button.disabled = true;
-          renderTopupRefundTable(mockData);
-          alert(`Refund initiated for Topup ID: ${id}`);
+      // Initiate Topup function
+      window.initiateTopup = () => {
+        const userId = document.getElementById('topup-user-id').value;
+        const name = document.getElementById('topup-name').value;
+        const rvPoints = document.getElementById('topup-rv-points').value;
+        if (userId && name && rvPoints) {
+          alert(`Topup initiated for User ID: ${userId}, Name: ${name}, RV Points: ${rvPoints}`);
+        } else {
+          alert('Please fill in all fields.');
         }
       };
-
-      window.searchTopupRefund = () => {
-        const id = document.getElementById('topup-refund-id-search').value;
-        const startDate = document.getElementById('topup-refund-start-date').value;
-        const endDate = document.getElementById('topup-refund-end-date').value;
-        let filtered = mockData;
-        if (id) filtered = filtered.filter(item => item.id.includes(id));
-        if (startDate) filtered = filtered.filter(item => item.date >= startDate);
-        if (endDate) filtered = filtered.filter(item => item.date <= endDate);
-        renderTopupRefundTable(filtered);
-      };
-
-      function renderTopupRefundTable(data = mockData) {
-        const tbody = document.getElementById('topup-refund-table');
-        tbody.innerHTML = data.map(item => `
-          <tr>
-            <td class="date-column">${formatDate(item.date)}</td>
-            <td>${item.id}</td>
-            <td>${item.userId}</td>
-            <td>${item.amount}</td>
-            <td class="${item.status === 'Success' ? 'status-success' : 'status-refunded'} status-column">${item.status}</td>
-            <td>
-              <div class="action-buttons">
-                <button class="btn-refund" data-id="${item.id}" onclick="handleTopupRefund('${item.id}', this)" ${item.refunded ? 'disabled' : ''}>Refund</button>
-              </div>
-            </td>
-          </tr>
-        `).join('');
-      }
-
-      renderTopupRefundTable();
     });
   </script>
 </body>

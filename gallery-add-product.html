@@ -192,6 +192,63 @@
     .form-group button:hover {
       background: #00ffcc;
     }
+    .table-container {
+      background: #0f3460;
+      border-radius: 15px;
+      padding: 20px;
+      border: 2px solid #00d4ff;
+      box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff inset;
+      width: 100%;
+      max-width: 800px; /* Increased width to accommodate more columns */
+      margin: 20px auto;
+      transition: transform 0.3s;
+      overflow-x: auto;
+    }
+    .table-container:hover {
+      transform: scale(1.02);
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #ffffff;
+    }
+    .table th, .table td {
+      padding: 12px;
+      border: 1px solid #00d4ff;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    .table th {
+      background: #1a4a8a;
+      font-weight: bold;
+      color: #00ffcc;
+    }
+    .table tbody tr:nth-child(odd) {
+      background: #0f3460;
+    }
+    /* Hover effect disabled */
+    .description-cell {
+      max-width: 150px;
+      white-space: normal;
+      text-align: left;
+      word-wrap: break-word;
+    }
+    .delete-btn {
+      padding: 6px 12px;
+      border: 1px solid #dc3545;
+      border-radius: 5px;
+      background: #dc3545;
+      color: #ffffff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(220, 53, 69, 0.5);
+      transition: background 0.3s ease, transform 0.1s ease;
+    }
+    .delete-btn:hover {
+      background: #c82333;
+      transform: scale(1.05);
+    }
     @media (min-width: 769px) {
       .sidebar-toggle {
         display: block;
@@ -222,6 +279,18 @@
         font-size: 0.9rem;
         padding: 6px;
       }
+      .table th, .table td {
+        font-size: 0.85rem;
+        padding: 8px;
+        min-width: 80px;
+      }
+      .description-cell {
+        max-width: 120px;
+      }
+      .delete-btn {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+      }
     }
     @media (max-width: 480px) {
       .topbar { padding: 6px; }
@@ -237,6 +306,18 @@
       }
       .form-container {
         padding: 15px;
+      }
+      .table th, .table td {
+        font-size: 0.75rem;
+        padding: 6px;
+        min-width: 60px;
+      }
+      .description-cell {
+        max-width: 100px;
+      }
+      .delete-btn {
+        padding: 3px 6px;
+        font-size: 0.7rem;
       }
     }
   </style>
@@ -296,7 +377,7 @@
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -310,16 +391,15 @@
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds"><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu" id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>20000</span></a>
+        <div class="submenu "id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
@@ -327,7 +407,7 @@
         <a href="#" id="gallery-toggle" class="active"><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon active"></i></a>
         <div class="submenu active" id="gallery-submenu">
           <a href="gallery-plan.html" data-section="gallery-plan"><i class="fas fa-file-pdf"></i> <span>Business Plan</span></a>
-          <a href="gallery-photo.html" data-section="gallery-photo" ><i class="fas fa-camera"></i> <span>Photo</span></a>
+          <a href="gallery-photo.html" data-section="gallery-photo"><i class="fas fa-camera"></i> <span>Photo</span></a>
           <a href="gallery-news.html" data-section="gallery-news"><i class="fas fa-newspaper"></i> <span>News</span></a>
           <a href="gallery-event.html" data-section="gallery-event"><i class="fas fa-calendar"></i> <span>Event</span></a>
           <a href="gallery-video.html" data-section="gallery-video"><i class="fas fa-video"></i> <span>Video</span></a>
@@ -364,6 +444,25 @@
               <button type="submit">Add Product</button>
             </div>
           </form>
+        </div>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>SI.NO</th>
+                <th>DATE</th>
+                <th>PRODUCT NAME</th>
+                <th>DESCRIPTION</th>
+                <th>PRICE</th>
+                <th>IMAGE</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="product-table">
+              <!-- Table rows populated by JavaScript -->
+            </tbody>
+          </table>
         </div>
       </div>
       <footer class="main-footer">
@@ -498,15 +597,88 @@
           }
         });
 
+        let mockData = [
+          {
+            id: 'PRD001',
+            name: 'Sample Product 1',
+            description: 'This is a description for Sample Product 1.',
+            price: 100.00,
+            imagePath: '/uploads/sample1.jpg',
+            uploadedDate: '13/05/2025 10:38 PM',
+            status: 'Active'
+          },
+          {
+            id: 'PRD002',
+            name: 'Sample Product 2',
+            description: 'This is a description for Sample Product 2.',
+            price: 200.50,
+            imagePath: null,
+            uploadedDate: '13/05/2025 10:38 PM',
+            status: 'Inactive'
+          }
+        ];
+
+        function formatDateTime(date) {
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = date.getFullYear();
+          let hours = date.getHours();
+          const minutes = String(date.getMinutes()).padStart(2, '0');
+          const ampm = hours >= 12 ? 'PM' : 'AM';
+          hours = hours % 12 || 12; // Convert 0 to 12 for 12 AM/PM
+          return `${day}/${month}/${year} ${hours}:${minutes} ${ampm}`;
+        }
+
+        function formatPrice(price) {
+          return `₹ ${parseFloat(price).toFixed(2)}`;
+        }
+
+        function renderProductTable(data = mockData) {
+          try {
+            const tbody = document.getElementById('product-table');
+            if (!tbody) {
+              console.error('Table body element not found');
+              return;
+            }
+            tbody.innerHTML = data.length > 0 ? data.map((item, index) => `
+              <tr>
+                <td>${index + 1}</td>
+                <td>${item.uploadedDate}</td>
+                <td>${item.name}</td>
+                <td class="description-cell">${item.description}</td>
+                <td>${formatPrice(item.price)}</td>
+                <td>${item.imagePath ? `<a href="${item.imagePath}" target="_blank">${item.imagePath}</a>` : 'No Image'}</td>
+                <td>${item.status}</td>
+                <td>
+                  <button class="delete-btn" onclick="deleteRow('${item.id}')">Delete</button>
+                </td>
+              </tr>
+            `).join('') : `
+              <tr>
+                <td colspan="8" style="text-align: center; color: #b3e0ff;">No products found</td>
+              </tr>
+            `;
+          } catch (error) {
+            console.error('Error rendering table:', error);
+          }
+        }
+
+        window.deleteRow = (id) => {
+          if (confirm('Are you sure you want to delete this product?')) {
+            mockData = mockData.filter(item => item.id !== id);
+            renderProductTable();
+          }
+        };
+
         if (form) {
           form.addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('product-name').value;
             const description = document.getElementById('product-description').value;
-            const price = document.getElementById('product-price').value;
+            const price = parseFloat(document.getElementById('product-price').value);
             const imageInput = document.getElementById('product-image');
 
-            if (!name || !description || !price) {
+            if (!name || !description || isNaN(price)) {
               alert('Please fill in the product name, description, and price.');
               return;
             }
@@ -516,18 +688,38 @@
               return;
             }
 
-            console.log('Product Name:', name);
-            console.log('Product Description:', description);
-            console.log('Product Price:', price);
+            const currentDate = new Date();
+            // Adjust for IST (UTC+5:30)
+            currentDate.setMinutes(currentDate.getMinutes() + currentDate.getTimezoneOffset() + 330);
+
+            const newProduct = {
+              id: `PRD${String(mockData.length + 1).padStart(3, '0')}`,
+              name: name,
+              description: description,
+              price: price,
+              imagePath: imageInput.files.length > 0 ? `/uploads/${imageInput.files[0].name}` : null,
+              uploadedDate: formatDateTime(currentDate),
+              status: 'Active'
+            };
+
+            console.log('Product Added:', newProduct);
             if (imageInput.files.length > 0) {
               console.log('Product Image Selected:', imageInput.files[0].name);
             } else {
               console.log('No image selected for product.');
             }
 
+            mockData.push(newProduct);
             alert('Product added successfully (simulated).');
             form.reset();
+            renderProductTable();
           });
+        }
+
+        try {
+          renderProductTable();
+        } catch (error) {
+          console.error('Error rendering table:', error);
         }
       } catch (error) {
         console.error('Error in DOMContentLoaded:', error);

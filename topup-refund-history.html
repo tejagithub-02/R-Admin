@@ -308,8 +308,6 @@
       min-width: 120px;
     }
 
-   
-
     .table tbody tr:nth-child(odd) {
       background: #0f3460;
     }
@@ -325,6 +323,7 @@
       justify-content: center;
       width: 100%;
       max-width: 1200px;
+      flex-wrap: wrap;
     }
 
     .search-bar input, .search-bar button {
@@ -358,6 +357,14 @@
       background: #00ffcc;
     }
 
+    .search-bar .btn-delete {
+      background: #dc3545;
+    }
+
+    .search-bar .btn-delete:hover {
+      background: #c82333;
+    }
+
     .status-refunded {
       color: #dc3545;
       font-weight: bold;
@@ -374,6 +381,15 @@
       margin-top: auto;
       background: #0f3460;
       box-shadow: 0 0 10px #00d4ff;
+    }
+
+    .checkbox-column {
+      width: 40px;
+      text-align: center;
+    }
+
+    .checkbox-hidden {
+      display: none;
     }
 
     @media (min-width: 769px) {
@@ -450,6 +466,9 @@
       .table th.status-column, .table td.status-column {
         min-width: 100px;
       }
+      .checkbox-column {
+        width: 30px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -466,48 +485,52 @@
         padding: 5px;
         font-size: 0.8rem;
       }
+      .checkbox-column {
+        width: 25px;
+      }
     }
+
     .action-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  min-width: 140px;
-}
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-width: 140px;
+    }
 
-.btn-accept, .btn-reject {
-  padding: 6px 10px;
-  border: 2px solid #00d4ff;
-  border-radius: 6px;
-  color: #ffffff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
-  box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
-  font-size: 0.9rem;
-}
+    .btn-accept, .btn-reject {
+      padding: 6px 10px;
+      border: 2px solid #00d4ff;
+      border-radius: 6px;
+      color: #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+      box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+      font-size: 0.9rem;
+    }
 
-.btn-accept {
-  background: #28a745;
-}
+    .btn-accept {
+      background: #28a745;
+    }
 
-.btn-reject {
-  background: #dc3545;
-}
+    .btn-reject {
+      background: #dc3545;
+    }
 
-.btn-accept:hover, .btn-reject:hover {
-  box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
-  transform: scale(1.05);
-}
+    .btn-accept:hover, .btn-reject:hover {
+      box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
+      transform: scale(1.05);
+    }
 
-.btn-accept:disabled, .btn-reject:disabled {
-  background: #4a4a4a;
-  border-color: #666;
-  color: #888;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
+    .btn-accept:disabled, .btn-reject:disabled {
+      background: #4a4a4a;
+      border-color: #666;
+      color: #888;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
   </style>
 </head>
 <body>
@@ -550,9 +573,9 @@
       <div class="sidebar-item">
         <a href="#" id="topup-toggle" class="active"><i class="fas fa-wallet"></i> <span>Topup</span> <i class="fas fa-chevron-down dropdown-icon active"></i></a>
         <div class="submenu active" id="topup-submenu">
-          <a href="initiate-topup.html " data-section="topup-initiate" ><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
+          <a href="initiate-topup.html" data-section="topup-initiate"><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
           <a href="topup-history.html" data-section="topup-history"><i class="fas fa-history"></i> <span>Topup History</span></a>
-          <a href="topup-refund.html" data-section="topup-refund" ><i class="fas fa-undo"></i> <span>Topup Refund</span></a>
+          <a href="topup-refund.html" data-section="topup-refund"><i class="fas fa-undo"></i> <span>Topup Refund</span></a>
           <a href="topup-refund-history.html" data-section="topup-refund-history" class="active"><i class="fas fa-file-alt"></i> <span>Topup Refund History</span></a>
         </div>
       </div>
@@ -562,7 +585,7 @@
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -576,22 +599,21 @@
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds"><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu" id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>20000</span></a>
+        <div class="submenu "id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
       <div class="sidebar-item">
-        <a href="#" id="gallery-toggle" ><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="gallery-submenu">
+        <a href="#" id="gallery-toggle"><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="gallery-submenu">
           <a href="gallery-plan.html" data-section="gallery-plan"><i class="fas fa-file-pdf"></i> <span>Business Plan</span></a>
           <a href="#" data-section="gallery-photo"><i class="fas fa-camera"></i> <span>Photo</span></a>
           <a href="gallery-news.html" data-section="gallery-news"><i class="fas fa-newspaper"></i> <span>News</span></a>
@@ -606,45 +628,32 @@
 
     <div class="main-content">
       <div class="section">
-        <h2 class="text-2xl font-bold mb-4 text-white">Topup Refund History</h2>
+        <h2 class="text-2xl font Ging mb-4 text-white">Topup Refund History</h2>
         <div class="search-bar">
-          <input type="text" placeholder="Refund ID" id="topup-refund-history-id-search">
-          <input type="date" id="topup-refund-history-start-date" placeholder="mm/dd/yyyy">
-          <input type="date" id="topup-refund-history-end-date" placeholder="mm/dd/yyyy">
+          <input type="text" placeholder="User ID" id="topup-history-id-search">
+          <input type="date" id="topup-history-start-date" placeholder="mm/dd/yyyy">
+          <input type="date" id="topup-history-end-date" placeholder="mm/dd/yyyy">
           <button onclick="searchTopupRefundHistory()">Search</button>
+          <button class="btn-delete" onclick="toggleDeleteMode()">Delete</button>
         </div>
         <div class="table-container">
           <table class="table">
             <thead>
               <tr>
+                <th class="checkbox-column checkbox-hidden">
+                  <input type="checkbox" id="select-all" onchange="selectAll(this.checked)">
+                </th>
                 <th>SI.NO</th>
                 <th>User ID</th>
                 <th>User Name</th>
                 <th>Date</th>
-                
                 <th>RV Points</th>
                 <th class="status-column">Status</th>
-                <th>Action</th>
               </tr>
             </thead>
-            
-              <tr>
-                <td>1</td>
-                <td>U12345</td>
-                <td>John</td>
-                <td class="date-column">Apr 01, 2025</td>
-                
-                <td>100</td>
-                <td class="status-success status-column">Approved</td>
-             
-                <td>
-                  <div class="action-buttons">
-                    <button class="btn-accept" data-id="301" onclick="handleTourAction('301', 'Approved', this)">Accept</button>
-                    <button class="btn-reject" data-id="301" onclick="handleTourAction('301', 'Rejected', this)">Reject</button>
-                  </div>
-                </td>
-              </tr>
-             
+            <tbody id="topup-refund-history-table">
+              <!-- Table rows will be populated by JavaScript -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -746,36 +755,78 @@
         }
       });
 
-      const mockData = [
-        { id: 'RF12347', date: '2025-04-10', userId: 'U12347', amount: '$200.00', status: 'Refunded' },
-        { id: 'RF12348', date: '2025-04-15', userId: 'U12348', amount: '$75.00', status: 'Refunded' },
-        { id: 'RF12349', date: '2025-04-20', userId: 'U12349', amount: '$150.00', status: 'Refunded' },
+      let mockData = [
+        {
+          id: '1',
+          date: '2025-04-01',
+          userId: 'U12345',
+          userName: 'John',
+          rvPoints: '100',
+          status: 'Refunded',
+          selected: false
+        },
+        {
+          id: '2',
+          date: '2025-04-15',
+          userId: 'U12348',
+          userName: 'Jane Smith',
+          rvPoints: '75',
+          status: 'Refunded',
+          selected: false
+        },
+        {
+          id: '3',
+          date: '2025-04-20',
+          userId: 'U12349',
+          userName: 'Michael Brown',
+          rvPoints: '150',
+          status: 'Refunded',
+          selected: false
+        }
       ];
+
+      let deleteMode = false;
 
       function formatDate(dateStr) {
         const date = new Date(dateStr);
         const options = { year: 'numeric', month: 'short', day: '2-digit' };
         return date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
       }
-      // Handle Tour Action (Accept/Reject)
-  window.handleTourAction = (id, newStatus, button) => {
-    const entry = mockData.find(item => item.id === id);
-    if (entry && !entry.actionTaken) {
-      entry.status = newStatus;
-      entry.actionTaken = true;
-      const row = button.closest('tr');
-      const buttons = row.querySelectorAll('.btn-accept, .btn-reject');
-      buttons.forEach(btn => btn.disabled = true);
-      renderTourTable(mockData);
-    }
-  };
+
+      window.toggleDeleteMode = () => {
+        deleteMode = !deleteMode;
+        const deleteButton = document.querySelector('.btn-delete');
+        if (deleteMode) {
+          deleteButton.textContent = 'Confirm Delete';
+          document.querySelectorAll('.checkbox-column').forEach(el => el.classList.remove('checkbox-hidden'));
+        } else {
+          deleteButton.textContent = 'Delete';
+          document.querySelectorAll('.checkbox-column').forEach(el => el.classList.add('checkbox-hidden'));
+          mockData = mockData.filter(item => !item.selected);
+          mockData.forEach(item => item.selected = false);
+          renderTopupRefundHistoryTable();
+        }
+      };
+
+      window.toggleCheckbox = (id) => {
+        const entry = mockData.find(item => item.id === id);
+        if (entry) {
+          entry.selected = !entry.selected;
+          renderTopupRefundHistoryTable();
+        }
+      };
+
+      window.selectAll = (checked) => {
+        mockData.forEach(item => item.selected = checked);
+        renderTopupRefundHistoryTable();
+      };
 
       window.searchTopupRefundHistory = () => {
-        const id = document.getElementById('topup-refund-history-id-search').value;
-        const startDate = document.getElementById('topup-refund-history-start-date').value;
-        const endDate = document.getElementById('topup-refund-history-end-date').value;
+        const userId = document.getElementById('topup-history-id-search').value;
+        const startDate = document.getElementById('topup-history-start-date').value;
+        const endDate = document.getElementById('topup-history-end-date').value;
         let filtered = mockData;
-        if (id) filtered = filtered.filter(item => item.id.includes(id));
+        if (userId) filtered = filtered.filter(item => item.userId.includes(userId));
         if (startDate) filtered = filtered.filter(item => item.date >= startDate);
         if (endDate) filtered = filtered.filter(item => item.date <= endDate);
         renderTopupRefundHistoryTable(filtered);
@@ -783,15 +834,28 @@
 
       function renderTopupRefundHistoryTable(data = mockData) {
         const tbody = document.getElementById('topup-refund-history-table');
-        tbody.innerHTML = data.map(item => `
+        const allSelected = data.length > 0 && data.every(item => item.selected);
+        const selectAllCheckbox = document.getElementById('select-all');
+        if (selectAllCheckbox) {
+          selectAllCheckbox.checked = allSelected;
+        }
+        tbody.innerHTML = data.length > 0 ? data.map((item, index) => `
           <tr>
-            <td class="date-column">${formatDate(item.date)}</td>
-            <td>${item.id}</td>
+            <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
+              <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
+            </td>
+            <td>${index + 1}</td>
             <td>${item.userId}</td>
-            <td>${item.amount}</td>
+            <td>${item.userName}</td>
+            <td class="date-column">${formatDate(item.date)}</td>
+            <td>${item.rvPoints}</td>
             <td class="status-refunded status-column">${item.status}</td>
           </tr>
-        `).join('');
+        `).join('') : `
+          <tr>
+            <td colspan="7" style="text-align: center; color: #b3e0ff;">No refund records found</td>
+          </tr>
+        `;
       }
 
       renderTopupRefundHistoryTable();

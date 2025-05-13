@@ -284,8 +284,6 @@
       overflow-x: auto;
     }
 
-    
-
     .table {
       width: 100%;
       min-width: 900px;
@@ -343,6 +341,7 @@
       justify-content: center;
       width: 100%;
       max-width: 1200px;
+      flex-wrap: wrap;
     }
 
     .search-bar input, .search-bar button {
@@ -375,6 +374,24 @@
       background: #00ffcc;
     }
 
+    .search-bar .btn-delete {
+      background: #dc3545;
+    }
+
+    .search-bar .btn-delete:hover {
+      background: #c82333;
+    }
+
+    /* Checkbox Styles */
+    .checkbox-column {
+      width: 40px;
+      text-align: center;
+    }
+
+    .checkbox-hidden {
+      display: none;
+    }
+
     /* View Button Styles */
     .btn-view {
       padding: 6px 12px;
@@ -393,49 +410,6 @@
       background: #0056b3;
       box-shadow: 0 0 15px #00ffcc;
       transform: scale(1.05);
-    }
-
-    /* Action Buttons */
-    .action-buttons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      min-width: 140px;
-    }
-
-    .btn-accept, .btn-reject {
-      padding: 6px 10px;
-      border: 2px solid #00d4ff;
-      border-radius: 6px;
-      color: #ffffff;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
-      box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
-      font-size: 0.9rem;
-    }
-
-    .btn-accept {
-      background: #28a745;
-    }
-
-    .btn-reject {
-      background: #dc3545;
-    }
-
-    .btn-accept:hover, .btn-reject:hover {
-      box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
-      transform: scale(1.05);
-    }
-
-    .btn-accept:disabled, .btn-reject:disabled {
-      background: #4a4a4a;
-      border-color: #666;
-      color: #888;
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
     }
 
     /* Footer Styles */
@@ -536,13 +510,8 @@
       .table th.status-column-status, .table td.status-column-status {
         min-width: 90px;
       }
-      .action-buttons {
-        gap: 6px;
-        min-width: 120px;
-      }
-      .btn-view, .btn-accept, .btn-reject {
-        padding: 4px 8px;
-        font-size: 0.8rem;
+      .checkbox-column {
+        width: 30px;
       }
     }
 
@@ -568,13 +537,8 @@
       .table th.status-column-status, .table td.status-column-status {
         min-width: 80px;
       }
-      .action-buttons {
-        gap: 4px;
-        min-width: 100px;
-      }
-      .btn-view, .btn-accept, .btn-reject {
-        padding: 3px 6px;
-        font-size: 0.75rem;
+      .checkbox-column {
+        width: 25px;
       }
     }
 
@@ -598,13 +562,8 @@
       .table th.status-column-status, .table td.status-column-status {
         min-width: 70px;
       }
-      .action-buttons {
-        gap: 3px;
-        min-width: 90px;
-      }
-      .btn-view, .btn-accept, .btn-reject {
-        padding: 2px 5px;
-        font-size: 0.7rem;
+      .checkbox-column {
+        width: 20px;
       }
     }
   </style>
@@ -664,7 +623,7 @@
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -678,16 +637,15 @@
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds"><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu" id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>20000</span></a>
+        <div class="submenu "id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
@@ -716,20 +674,23 @@
           <input type="date" id="kyc-start-date" placeholder="mm/dd/yyyy">
           <input type="date" id="kyc-end-date" placeholder="mm/dd/yyyy">
           <button onclick="searchKyc()">Search</button>
+          <button class="btn-delete" onclick="toggleDeleteMode()">Delete</button>
         </div>
         <div class="table-container">
           <table class="table">
             <thead>
               <tr>
+                <th class="checkbox-column checkbox-hidden">
+                  <input type="checkbox" id="select-all" onchange="selectAll(this.checked)">
+                </th>
                 <th>SI.NO</th>
                 <th>USER ID</th>
                 <th class="name-column">USER Name</th>
                 <th>Date</th>
                 <th class="status-column">Aadhar card .no</th>
                 <th>PAN Card .no</th>
-                <th>Account Number</th>
+                <th>Account Details</th>
                 <th class="status-column-status">Status</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody id="kyc-table">
@@ -840,18 +801,8 @@
         }
       });
 
-      // Mock data for KYC History with additional entries
-      const mockData = [
-        {
-          id: '125',
-          name: 'Alice Brown',
-          date: '2025-04-29',
-          aadhar: '1234 5678 9120',
-          pan: 'ABCDE1234F',
-          account: '12345678901',
-          status: 'Pending',
-          actionTaken: false,
-        },
+      // Mock data for KYC History
+      let mockData = [
         {
           id: '126',
           name: 'John Doe',
@@ -860,7 +811,7 @@
           pan: 'XYZAB5678G',
           account: '98765432109',
           status: 'Approved',
-          actionTaken: true,
+          selected: false,
         },
         {
           id: '127',
@@ -870,17 +821,7 @@
           pan: 'PQRST9012H',
           account: '45678912345',
           status: 'Rejected',
-          actionTaken: true,
-        },
-        {
-          id: '128',
-          name: 'Robert Johnson',
-          date: '2025-05-05',
-          aadhar: '2345 6789 1234',
-          pan: 'LMNOP3456J',
-          account: '67890123456',
-          status: 'Pending',
-          actionTaken: false,
+          selected: false,
         },
         {
           id: '129',
@@ -890,9 +831,11 @@
           pan: 'UVWXZ7890K',
           account: '78901234567',
           status: 'Approved',
-          actionTaken: true,
+          selected: false,
         }
       ];
+
+      let deleteMode = false;
 
       // Function to format dates as "MMM DD, YYYY"
       function formatDate(dateStr) {
@@ -924,23 +867,40 @@
               return;
           }
           alert(`${fieldName} for ${entry.name}: ${value}`);
-          // Optionally, extend to open a modal or redirect to a details page
         }
       };
 
-      // Handle KYC Action (Accept/Reject)
-      window.handleKycAction = (id, newStatus, button) => {
-        const entry = mockData.find((item) => item.id === id);
-        if (entry && !entry.actionTaken) {
-          entry.status = newStatus;
-          entry.actionTaken = true;
-          // Disable both buttons in the same row
-          const row = button.closest('tr');
-          const buttons = row.querySelectorAll('.btn-accept, .btn-reject');
-          buttons.forEach((btn) => (btn.disabled = true));
-          // Update the table
-          renderKycTable(mockData);
+      // Toggle Delete Mode
+      window.toggleDeleteMode = () => {
+        deleteMode = !deleteMode;
+        const deleteButton = document.querySelector('.btn-delete');
+        if (deleteMode) {
+          deleteButton.textContent = 'Confirm Delete';
+          document.querySelectorAll('.checkbox-column').forEach((el) => el.classList.remove('checkbox-hidden'));
+        } else {
+          deleteButton.textContent = 'Delete';
+          document.querySelectorAll('.checkbox-column').forEach((el) => el.classList.add('checkbox-hidden'));
+          // Delete selected rows
+          mockData = mockData.filter((item) => !item.selected);
+          // Reset selected state
+          mockData.forEach((item) => (item.selected = false));
         }
+        renderKycTable();
+      };
+
+      // Handle Checkbox Toggle
+      window.toggleCheckbox = (id) => {
+        const entry = mockData.find((item) => item.id === id);
+        if (entry) {
+          entry.selected = !entry.selected;
+          renderKycTable(); // Re-render to update "Select All" checkbox state
+        }
+      };
+
+      // Handle Select All Checkbox
+      window.selectAll = (checked) => {
+        mockData.forEach((item) => (item.selected = checked));
+        renderKycTable();
       };
 
       // KYC Search Function
@@ -958,8 +918,17 @@
       // Render KYC Table
       function renderKycTable(data = mockData) {
         const tbody = document.getElementById('kyc-table');
+        const allSelected = data.length > 0 && data.every((item) => item.selected);
+        // Update the "Select All" checkbox in the header
+        const selectAllCheckbox = document.getElementById('select-all');
+        if (selectAllCheckbox) {
+          selectAllCheckbox.checked = allSelected;
+        }
         tbody.innerHTML = data.length > 0 ? data.map((item, index) => `
           <tr>
+            <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
+              <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
+            </td>
             <td>${index + 1}</td>
             <td>${item.id}</td>
             <td class="name-column">${item.name}</td>
@@ -974,12 +943,6 @@
               <button class="btn-view" data-id="${item.id}" onclick="viewKycField('${item.id}', 'account')">View</button>
             </td>
             <td class="status-column-status">${item.status}</td>
-            <td>
-              <div class="action-buttons">
-                <button class="btn-accept" data-id="${item.id}" onclick="handleKycAction('${item.id}', 'Approved', this)" ${item.actionTaken ? 'disabled' : ''}>Accept</button>
-                <button class="btn-reject" data-id="${item.id}" onclick="handleKycAction('${item.id}', 'Rejected', this)" ${item.actionTaken ? 'disabled' : ''}>Reject</button>
-              </div>
-            </td>
           </tr>
         `).join('') : `
           <tr>

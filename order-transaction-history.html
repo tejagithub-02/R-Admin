@@ -342,6 +342,14 @@
       background: #00ffcc;
     }
   
+    .search-bar .btn-delete {
+      background: #dc3545;
+    }
+  
+    .search-bar .btn-delete:hover {
+      background: #c82333;
+    }
+  
     .status-pending {
       color: #ffc107;
       font-weight: bold;
@@ -405,6 +413,15 @@
       margin-top: auto;
       background: #0f3460;
       box-shadow: 0 0 10px #00d4ff;
+    }
+  
+    .checkbox-column {
+      width: 40px;
+      text-align: center;
+    }
+  
+    .checkbox-hidden {
+      display: none;
     }
   
     @media (min-width: 769px) {
@@ -484,6 +501,9 @@
         padding: 4px 8px;
         font-size: 0.8rem;
       }
+      .checkbox-column {
+        width: 30px;
+      }
     }
   
     @media (max-width: 480px) {
@@ -501,6 +521,9 @@
       .action-buttons button {
         padding: 4px 8px;
         font-size: 0.8rem;
+      }
+      .checkbox-column {
+        width: 25px;
       }
     }
   </style>
@@ -526,10 +549,10 @@
       <i class="fas fa-times sidebar-expand" id="sidebar-expand"></i>
       <a href="index.html" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
       <div class="sidebar-item">
-        <a href="#" id="kyc-toggle" ><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="kyc-submenu">
+        <a href="#" id="kyc-toggle"><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="kyc-submenu">
           <a href="Kyc-pending.html" data-section="kyc-pending"><i class="fas fa-hourglass-half"></i> <span>Pending KYC</span></a>
-          <a href="Kyc-history.html" data-section="kyc-history" ><i class="fas fa-history"></i> <span>KYC History</span></a>
+          <a href="Kyc-history.html" data-section="kyc-history"><i class="fas fa-history"></i> <span>KYC History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -543,9 +566,9 @@
         </div>
       </div>
       <div class="sidebar-item">
-        <a href="#" id="topup-toggle" ><i class="fas fa-wallet"></i> <span>Topup</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
+        <a href="#" id="topup-toggle"><i class="fas fa-wallet"></i> <span>Topup</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="topup-submenu">
-          <a href="initiate-topup.html " data-section="topup-initiate" ><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
+          <a href="initiate-topup.html" data-section="topup-initiate"><i class="fas fa-credit-card"></i> <span>Initiate Topup</span></a>
           <a href="topup-history.html" data-section="topup-history"><i class="fas fa-history"></i> <span>Topup History</span></a>
           <a href="topup-refund.html" data-section="topup-refund"><i class="fas fa-undo"></i> <span>Topup Refund</span></a>
           <a href="topup-refund-history.html" data-section="topup-refund-history"><i class="fas fa-file-alt"></i> <span>Topup Refund History</span></a>
@@ -557,7 +580,7 @@
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
           <a href="order-transaction-history.html" data-section="order-transaction-history" class="active"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
-          <a href="order-product-history.html" data-section="order-product-history" ><i class="fas fa-file-alt"></i> <span>Productive History</span></a>
+          <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
       </div>
       <div class="sidebar-item">
@@ -568,25 +591,24 @@
         </div>
       </div>
       <div class="sidebar-item">
-        <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="invoice-submenu">
+        <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="invoice-submenu">
           <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
-          <a href="invoice-admin.html" data-section="invoice-admin" ><i class="fas fa-user-shield"></i> <span>Admin Charge 5%</span></a>
-          <a href="invoice-tds.html" data-section="invoice-tds" ><i class="fas fa-tax"></i> <span>TDS 5%</span></a>
+          <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu" id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>2000</span></a>
-          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>10000</span></a>
-          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>20000</span></a>
+        <div class="submenu "id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+          <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
+          <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
       <div class="sidebar-item">
-        <a href="#" id="gallery-toggle" ><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="gallery-submenu">
+        <a href="#" id="gallery-toggle"><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="gallery-submenu">
           <a href="gallery-plan.html" data-section="gallery-plan"><i class="fas fa-file-pdf"></i> <span>Business Plan</span></a>
           <a href="#" data-section="gallery-photo"><i class="fas fa-camera"></i> <span>Photo</span></a>
           <a href="gallery-news.html" data-section="gallery-news"><i class="fas fa-newspaper"></i> <span>News</span></a>
@@ -613,11 +635,15 @@
             <option value="Rejected">Rejected</option>
           </select>
           <button onclick="searchTransactionHistory()">Search</button>
+          <button class="btn-delete" onclick="toggleDeleteMode()">Delete</button>
         </div>
         <div class="table-container">
           <table class="table">
             <thead>
               <tr>
+                <th class="checkbox-column checkbox-hidden">
+                  <input type="checkbox" id="select-all" onchange="selectAll(this.checked)">
+                </th>
                 <th>SI.No</th>
                 <th>User ID</th>
                 <th>User Name</th>
@@ -626,10 +652,10 @@
                 <th>Transaction ID</th>
                 <th>Screenshot</th>
                 <th class="status-column">Status</th>
-                <th>Action</th>
+               
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="transaction-history-table"></tbody>
           </table>
         </div>
       </div>
@@ -716,7 +742,7 @@
           const toggleEl = document.getElementById(toggle);
           const submenuEl = document.getElementById(submenu);
           const icon = toggleEl?.querySelector('.dropdown-icon');
-  
+          
           if (toggleEl && submenuEl && icon) {
             toggleEl.addEventListener('click', (e) => {
               e.preventDefault();
@@ -751,44 +777,33 @@
           }
         });
   
-        const mockData = [
+        let mockData = [
+        
           {
-            transactionId: 'TX12345',
-            userId: 'U12345',
-            userName: 'John Doe',
-            date: '2025-05-01',
-            amount: '₹1000.00',
-            screenshot: '#',
-            status: 'Pending'
-          },
-          {
+            id: 'TX12346',
             transactionId: 'TX12346',
             userId: 'U12346',
             userName: 'Jane Smith',
             date: '2025-05-02',
             amount: '₹1500.00',
             screenshot: '#',
-            status: 'Approved'
+            status: 'Approved',
+            selected: false
           },
           {
+            id: 'TX12347',
             transactionId: 'TX12347',
             userId: 'U12347',
             userName: 'Alice Johnson',
             date: '2025-05-03',
             amount: '₹2000.00',
             screenshot: '#',
-            status: 'Rejected'
-          },
-          {
-            transactionId: 'TX12348',
-            userId: 'U12348',
-            userName: 'Bob Williams',
-            date: '2025-05-04',
-            amount: '₹1200.00',
-            screenshot: '#',
-            status: 'Pending'
+            status: 'Rejected',
+            selected: false
           }
         ];
+  
+        let deleteMode = false;
   
         function formatDate(dateStr) {
           try {
@@ -806,6 +821,46 @@
             return 'Error';
           }
         }
+  
+        window.toggleDeleteMode = () => {
+          try {
+            deleteMode = !deleteMode;
+            const deleteButton = document.querySelector('.btn-delete');
+            if (deleteMode) {
+              deleteButton.textContent = 'Confirm Delete';
+              document.querySelectorAll('.checkbox-column').forEach(el => el.classList.remove('checkbox-hidden'));
+            } else {
+              deleteButton.textContent = 'Delete';
+              document.querySelectorAll('.checkbox-column').forEach(el => el.classList.add('checkbox-hidden'));
+              mockData = mockData.filter(item => !item.selected);
+              mockData.forEach(item => item.selected = false);
+              renderTransactionHistoryTable();
+            }
+          } catch (error) {
+            console.error('Error toggling delete mode:', error);
+          }
+        };
+  
+        window.toggleCheckbox = (id) => {
+          try {
+            const entry = mockData.find(item => item.id === id);
+            if (entry) {
+              entry.selected = !entry.selected;
+              renderTransactionHistoryTable();
+            }
+          } catch (error) {
+            console.error('Error toggling checkbox:', error);
+          }
+        };
+  
+        window.selectAll = (checked) => {
+          try {
+            mockData.forEach(item => item.selected = checked);
+            renderTransactionHistoryTable();
+          } catch (error) {
+            console.error('Error selecting all:', error);
+          }
+        };
   
         window.searchTransactionHistory = () => {
           try {
@@ -848,16 +903,24 @@
   
         function renderTransactionHistoryTable(data = mockData) {
           try {
-            const tbody = document.querySelector('.table tbody');
+            const tbody = document.getElementById('transaction-history-table');
             if (!tbody) {
               console.error('Table body element not found');
               return;
+            }
+            const allSelected = data.length > 0 && data.every(item => item.selected);
+            const selectAllCheckbox = document.getElementById('select-all');
+            if (selectAllCheckbox) {
+              selectAllCheckbox.checked = allSelected;
             }
             tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
               const formattedDate = formatDate(item.date);
               console.log(`Rendering row with date: ${formattedDate} for Transaction ID: ${item.transactionId}`);
               return `
                 <tr>
+                  <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
+                    <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
+                  </td>
                   <td>${index + 1}</td>
                   <td>${item.userId}</td>
                   <td>${item.userName}</td>
@@ -866,15 +929,12 @@
                   <td>${item.transactionId}</td>
                   <td><a href="${item.screenshot}" class="screenshot-link" target="_blank">View</a></td>
                   <td class="status-${item.status.toLowerCase()}">${item.status}</td>
-                  <td class="action-buttons">
-                    <button class="approve-btn" ${item.status !== 'Pending' ? 'disabled' : ''} onclick="updateStatus('${item.transactionId}', 'Approved')">Approve</button>
-                    <button class="reject-btn" ${item.status !== 'Pending' ? 'disabled' : ''} onclick="updateStatus('${item.transactionId}', 'Rejected')">Reject</button>
-                  </td>
+                 
                 </tr>
               `;
             }).join('') : `
               <tr>
-                <td colspan="9" style="text-align: center; color: #b3e0ff;">No transactions found</td>
+                <td colspan="10" style="text-align: center; color: #b3e0ff;">No transactions found</td>
               </tr>
             `;
           } catch (error) {
