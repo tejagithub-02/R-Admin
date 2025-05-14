@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raanvi Admin GST 12% Statement</title>
+  <title>Raanvi Admin GST Statement</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -339,17 +339,12 @@
       background: #00ffcc;
     }
 
-    .status-pending {
-      color: #ffc107;
-      font-weight: bold;
-    }
-
-    .status-processed {
+    .status-paid {
       color: #28a745;
       font-weight: bold;
     }
 
-    .status-rejected {
+    .status-unpaid {
       color: #dc3545;
       font-weight: bold;
     }
@@ -476,6 +471,7 @@
     <div class="sidebar">
       <i class="fas fa-times sidebar-expand" id="sidebar-expand"></i>
       <a href="index.html" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+      <a href="user-id-details.html" data-section="user-id-details"><i class="fas fa-id-card"></i> <span>User-ID Details</span></a>
       <div class="sidebar-item">
         <a href="#" id="kyc-toggle"><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="kyc-submenu">
@@ -520,8 +516,8 @@
       </div>
       <div class="sidebar-item">
         <a href="#" id="invoice-toggle" class="active"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon active"></i></a>
-        <div class="submenu" id="invoice-submenu">
-          <a href="invoice-gst.html" data-section="invoice-gst" class="active"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
+        <div class="submenu active" id="invoice-submenu">
+          <a href="invoice-gst.html" data-section="invoice-gst" class="active"><i class="fas fa-percent"></i> <span>GST Statement</span></a>
           <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
@@ -551,7 +547,7 @@
 
     <div class="main-content">
       <div class="section">
-        <h2 class="text-2xl font-bold mb-4 text-white">GST 12% Statement</h2>
+        <h2 class="text-2xl font-bold mb-4 text-white">GST Statement</h2>
         <div class="search-bar">
           <input type="text" placeholder="Transaction ID" id="transaction-id-search">
           <input type="text" placeholder="Product Name" id="product-name-search">
@@ -559,9 +555,8 @@
           <input type="date" id="end-date">
           <select id="status-filter">
             <option value="">All Statuses</option>
-            <option value="Processed">Processed</option>
-            <option value="Pending">Pending</option>
-            <option value="Rejected">Rejected</option>
+            <option value="Paid">Paid</option>
+            <option value="Unpaid">Unpaid</option>
           </select>
           <button onclick="searchTransactions()">Search</button>
           <button onclick="exportToExcel()">Export to Excel</button>
@@ -723,7 +718,7 @@
             productName: 'Health Supplement',
             quantity: 10,
             amount: '₹41665.00',
-            status: 'Processed'
+            status: 'Paid'
           },
           {
             id: 'GST12346',
@@ -731,7 +726,7 @@
             productName: 'Skincare Kit',
             quantity: 5,
             amount: '₹24999.00',
-            status: 'Pending'
+            status: 'Unpaid'
           },
           {
             id: 'GST12347',
@@ -739,7 +734,7 @@
             productName: 'Protein Powder',
             quantity: 8,
             amount: '₹32000.00',
-            status: 'Pending'
+            status: 'Unpaid'
           }
         ];
 
@@ -791,39 +786,15 @@
           }
         };
 
-        window.approveTransaction = (id) => {
+        window.togglePaymentStatus = (id) => {
           try {
             mockData = mockData.map(item =>
-              item.id === id ? { ...item, status: 'Processed' } : item
+              item.id === id ? { ...item, status: item.status === 'Paid' ? 'Unpaid' : 'Paid' } : item
             );
-            console.log(`Approved transaction: ${id}`);
+            console.log(`Toggled payment status for transaction: ${id}`);
             renderTable();
           } catch (error) {
-            console.error('Error approving transaction:', error);
-          }
-        };
-
-        window.rejectTransaction = (id) => {
-          try {
-            mockData = mockData.map(item =>
-              item.id === id ? { ...item, status: 'Rejected' } : item
-            );
-            console.log(`Rejected transaction: ${id}`);
-            renderTable();
-          } catch (error) {
-            console.error('Error rejecting transaction:', error);
-          }
-        };
-
-        window.revertToPending = (id) => {
-          try {
-            mockData = mockData.map(item =>
-              item.id === id ? { ...item, status: 'Pending' } : item
-            );
-            console.log(`Reverted transaction to Pending: ${id}`);
-            renderTable();
-          } catch (error) {
-            console.error('Error reverting transaction to Pending:', error);
+            console.error('Error toggling payment status:', error);
           }
         };
 
@@ -858,22 +829,9 @@
             }
             tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
               const formattedDate = formatDate(item.date);
-              let actionButtons = '';
-              if (item.status === 'Pending') {
-                actionButtons = `
-                  <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-1" onclick="approveTransaction('${item.id}')">Approve</button>
-                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" onclick="rejectTransaction('${item.id}')">Reject</button>
-                `;
-              } else if (item.status === 'Processed') {
-                actionButtons = `
-                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-1" onclick="rejectTransaction('${item.id}')">Reject</button>
-                  <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded" onclick="revertToPending('${item.id}')">Revert to Pending</button>
-                `;
-              } else if (item.status === 'Rejected') {
-                actionButtons = `
-                  <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded" onclick="revertToPending('${item.id}')">Revert to Pending</button>
-                `;
-              }
+              const actionButton = item.status === 'Unpaid'
+                ? `<button class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded" onclick="togglePaymentStatus('${item.id}')">Mark as Paid</button>`
+                : `<button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded" onclick="togglePaymentStatus('${item.id}')">Mark as Unpaid</button>`;
               console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
               return `
                 <tr>
@@ -883,7 +841,7 @@
                   <td>${item.quantity}</td>
                   <td>${item.amount}</td>
                   <td class="status-${item.status.toLowerCase()}">${item.status}</td>
-                  <td>${actionButtons}</td>
+                  <td>${actionButton}</td>
                 </tr>
               `;
             }).join('') : `

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raanvi Admin Transaction History</title>
+  <title>Raanvi User-ID Details</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -14,14 +14,14 @@
       box-sizing: border-box;
       font-family: 'Arial', 'Helvetica', sans-serif;
     }
-  
+
     body {
       background-color: #ffffff;
       color: #f5f5f5;
       min-height: 100vh;
       overflow-x: hidden;
     }
-  
+
     .topbar {
       background: linear-gradient(to right, #0f3460, #1a1a2e);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -30,18 +30,18 @@
       z-index: 1100;
       padding: 8px;
     }
-  
+
     .topbar .admin-icon {
       color: #b3e0ff;
       font-size: 2rem;
       cursor: pointer;
       transition: color 0.2s;
     }
-  
+
     .topbar .admin-icon:hover {
       color: #00ffcc;
     }
-  
+
     .admin-dropdown {
       position: absolute;
       top: 100%;
@@ -53,11 +53,11 @@
       display: none;
       z-index: 1200;
     }
-  
+
     .admin-dropdown.active {
       display: block;
     }
-  
+
     .admin-dropdown a {
       display: block;
       padding: 10px 20px;
@@ -66,17 +66,17 @@
       font-size: 0.9rem;
       transition: background 0.2s;
     }
-  
+
     .admin-dropdown a:hover {
       background: linear-gradient(to right, #00d4ff, #00ffcc);
       color: #ffffff;
     }
-  
+
     .dashboard-container {
       display: flex;
       min-height: calc(100vh - 48px);
     }
-  
+
     .sidebar {
       width: 250px;
       background: #1a1a2e;
@@ -90,11 +90,11 @@
       z-index: 1000;
       transition: width 0.3s ease, left 0.3s ease-in-out;
     }
-  
+
     .sidebar.collapsed {
       width: 60px;
     }
-  
+
     .sidebar a {
       display: flex;
       align-items: center;
@@ -106,7 +106,7 @@
       transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
       border: 1px solid transparent;
     }
-  
+
     .sidebar a:hover {
       background: #0f3460;
       border: 1px solid #00d4ff;
@@ -114,7 +114,7 @@
       color: #b3e0ff;
       transform: scale(1.03);
     }
-  
+
     .sidebar a.active {
       background: transparent;
       color: #b3e0ff;
@@ -122,7 +122,7 @@
       border: 1px solid #00d4ff;
       box-shadow: 0 0 15px #00d4ff;
     }
-  
+
     .sidebar a i {
       margin-right: 10px;
       font-size: 1.2rem;
@@ -130,16 +130,16 @@
       text-align: center;
       color: #00ffcc;
     }
-  
+
     .sidebar.collapsed a {
       justify-content: center;
       padding: 10px;
     }
-  
+
     .sidebar.collapsed a span {
       display: none;
     }
-  
+
     .sidebar-expand {
       font-size: 1.5rem;
       color: #00ffcc;
@@ -148,11 +148,11 @@
       text-align: center;
       display: none;
     }
-  
+
     .sidebar.collapsed .sidebar-expand {
       display: block;
     }
-  
+
     .menu-toggle {
       display: none;
       font-size: 1.5rem;
@@ -160,7 +160,7 @@
       cursor: pointer;
       padding: 0.5rem;
     }
-  
+
     .sidebar-toggle {
       display: none;
       font-size: 1.5rem;
@@ -168,7 +168,7 @@
       cursor: pointer;
       padding: 0.5rem;
     }
-  
+
     .sidebar .submenu {
       display: none;
       background: #0f3460;
@@ -179,11 +179,11 @@
       padding: 10px;
       box-shadow: 0 0 10px #00d4ff;
     }
-  
+
     .sidebar .submenu.active {
       display: block;
     }
-  
+
     .sidebar .submenu a {
       padding: 8px 15px;
       font-size: 0.9rem;
@@ -192,33 +192,33 @@
       align-items: center;
       color: #b3e0ff;
     }
-  
+
     .sidebar .submenu a i {
       margin-right: 10px;
       font-size: 1rem;
       width: 18px;
       color: #00ffcc;
     }
-  
+
     .sidebar.collapsed .submenu {
       display: none;
     }
-  
+
     .dropdown-icon {
       margin-left: auto;
       font-size: 1rem;
       color: #00ffcc;
       transition: transform 0.3s ease;
     }
-  
+
     .dropdown-icon.active {
       transform: rotate(180deg);
     }
-  
+
     .sidebar.collapsed .dropdown-icon {
       display: none;
     }
-  
+
     .main-content {
       flex: 1;
       padding: 20px;
@@ -230,11 +230,11 @@
       flex-direction: column;
       transition: margin-left 0.3s ease;
     }
-  
+
     .main-content.collapsed {
       margin-left: 60px;
     }
-  
+
     .section {
       flex: 1 0 auto;
       display: flex;
@@ -242,7 +242,7 @@
       align-items: center;
       padding-top: 20px;
     }
-  
+
     .table-container {
       background: #0f3460;
       border-radius: 15px;
@@ -255,17 +255,17 @@
       transition: transform 0.3s;
       overflow-x: auto;
     }
-  
+
     .table-container:hover {
       transform: scale(1.02);
     }
-  
+
     .table {
       width: 100%;
       border-collapse: collapse;
       color: #ffffff;
     }
-  
+
     .table th, .table td {
       padding: 12px;
       border: 1px solid #00d4ff;
@@ -273,30 +273,25 @@
       white-space: nowrap;
       font-size: 0.95rem;
     }
-  
+
     .table th {
       background: #1a4a8a;
       font-weight: bold;
       color: #00ffcc;
     }
-  
+
     .table th, .table td {
       min-width: 100px;
     }
-  
-    .table td.date-column {
-      color: black !important;
-      background-color: white;
-    }
-  
+
     .table tbody tr:nth-child(odd) {
       background: #0f3460;
     }
-  
+
     .table tbody tr:hover {
       background: #1a4a8a;
     }
-  
+
     .search-bar {
       display: flex;
       gap: 10px;
@@ -305,8 +300,9 @@
       width: 100%;
       max-width: 1400px;
       flex-wrap: wrap;
+      align-items: center;
     }
-  
+
     .search-bar input, .search-bar select, .search-bar button {
       padding: 8px;
       border: 1px solid #00d4ff;
@@ -315,94 +311,44 @@
       color: #ffffff;
       font-size: 1rem;
     }
-  
-    .search-bar input[type="date"]::-webkit-datetime-edit-text,
-    .search-bar input[type="date"]::-webkit-datetime-edit-month-field,
-    .search-bar input[type="date"]::-webkit-datetime-edit-day-field,
-    .search-bar input[type="date"]::-webkit-datetime-edit-year-field {
-      color: #b3e0ff;
-    }
-  
+
     .search-bar input::placeholder {
       color: #b3e0ff;
     }
-  
+
     .search-bar select {
       background: #0f3460;
     }
-  
+
     .search-bar button {
       background: #00d4ff;
       color: #0f3460;
       cursor: pointer;
       border: none;
     }
-  
+
     .search-bar button:hover {
       background: #00ffcc;
     }
-  
-    .search-bar .btn-delete {
+
+    .delete-button {
       background: #dc3545;
     }
-  
-    .search-bar .btn-delete:hover {
+
+    .delete-button:hover {
       background: #c82333;
     }
-  
-    .status-pending {
-      color: #ffc107;
-      font-weight: bold;
-    }
-  
-    .status-approved {
+
+    .status-enable {
       color: #28a745;
       font-weight: bold;
     }
-  
-    .status-rejected {
+
+    .status-disable {
       color: #dc3545;
       font-weight: bold;
     }
-  
-    .action-buttons button {
-      padding: 6px 12px;
-      margin: 0 5px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: background 0.2s;
-    }
-  
-    .action-buttons .approve-btn {
-      background: #28a745;
-      color: #ffffff;
-    }
-  
-    .action-buttons .approve-btn:hover {
-      background: #218838;
-    }
-  
-    .action-buttons .reject-btn {
-      background: #dc3545;
-      color: #ffffff;
-    }
-  
-    .action-buttons .reject-btn:hover {
-      background: #c82333;
-    }
-  
-    .screenshot-link {
-      color: #00d4ff;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  
-    .screenshot-link:hover {
-      color: #00ffcc;
-    }
-  
+
     .main-footer {
       text-align: center;
       padding: 10px 20px;
@@ -414,16 +360,7 @@
       background: #0f3460;
       box-shadow: 0 0 10px #00d4ff;
     }
-  
-    .checkbox-column {
-      width: 40px;
-      text-align: center;
-    }
-  
-    .checkbox-hidden {
-      display: none;
-    }
-  
+
     @media (min-width: 769px) {
       .sidebar-toggle {
         display: block;
@@ -432,7 +369,7 @@
         display: none;
       }
     }
-  
+
     @media (max-width: 768px) {
       .topbar { padding: 6px; }
       .topbar .admin-icon { font-size: 1.75rem; }
@@ -450,7 +387,7 @@
         box-shadow: 0 0 10px #00d4ff;
       }
       .sidebar.active {
-        transform: translateX(0);
+        left: 0;
       }
       .sidebar.collapsed {
         width: 250px;
@@ -497,15 +434,8 @@
         padding: 8px;
         min-width: 80px;
       }
-      .action-buttons button {
-        padding: 4px 8px;
-        font-size: 0.8rem;
-      }
-      .checkbox-column {
-        width: 30px;
-      }
     }
-  
+
     @media (max-width: 480px) {
       .topbar { padding: 6px; }
       .topbar .admin-icon { font-size: 1.5rem; }
@@ -517,13 +447,6 @@
       .search-bar input, .search-bar select, .search-bar button {
         padding: 5px;
         font-size: 0.8rem;
-      }
-      .action-buttons button {
-        padding: 4px 8px;
-        font-size: 0.8rem;
-      }
-      .checkbox-column {
-        width: 25px;
       }
     }
   </style>
@@ -548,7 +471,8 @@
     <div class="sidebar">
       <i class="fas fa-times sidebar-expand" id="sidebar-expand"></i>
       <a href="index.html" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
-      <a href="user-id-details.html" data-section="user-id-details"><i class="fas fa-id-card"></i> <span>User-ID Details</span></a>
+      <a href="user-id-details.html" data-section="user-id-details" class="active"><i class="fas fa-id-card"></i> <span>User-ID Details</span></a>
+      
       <div class="sidebar-item">
         <a href="#" id="kyc-toggle"><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="kyc-submenu">
@@ -576,10 +500,10 @@
         </div>
       </div>
       <div class="sidebar-item">
-        <a href="#" id="order-toggle" class="active"><i class="fas fa-shopping-cart"></i> <span>Order</span> <i class="fas fa-chevron-down dropdown-icon active"></i></a>
-        <div class="submenu active" id="order-submenu">
+        <a href="#" id="order-toggle"><i class="fas fa-shopping-cart"></i> <span>Order</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
+        <div class="submenu" id="order-submenu">
           <a href="order-transaction.html" data-section="order-transaction"><i class="fas fa-receipt"></i> <span>Transaction</span></a>
-          <a href="order-transaction-history.html" data-section="order-transaction-history" class="active"><i class="fas fa-history"></i> <span>Transaction History</span></a>
+          <a href="order-transaction-history.html" data-section="order-transaction-history"><i class="fas fa-history"></i> <span>Transaction History</span></a>
           <a href="order-product.html" data-section="order-product"><i class="fas fa-box"></i> <span>Product Order</span></a>
           <a href="order-product-history.html" data-section="order-product-history"><i class="fas fa-file-alt"></i> <span>Product History</span></a>
         </div>
@@ -600,12 +524,13 @@
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu "id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+        <div class="submenu" id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>100 RV</span></a>
           <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
           <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
       </div>
+
       <a href="company-offer.html" data-section="offer"><i class="fas fa-gift"></i> <span>Company Offer</span></a>
       <div class="sidebar-item">
         <a href="#" id="gallery-toggle"><i class="fas fa-image"></i> <span>Gallery</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
@@ -624,39 +549,50 @@
 
     <div class="main-content">
       <div class="section">
-        <h2 class="text-2xl font-bold mb-4 text-white">Transaction History</h2>
+        <h2 class="text-2xl font-bold mb-4 text-white">User-ID Details</h2>
         <div class="search-bar">
-          <input type="text" placeholder="User ID" id="transaction-id-search">
-          <input type="date" id="start-date">
-          <input type="date" id="end-date">
-          <select id="status-filter">
-            <option value="">All Statuses</option>
-            <option value="Pending">Pending</option>
-            <option value="Approved">Approved</option>
-            <option value="Rejected">Rejected</option>
+          <input type="text" placeholder="User ID" id="user-id-search">
+          <select id="rank-filter" onchange="searchUsers()">
+            <option value="">All Ranks</option>
+            <option value="Star">Star</option>
+            <option value="Double Star">Double Star</option>
+            <option value="Bronze">Bronze</option>
+            <option value="Silver">Silver</option>
+            <option value="Gold">Gold</option>
+            <option value="Platinum">Platinum</option>
+            <option value="Titanium">Titanium</option>
+            <option value="Emerald">Emerald</option>
+            <option value="Ruby">Ruby</option>
+            <option value="Diamond">Diamond</option>
+            <option value="Blue Diamond">Blue Diamond</option>
+            <option value="Black Diamond">Black Diamond</option>
+            <option value="Red Diamond">Red Diamond</option>
+            <option value="Crown">Crown</option>
+            <option value="Ambassador">Ambassador</option>
+            <option value="Royal">Royal</option>
+            <option value="Royal King">Royal King</option>
           </select>
-          <button onclick="searchTransactionHistory()">Search</button>
-          <button class="btn-delete" onclick="toggleDeleteMode()">Delete</button>
+          <button onclick="searchUsers()">Search</button>
+          <button class="delete-button" onclick="deleteSelectedUsers()">Delete</button>
         </div>
         <div class="table-container">
           <table class="table">
             <thead>
               <tr>
-                <th class="checkbox-column checkbox-hidden">
-                  <input type="checkbox" id="select-all" onchange="selectAll(this.checked)">
-                </th>
+                <th>Select</th>
                 <th>SI.No</th>
-                <th>User ID</th>
+                <th>Date Of Joining</th>
                 <th>User Name</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Transaction ID</th>
-                <th>Screenshot</th>
-                <th class="status-column">Status</th>
-               
+                <th>User ID</th>
+                <th>RV Points</th>
+                <th>Rank</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody id="transaction-history-table"></tbody>
+            <tbody id="user-table">
+              <!-- Table rows populated by JavaScript -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -665,6 +601,7 @@
       </footer>
     </div>
   </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       try {
@@ -675,12 +612,12 @@
         const menuToggle = document.getElementById('menu-toggle');
         const adminIcon = document.getElementById('admin-icon');
         const adminDropdown = document.getElementById('admin-dropdown');
-  
+
         if (!sidebar || !mainContent) {
           console.error('Sidebar or main-content element not found');
           return;
         }
-  
+
         if (sidebarToggle && sidebarExpand) {
           sidebarToggle.addEventListener('click', () => {
             const isCollapsed = sidebar.classList.toggle('collapsed');
@@ -697,7 +634,7 @@
         } else {
           console.warn('Sidebar toggle or expand elements not found');
         }
-  
+
         if (menuToggle && sidebar) {
           menuToggle.addEventListener('click', (e) => {
             e.preventDefault();
@@ -708,14 +645,14 @@
         } else {
           console.warn('Menu toggle or sidebar element not found');
         }
-  
+
         document.addEventListener('click', (e) => {
           if (window.innerWidth <= 768 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
             sidebar.classList.remove('active');
             sidebar.style.transform = 'translateX(-100%)';
           }
         });
-  
+
         if (adminIcon && adminDropdown) {
           adminIcon.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -727,7 +664,7 @@
             }
           });
         }
-  
+
         const submenuToggles = [
           { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
           { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
@@ -736,14 +673,14 @@
           { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
           { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
           { toggle: 'capping-toggle', submenu: 'capping-submenu' },
-          { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
+          { toggle: 'gallery-toggle', submenu: 'gallery-submenu' }
         ];
-  
+
         submenuToggles.forEach(({ toggle, submenu }) => {
           const toggleEl = document.getElementById(toggle);
           const submenuEl = document.getElementById(submenu);
           const icon = toggleEl?.querySelector('.dropdown-icon');
-          
+
           if (toggleEl && submenuEl && icon) {
             toggleEl.addEventListener('click', (e) => {
               e.preventDefault();
@@ -756,7 +693,7 @@
                 }
               });
             });
-  
+
             const submenuLinks = submenuEl.querySelectorAll('a');
             submenuLinks.forEach(link => {
               link.addEventListener('click', () => {
@@ -766,46 +703,83 @@
                 }
               });
             });
-  
+
             document.addEventListener('click', (e) => {
               if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
-                if (submenu !== 'order-submenu') {
-                  submenuEl.classList.remove('active');
-                  icon.classList.remove('active');
-                }
+                submenuEl.classList.remove('active');
+                icon.classList.remove('active');
               }
             });
           }
         });
-  
+
         let mockData = [
-        
+         
           {
-            id: 'TX12346',
-            transactionId: 'TX12346',
-            userId: 'U12346',
-            userName: 'Jane Smith',
-            date: '2025-05-02',
-            amount: '₹1500.00',
-            screenshot: '#',
-            status: 'Approved',
-            selected: false
+            id: 'UID12348',
+            dateOfJoining: '2025-04-01',
+            userName: 'Bob Wilson',
+            userId: 'UID12348',
+            rvPoints: 1000,
+            rank: 'Silver',
+            status: 'Enable'
           },
           {
-            id: 'TX12347',
-            transactionId: 'TX12347',
-            userId: 'U12347',
-            userName: 'Alice Johnson',
-            date: '2025-05-03',
-            amount: '₹2000.00',
-            screenshot: '#',
-            status: 'Rejected',
-            selected: false
+            id: 'UID12349',
+            dateOfJoining: '2025-04-15',
+            userName: 'Carol Brown',
+            userId: 'UID12349',
+            rvPoints: 1500,
+            rank: 'Gold',
+            status: 'Disable'
+          },
+          {
+            id: 'UID12350',
+            dateOfJoining: '2025-05-01',
+            userName: 'David Lee',
+            userId: 'UID12350',
+            rvPoints: 2000,
+            rank: 'Platinum',
+            status: 'Enable'
+          },
+          {
+            id: 'UID12351',
+            dateOfJoining: '2025-05-10',
+            userName: 'Emma Davis',
+            userId: 'UID12351',
+            rvPoints: 2500,
+            rank: 'Titanium',
+            status: 'Enable'
+          },
+          {
+            id: 'UID12352',
+            dateOfJoining: '2025-05-15',
+            userName: 'Frank Miller',
+            userId: 'UID12352',
+            rvPoints: 3000,
+            rank: 'Emerald',
+            status: 'Disable'
+          },
+          {
+            id: 'UID12353',
+            dateOfJoining: '2025-05-20',
+            userName: 'Grace Taylor',
+            userId: 'UID12353',
+            rvPoints: 4000,
+            rank: 'Ruby',
+            status: 'Enable'
+          },
+          {
+            id: 'UID12354',
+            dateOfJoining: '2025-05-25',
+            userName: 'Henry Clark',
+            userId: 'UID12354',
+            rvPoints: 5000,
+            rank: 'Diamond',
+            status: 'Enable'
           }
         ];
-  
-        let deleteMode = false;
-  
+
         function formatDate(dateStr) {
           try {
             const date = new Date(dateStr);
@@ -815,136 +789,96 @@
             }
             const options = { year: 'numeric', month: 'short', day: '2-digit' };
             const formatted = date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
-            console.log(`Formatted date for ${dateStr}: ${formatted}`);
             return formatted;
           } catch (error) {
             console.error('Error formatting date:', error);
             return 'Error';
           }
         }
-  
-        window.toggleDeleteMode = () => {
+
+        window.searchUsers = () => {
           try {
-            deleteMode = !deleteMode;
-            const deleteButton = document.querySelector('.btn-delete');
-            if (deleteMode) {
-              deleteButton.textContent = 'Confirm Delete';
-              document.querySelectorAll('.checkbox-column').forEach(el => el.classList.remove('checkbox-hidden'));
-            } else {
-              deleteButton.textContent = 'Delete';
-              document.querySelectorAll('.checkbox-column').forEach(el => el.classList.add('checkbox-hidden'));
-              mockData = mockData.filter(item => !item.selected);
-              mockData.forEach(item => item.selected = false);
-              renderTransactionHistoryTable();
-            }
-          } catch (error) {
-            console.error('Error toggling delete mode:', error);
-          }
-        };
-  
-        window.toggleCheckbox = (id) => {
-          try {
-            const entry = mockData.find(item => item.id === id);
-            if (entry) {
-              entry.selected = !entry.selected;
-              renderTransactionHistoryTable();
-            }
-          } catch (error) {
-            console.error('Error toggling checkbox:', error);
-          }
-        };
-  
-        window.selectAll = (checked) => {
-          try {
-            mockData.forEach(item => item.selected = checked);
-            renderTransactionHistoryTable();
-          } catch (error) {
-            console.error('Error selecting all:', error);
-          }
-        };
-  
-        window.searchTransactionHistory = () => {
-          try {
-            const transactionId = document.getElementById('transaction-id-search').value.trim();
-            const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
-            const status = document.getElementById('status-filter').value;
+            const userId = document.getElementById('user-id-search').value.trim().toLowerCase();
+            const rank = document.getElementById('rank-filter').value;
             let filtered = mockData;
-  
-            if (transactionId) {
-              filtered = filtered.filter(item => item.transactionId.toLowerCase().includes(transactionId.toLowerCase()));
+
+            if (userId) {
+              filtered = filtered.filter(item => item.userId.toLowerCase().includes(userId));
             }
-            if (startDate) {
-              filtered = filtered.filter(item => item.date >= startDate);
+            if (rank) {
+              filtered = filtered.filter(item => item.rank === rank);
             }
-            if (endDate) {
-              filtered = filtered.filter(item => item.date <= endDate);
-            }
-            if (status) {
-              filtered = filtered.filter(item => item.status === status);
-            }
-  
-            renderTransactionHistoryTable(filtered);
+
+            renderTable(filtered);
           } catch (error) {
-            console.error('Error searching transactions:', error);
+            console.error('Error searching users:', error);
           }
         };
-  
-        window.updateStatus = (transactionId, status) => {
+
+        window.toggleUserStatus = (id) => {
           try {
-            const item = mockData.find(item => item.transactionId === transactionId);
-            if (item && item.status === 'Pending') {
-              item.status = status;
-              renderTransactionHistoryTable();
-            }
+            mockData = mockData.map(item =>
+              item.id === id ? { ...item, status: item.status === 'Enable' ? 'Disable' : 'Enable' } : item
+            );
+            renderTable();
           } catch (error) {
-            console.error('Error updating status:', error);
+            console.error('Error toggling user status:', error);
           }
         };
-  
-        function renderTransactionHistoryTable(data = mockData) {
+
+        window.deleteSelectedUsers = () => {
           try {
-            const tbody = document.getElementById('transaction-history-table');
+            const selectedIds = Array.from(document.querySelectorAll('input[name="select-user"]:checked')).map(input => input.value);
+            if (selectedIds.length === 0) {
+              alert('Please select at least one user to delete.');
+              return;
+            }
+            if (confirm(`Are you sure you want to delete ${selectedIds.length} user(s)?`)) {
+              mockData = mockData.filter(item => !selectedIds.includes(item.id));
+              renderTable();
+            }
+          } catch (error) {
+            console.error('Error deleting users:', error);
+          }
+        };
+
+        function renderTable(data = mockData) {
+          try {
+            const tbody = document.getElementById('user-table');
             if (!tbody) {
               console.error('Table body element not found');
               return;
             }
-            const allSelected = data.length > 0 && data.every(item => item.selected);
-            const selectAllCheckbox = document.getElementById('select-all');
-            if (selectAllCheckbox) {
-              selectAllCheckbox.checked = allSelected;
-            }
             tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
-              const formattedDate = formatDate(item.date);
-              console.log(`Rendering row with date: ${formattedDate} for Transaction ID: ${item.transactionId}`);
+              const formattedDate = formatDate(item.dateOfJoining);
+              const actionButton = item.status === 'Enable'
+                ? `<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" onclick="toggleUserStatus('${item.id}')">Disable</button>`
+                : `<button class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded" onclick="toggleUserStatus('${item.id}')">Enable</button>`;
               return `
                 <tr>
-                  <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
-                    <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
-                  </td>
+                  <td><input type="checkbox" name="select-user" value="${item.id}"></td>
                   <td>${index + 1}</td>
-                  <td>${item.userId}</td>
+                  <td>${formattedDate}</td>
                   <td>${item.userName}</td>
-                  <td class="date-column">${formattedDate}</td>
-                  <td>${item.amount}</td>
-                  <td>${item.transactionId}</td>
-                  <td><a href="${item.screenshot}" class="screenshot-link" target="_blank">View</a></td>
+                  <td>${item.userId}</td>
+                  <td>${item.rvPoints}</td>
+                  <td>${item.rank}</td>
                   <td class="status-${item.status.toLowerCase()}">${item.status}</td>
-                 
+                  <td>${actionButton}</td>
                 </tr>
               `;
             }).join('') : `
               <tr>
-                <td colspan="10" style="text-align: center; color: #b3e0ff;">No transactions found</td>
+                <td colspan="9" style="text-align: center; color: #b3e0ff;">No users found</td>
               </tr>
             `;
           } catch (error) {
             console.error('Error rendering table:', error);
           }
         }
-  
+
         try {
-          renderTransactionHistoryTable();
+          renderTable();
         } catch (error) {
           console.error('Error rendering table:', error);
         }

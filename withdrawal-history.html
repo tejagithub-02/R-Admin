@@ -522,6 +522,7 @@
     <div class="sidebar">
       <i class="fas fa-times sidebar-expand" id="sidebar-expand"></i>
       <a href="index.html" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+      <a href="user-id-details.html" data-section="user-id-details"><i class="fas fa-id-card"></i> <span>User-ID Details</span></a>
       <div class="sidebar-item">
         <a href="#" id="kyc-toggle"><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="kyc-submenu">
@@ -567,14 +568,14 @@
       <div class="sidebar-item">
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
-          <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
+          <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST Statement</span></a>
           <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu "id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+        <div class="submenu" id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>100 RV</span></a>
           <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
           <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
@@ -600,7 +601,7 @@
         <h2 class="text-2xl font-bold mb-4 text-white">Withdrawal History</h2>
         <div class="search-bar">
           <div class="flex gap-2 flex-wrap">
-            <input type="text" placeholder="Withdrawal ID" id="withdrawal-id-search">
+            <input type="text" placeholder="User ID" id="withdrawal-id-search">
             <input type="date" id="start-date">
             <input type="date" id="end-date">
             <select id="status-filter">
@@ -611,368 +612,366 @@
             </select>
             <button onclick="searchWithdrawals()">Search</button>
             <button class="btn-delete" onclick="toggleDeleteMode()">Delete</button>
-          </ Updating the search bar to include the Delete button
+          </div>
+          <button class="export-btn" onclick="exportToExcel()">Export to Excel</button>
         </div>
-        <button class="export-btn" onclick="exportToExcel()">Export to Excel</button>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="checkbox-column checkbox-hidden">
+                  <input type="checkbox" id="select-all" onchange="selectAll(this.checked)">
+                </th>
+                <th>SI.NO</th>
+                <th>User ID</th>
+                <th>User Name</th>
+                <th>Request Date</th>
+                <th>Approval Date</th>
+                <th>Account Number</th>
+                <th>IFSC Number</th>
+                <th>Bank Name</th>
+                <th>Request Amount</th>
+                <th>Service Charges 10%</th>
+                <th>Withdraw Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="withdrawal-table">
+              <!-- Table rows populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div class="table-container">
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="checkbox-column checkbox-hidden">
-                <input type="checkbox" id="select-all" onchange="selectAll(this.checked)">
-              </th>
-              <th>SI.NO</th>
-              <th>User ID</th>
-              <th>Date</th>
-              <th>User Name</th>
-              <th>Account Number</th>
-              <th>IFSC Number</th>
-              <th>Bank Name</th>
-              <th>Request Amount</th>
-              <th>Service Charges 10%</th>
-              <th>Withdraw Amount</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="withdrawal-table">
-            <!-- Table rows populated by JavaScript -->
-          </tbody>
-        </table>
-      </div>
+      <footer class="main-footer">
+        @2025 Raanvi - Developed By Bloom It Solutions
+      </footer>
     </div>
-    <footer class="main-footer">
-      @2025 Raanvi - Developed By Bloom It Solutions
-    </footer>
   </div>
-</div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    try {
-      const sidebarToggle = document.getElementById('sidebar-toggle');
-      const sidebarExpand = document.getElementById('sidebar-expand');
-      const sidebar = document.querySelector('.sidebar');
-      const mainContent = document.querySelector('.main-content');
-      const menuToggle = document.getElementById('menu-toggle');
-      const adminIcon = document.getElementById('admin-icon');
-      const adminDropdown = document.getElementById('admin-dropdown');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarExpand = document.getElementById('sidebar-expand');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const menuToggle = document.getElementById('menu-toggle');
+        const adminIcon = document.getElementById('admin-icon');
+        const adminDropdown = document.getElementById('admin-dropdown');
 
-      if (!sidebar || !mainContent) {
-        console.error('Sidebar or main-content element not found');
-        return;
-      }
-
-      if (sidebarToggle && sidebarExpand) {
-        sidebarToggle.addEventListener('click', () => {
-          const isCollapsed = sidebar.classList.toggle('collapsed');
-          mainContent.classList.toggle('collapsed');
-          sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
-          document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
-          document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
-        });
-        sidebarExpand.addEventListener('click', () => {
-          sidebar.classList.remove('collapsed');
-          mainContent.classList.remove('collapsed');
-          sidebarExpand.style.display = 'none';
-        });
-      } else {
-        console.warn('Sidebar toggle or expand elements not found');
-      }
-
-      if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', (e) => {
-          try {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Menu toggle clicked');
-            const isActive = sidebar.classList.toggle('active');
-            sidebar.style.transform = isActive ? 'translateX(0)' : 'translateX(-100%)';
-            console.log(`Sidebar toggled to active: ${isActive}`);
-          } catch (error) {
-            console.error('Error in menu toggle:', error);
-          }
-        });
-      } else {
-        console.warn('Menu toggle or sidebar element not found');
-      }
-
-      document.addEventListener('click', (e) => {
-        try {
-          if (window.innerWidth <= 768 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-            console.log('Clicked outside sidebar on mobile');
-            sidebar.classList.remove('active');
-            sidebar.style.transform = 'translateX(-100%)';
-          }
-        } catch (error) {
-          console.error('Error in outside click handler:', error);
+        if (!sidebar || !mainContent) {
+          console.error('Sidebar or main-content element not found');
+          return;
         }
-      });
 
-      if (adminIcon && adminDropdown) {
-        adminIcon.addEventListener('click', (e) => {
-          e.stopPropagation();
-          adminDropdown.classList.toggle('active');
-        });
+        if (sidebarToggle && sidebarExpand) {
+          sidebarToggle.addEventListener('click', () => {
+            const isCollapsed = sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('collapsed');
+            sidebarExpand.style.display = isCollapsed && window.innerWidth >= 769 ? 'block' : 'none';
+            document.querySelectorAll('.submenu').forEach(submenu => submenu.classList.remove('active'));
+            document.querySelectorAll('.dropdown-icon').forEach(icon => icon.classList.remove('active'));
+          });
+          sidebarExpand.addEventListener('click', () => {
+            sidebar.classList.remove('collapsed');
+            mainContent.classList.remove('collapsed');
+            sidebarExpand.style.display = 'none';
+          });
+        } else {
+          console.warn('Sidebar toggle or expand elements not found');
+        }
+
+        if (menuToggle && sidebar) {
+          menuToggle.addEventListener('click', (e) => {
+            try {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('Menu toggle clicked');
+              const isActive = sidebar.classList.toggle('active');
+              sidebar.style.transform = isActive ? 'translateX(0)' : 'translateX(-100%)';
+              console.log(`Sidebar toggled to active: ${isActive}`);
+            } catch (error) {
+              console.error('Error in menu toggle:', error);
+            }
+          });
+        } else {
+          console.warn('Menu toggle or sidebar element not found');
+        }
+
         document.addEventListener('click', (e) => {
-          if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
-            adminDropdown.classList.remove('active');
+          try {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+              console.log('Clicked outside sidebar on mobile');
+              sidebar.classList.remove('active');
+              sidebar.style.transform = 'translateX(-100%)';
+            }
+          } catch (error) {
+            console.error('Error in outside click handler:', error);
           }
         });
-      }
 
-      const submenuToggles = [
-        { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
-        { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
-        { toggle: 'topup-toggle', submenu: 'topup-submenu' },
-        { toggle: 'order-toggle', submenu: 'order-submenu' },
-        { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
-        { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
-        { toggle: 'capping-toggle', submenu: 'capping-submenu' },
-        { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
-      ];
-
-      submenuToggles.forEach(({ toggle, submenu }) => {
-        const toggleEl = document.getElementById(toggle);
-        const submenuEl = document.getElementById(submenu);
-        const icon = toggleEl?.querySelector('.dropdown-icon');
-
-        if (toggleEl && submenuEl && icon) {
-          toggleEl.addEventListener('click', (e) => {
-            e.preventDefault();
-            const isActive = submenuEl.classList.toggle('active');
-            icon.classList.toggle('active');
-            submenuToggles.forEach(other => {
-              if (other.submenu !== submenu) {
-                document.getElementById(other.submenu).classList.remove('active');
-                document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
-              }
-            });
+        if (adminIcon && adminDropdown) {
+          adminIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            adminDropdown.classList.toggle('active');
           });
-
-          const submenuLinks = submenuEl.querySelectorAll('a');
-          submenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              if (window.innerWidth <= 768) {
-                console.log('Submenu link clicked, closing sidebar');
-                sidebar.classList.remove('active');
-                sidebar.style.transform = 'translateX(-100%)';
-              }
-            });
-          });
-
           document.addEventListener('click', (e) => {
-            if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
-              if (submenu !== 'withdrawal-submenu') {
-                submenuEl.classList.remove('active');
-                icon.classList.remove('active');
-              }
+            if (!adminIcon.contains(e.target) && !adminDropdown.contains(e.target)) {
+              adminDropdown.classList.remove('active');
             }
           });
         }
-      });
 
-      let mockData = [
-  {
-    id: 'WDR12345',
-    userId: 'U12345',
-    date: '2025-05-01',
-    userName: 'John Doe',
-    accountNumber: 'ACC1234567890',
-    ifscNumber: 'SBIN0001234',
-    bankName: 'State Bank of India',
-    requestAmount: '₹5000',
-    serviceCharges: '₹500',
-    withdrawAmount: '₹4500',
-    status: 'Approved',
-    selected: false
-  },
-  {
-    id: 'WDR12347',
-    userId: 'U12347',
-    date: '2025-05-03',
-    userName: 'Alice Johnson',
-    accountNumber: 'ACC1234567892',
-    ifscNumber: 'ICIC0009012',
-    bankName: 'ICICI Bank',
-    requestAmount: '₹4000',
-    serviceCharges: '₹400',
-    withdrawAmount: '₹3600',
-    status: 'Rejected',
-    selected: false
-  }
-];
-      let deleteMode = false;
+        const submenuToggles = [
+          { toggle: 'kyc-toggle', submenu: 'kyc-submenu' },
+          { toggle: 'earnings-toggle', submenu: 'earnings-submenu' },
+          { toggle: 'topup-toggle', submenu: 'topup-submenu' },
+          { toggle: 'order-toggle', submenu: 'order-submenu' },
+          { toggle: 'withdrawal-toggle', submenu: 'withdrawal-submenu' },
+          { toggle: 'invoice-toggle', submenu: 'invoice-submenu' },
+          { toggle: 'capping-toggle', submenu: 'capping-submenu' },
+          { toggle: 'gallery-toggle', submenu: 'gallery-submenu' },
+        ];
 
-      function formatDate(dateStr) {
-        try {
-          const date = new Date(dateStr);
-          if (isNaN(date.getTime())) {
-            console.warn(`Invalid date: ${dateStr}`);
-            return 'Invalid Date';
+        submenuToggles.forEach(({ toggle, submenu }) => {
+          const toggleEl = document.getElementById(toggle);
+          const submenuEl = document.getElementById(submenu);
+          const icon = toggleEl?.querySelector('.dropdown-icon');
+
+          if (toggleEl && submenuEl && icon) {
+            toggleEl.addEventListener('click', (e) => {
+              e.preventDefault();
+              const isActive = submenuEl.classList.toggle('active');
+              icon.classList.toggle('active');
+              submenuToggles.forEach(other => {
+                if (other.submenu !== submenu) {
+                  document.getElementById(other.submenu).classList.remove('active');
+                  document.getElementById(other.toggle).querySelector('.dropdown-icon').classList.remove('active');
+                }
+              });
+            });
+
+            const submenuLinks = submenuEl.querySelectorAll('a');
+            submenuLinks.forEach(link => {
+              link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                  console.log('Submenu link clicked, closing sidebar');
+                  sidebar.classList.remove('active');
+                  sidebar.style.transform = 'translateX(-100%)';
+                }
+              });
+            });
+
+            document.addEventListener('click', (e) => {
+              if (!toggleEl.contains(e.target) && !submenuEl.contains(e.target)) {
+                if (submenu !== 'withdrawal-submenu') {
+                  submenuEl.classList.remove('active');
+                  icon.classList.remove('active');
+                }
+              }
+            });
           }
-          const options = { year: 'numeric', month: 'short', day: '2-digit' };
-          const formatted = date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
-          console.log(`Formatted date for ${dateStr}: ${formatted}`);
-          return formatted;
-        } catch (error) {
-          console.error('Error formatting date:', error);
-          return 'Error';
-        }
-      }
+        });
 
-      window.toggleDeleteMode = () => {
-        deleteMode = !deleteMode;
-        const deleteButton = document.querySelector('.btn-delete');
-        if (deleteMode) {
-          deleteButton.textContent = 'Confirm Delete';
-          document.querySelectorAll('.checkbox-column').forEach(el => el.classList.remove('checkbox-hidden'));
-        } else {
-          deleteButton.textContent = 'Delete';
-          document.querySelectorAll('.checkbox-column').forEach(el => el.classList.add('checkbox-hidden'));
-          mockData = mockData.filter(item => !item.selected);
-          mockData.forEach(item => item.selected = false);
+        let mockData = [
+          {
+            id: 'WDR12345',
+            userId: 'U12345',
+            requestDate: '2025-05-01',
+            approvalDate: '2025-05-03',
+            userName: 'John Doe',
+            accountNumber: 'ACC1234567890',
+            ifscNumber: 'SBIN0001234',
+            bankName: 'State Bank of India',
+            requestAmount: '₹5000',
+            serviceCharges: '₹500',
+            withdrawAmount: '₹4500',
+            status: 'Approved',
+            selected: false
+          },
+          {
+            id: 'WDR12347',
+            userId: 'U12347',
+            requestDate: '2025-05-03',
+            approvalDate: null,
+            userName: 'Alice Johnson',
+            accountNumber: 'ACC1234567892',
+            ifscNumber: 'ICIC0009012',
+            bankName: 'ICICI Bank',
+            requestAmount: '₹4000',
+            serviceCharges: '₹400',
+            withdrawAmount: '₹3600',
+            status: 'Rejected',
+            selected: false
+          }
+        ];
+        let deleteMode = false;
+
+        function formatDate(dateStr) {
+          try {
+            if (!dateStr) return '-';
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) {
+              console.warn(`Invalid date: ${dateStr}`);
+              return 'Invalid Date';
+            }
+            const options = { year: 'numeric', month: 'short', day: '2-digit' };
+            const formatted = date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
+            console.log(`Formatted date for ${dateStr}: ${formatted}`);
+            return formatted;
+          } catch (error) {
+            console.error('Error formatting date:', error);
+            return 'Error';
+          }
+        }
+
+        window.toggleDeleteMode = () => {
+          deleteMode = !deleteMode;
+          const deleteButton = document.querySelector('.btn-delete');
+          if (deleteMode) {
+            deleteButton.textContent = 'Confirm Delete';
+            document.querySelectorAll('.checkbox-column').forEach(el => el.classList.remove('checkbox-hidden'));
+          } else {
+            deleteButton.textContent = 'Delete';
+            document.querySelectorAll('.checkbox-column').forEach(el => el.classList.add('checkbox-hidden'));
+            mockData = mockData.filter(item => !item.selected);
+            mockData.forEach(item => item.selected = false);
+            renderWithdrawalTable();
+          }
+        };
+
+        window.toggleCheckbox = (id) => {
+          const entry = mockData.find(item => item.id === id);
+          if (entry) {
+            entry.selected = !entry.selected;
+            renderWithdrawalTable();
+          }
+        };
+
+        window.selectAll = (checked) => {
+          mockData.forEach(item => item.selected = checked);
           renderWithdrawalTable();
-        }
-      };
+        };
 
-      window.toggleCheckbox = (id) => {
-        const entry = mockData.find(item => item.id === id);
-        if (entry) {
-          entry.selected = !entry.selected;
+        window.searchWithdrawals = () => {
+          try {
+            const id = document.getElementById('withdrawal-id-search').value.trim();
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            const status = document.getElementById('status-filter').value;
+            let filtered = mockData;
+
+            if (id) {
+              filtered = filtered.filter(item => item.userId.toLowerCase().includes(id.toLowerCase()));
+            }
+            if (startDate) {
+              filtered = filtered.filter(item => item.requestDate >= startDate);
+            }
+            if (endDate) {
+              filtered = filtered.filter(item => item.requestDate <= endDate);
+            }
+            if (status) {
+              filtered = filtered.filter(item => item.status === status);
+            }
+
+            renderWithdrawalTable(filtered);
+          } catch (error) {
+            console.error('Error searching withdrawals:', error);
+          }
+        };
+
+        window.exportToExcel = () => {
+          try {
+            const data = [];
+            const headers = [
+              'SI.NO', 'User ID', 'User Name', 'Request Date', 'Approval Date',
+              'Account Number', 'IFSC Number', 'Bank Name', 'Request Amount',
+              'Service Charges 10%', 'Withdraw Amount', 'Status'
+            ];
+            data.push(headers);
+
+            mockData.forEach((item, index) => {
+              const rowData = [
+                index + 1,
+                item.userId,
+                item.userName,
+                formatDate(item.requestDate),
+                formatDate(item.approvalDate),
+                item.accountNumber,
+                item.ifscNumber,
+                item.bankName,
+                item.requestAmount,
+                item.serviceCharges,
+                item.withdrawAmount,
+                item.status
+              ];
+              data.push(rowData);
+            });
+
+            const worksheet = XLSX.utils.aoa_to_sheet(data);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Withdrawal History');
+            XLSX.writeFile(workbook, 'withdrawal_history.xlsx');
+          } catch (error) {
+            console.error('Error exporting to Excel:', error);
+            alert('Failed to export data to Excel. Please try again.');
+          }
+        };
+
+        function renderWithdrawalTable(data = mockData) {
+          try {
+            const tbody = document.getElementById('withdrawal-table');
+            if (!tbody) {
+              console.error('Table body element not found');
+              return;
+            }
+            const allSelected = data.length > 0 && data.every(item => item.selected);
+            const selectAllCheckbox = document.getElementById('select-all');
+            if (selectAllCheckbox) {
+              selectAllCheckbox.checked = allSelected;
+            }
+            tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
+              const requestDate = formatDate(item.requestDate);
+              const approvalDate = formatDate(item.approvalDate);
+              console.log(`Rendering row with requestDate: ${requestDate}, approvalDate: ${approvalDate} for ID: ${item.id}`);
+              return `
+                <tr>
+                  <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
+                    <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
+                  </td>
+                  <td>${index + 1}</td>
+                  <td>${item.userId}</td>
+                  <td>${item.userName}</td>
+                  <td class="date-column">${requestDate}</td>
+                  <td class="date-column">${approvalDate}</td>
+                  <td>${item.accountNumber}</td>
+                  <td>${item.ifscNumber}</td>
+                  <td>${item.bankName}</td>
+                  <td>${item.requestAmount}</td>
+                  <td>${item.serviceCharges}</td>
+                  <td>${item.withdrawAmount}</td>
+                  <td class="status-${item.status.toLowerCase()}">${item.status}</td>
+                </tr>
+              `;
+            }).join('') : `
+              <tr>
+                <td colspan="13" style="text-align: center; color: #b3e0ff;">No withdrawals found</td>
+              </tr>
+            `;
+          } catch (error) {
+            console.error('Error rendering table:', error);
+          }
+        }
+
+        try {
           renderWithdrawalTable();
-        }
-      };
-
-      window.selectAll = (checked) => {
-        mockData.forEach(item => item.selected = checked);
-        renderWithdrawalTable();
-      };
-
-      window.searchWithdrawals = () => {
-        try {
-          const id = document.getElementById('withdrawal-id-search').value.trim();
-          const startDate = document.getElementById('start-date').value;
-          const endDate = document.getElementById('end-date').value;
-          const status = document.getElementById('status-filter').value;
-          let filtered = mockData;
-
-          if (id) {
-            filtered = filtered.filter(item => item.id.toLowerCase().includes(id.toLowerCase()));
-          }
-          if (startDate) {
-            filtered = filtered.filter(item => item.date >= startDate);
-          }
-          if (endDate) {
-            filtered = filtered.filter(item => item.date <= endDate);
-          }
-          if (status) {
-            filtered = filtered.filter(item => item.status === status);
-          }
-
-          renderWithdrawalTable(filtered);
-        } catch (error) {
-          console.error('Error searching withdrawals:', error);
-        }
-      };
-
-      window.exportToExcel = () => {
-        try {
-          const tbody = document.getElementById('withdrawal-table');
-          if (!tbody) {
-            console.error('Table body element not found');
-            return;
-          }
-
-          const data = [];
-          const headers = [
-  'SI.NO', 'User ID', 'Date', 'User Name', 'Account Number', 'IFSC Number',
-  'Bank Name', 'Request Amount', 'Service Charges 10%', 'Withdraw Amount', 'Status'
-];
-data.push(headers);
-
-rows.forEach(row => {
-  const cells = row.querySelectorAll('td');
-  if (cells.length > 0) {
-    const rowData = [
-      cells[1].textContent, // SI.NO
-      cells[2].textContent, // User ID
-      cells[3].textContent, // Date
-      cells[4].textContent, // User Name
-      cells[5].textContent, // Account Number
-      cells[6].textContent, // IFSC Number
-      cells[7].textContent, // Bank Name
-      cells[8].textContent, // Request Amount
-      cells[9].textContent, // Service Charges
-      cells[10].textContent, // Withdraw Amount
-      cells[11].textContent // Status
-    ];
-    data.push(rowData);
-  }
-});
-
-          const worksheet = XLSX.utils.aoa_to_sheet(data);
-          const workbook = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(workbook, worksheet, 'Withdrawal History');
-          XLSX.writeFile(workbook, 'withdrawal_history.xlsx');
-        } catch (error) {
-          console.error('Error exporting to Excel:', error);
-          alert('Failed to export data to Excel. Please try again.');
-        }
-      };
-
-      function renderWithdrawalTable(data = mockData) {
-        try {
-          const tbody = document.getElementById('withdrawal-table');
-          if (!tbody) {
-            console.error('Table body element not found');
-            return;
-          }
-          const allSelected = data.length > 0 && data.every(item => item.selected);
-          const selectAllCheckbox = document.getElementById('select-all');
-          if (selectAllCheckbox) {
-            selectAllCheckbox.checked = allSelected;
-          }
-          tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
-  const formattedDate = formatDate(item.date);
-  console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
-  return `
-    <tr>
-      <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
-        <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
-      </td>
-      <td>${index + 1}</td>
-      <td>${item.userId}</td>
-      <td>${item.userName}</td>
-      <td class="date-column">${formattedDate}</td>
-      <td>${item.accountNumber}</td>
-      <td>${item.ifscNumber}</td>
-      <td>${item.bankName}</td>
-      <td>${item.requestAmount}</td>
-      <td>${item.serviceCharges}</td>
-      <td>${item.withdrawAmount}</td>
-      <td class="status-${item.status.toLowerCase()}">${item.status}</td>
-    </tr>
-  `;
-}).join('') : `
-  <tr>
-    <td colspan="12" style="text-align: center; color: #b3e0ff;">No withdrawals found</td>
-  </tr>
-`;
         } catch (error) {
           console.error('Error rendering table:', error);
         }
-      }
-
-      try {
-        renderWithdrawalTable();
       } catch (error) {
-        console.error('Error rendering table:', error);
+        console.error('Error in DOMContentLoaded:', error);
       }
-    } catch (error) {
-      console.error('Error in DOMContentLoaded:', error);
-    }
-  });
-</script>
+    });
+  </script>
 </body>
 </html>

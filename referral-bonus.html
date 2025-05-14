@@ -354,12 +354,25 @@
       max-width: 1200px;
     }
 
-    .search-bar input, .search-bar button {
+    .search-bar select, /* Added for KYC status dropdown */
+    .search-bar input,
+    .search-bar button {
       padding: 8px;
       border: 1px solid #00d4ff;
       border-radius: 5px;
       background: #0f3460;
       color: #ffffff;
+    }
+
+    .search-bar select { /* Style for dropdown */
+      background: #0f3460;
+      color: #b3e0ff;
+      cursor: pointer;
+    }
+
+    .search-bar select:focus {
+      outline: none;
+      border-color: #00ffcc;
     }
 
     .search-bar input[type="date"]::-webkit-datetime-edit-text,
@@ -392,6 +405,12 @@
 
     .status-paid {
       color: #28a745;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .status-verified {
+      color: #17a2b8;
       font-weight: bold;
       text-align: center;
     }
@@ -513,7 +532,9 @@
       .search-bar {
         flex-direction: column;
       }
-      .search-bar input, .search-bar button {
+      .search-bar select,
+      .search-bar input,
+      .search-bar button {
         width: 100%;
       }
     }
@@ -608,6 +629,7 @@
     <div class="sidebar">
       <i class="fas fa-times sidebar-expand" id="sidebar-expand"></i>
       <a href="index.html" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+      <a href="user-id-details.html" data-section="user-id-details"><i class="fas fa-id-card"></i> <span>User-ID Details</span></a>
       <div class="sidebar-item">
         <a href="#" id="kyc-toggle"><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="kyc-submenu">
@@ -645,7 +667,7 @@
       </div>
       <div class="sidebar-item">
         <a href="#" id="withdrawal-toggle" ><i class="fas fa-money-bill"></i> <span>Withdrawal</span> <i class="fas fa-chevron-down dropdown-icon "></i></a>
-        <div class="submenu " id="withdrawal-submenu">
+        <div class="submenu" id="withdrawal-submenu">
           <a href="withdrawal-pending.html" data-section="withdrawal-pending"><i class="fas fa-hourglass-half"></i> <span>Pending Withdrawal</span></a>
           <a href="withdrawal-history.html" data-section="withdrawal-history"><i class="fas fa-history"></i> <span>Withdrawal History</span></a>
         </div>
@@ -653,14 +675,14 @@
       <div class="sidebar-item">
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
-          <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
+          <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST Statement</span></a>
           <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu "id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+        <div class="submenu" id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>100 RV</span></a>
           <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
           <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
@@ -687,6 +709,11 @@
         <!-- Referral Bonus Section -->
         <h2 class="text-2xl font-bold mb-4 text-white">Referral Bonus</h2>
         <div class="search-bar">
+          <select id="kyc-status-filter">
+            <option value="">All KYC Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Verified">Verified</option>
+          </select>
           <input type="text" placeholder="Referral ID" id="referral-id-search">
           <input type="date" id="referral-start-date" placeholder="mm/dd/yyyy">
           <input type="date" id="referral-end-date" placeholder="mm/dd/yyyy">
@@ -700,31 +727,15 @@
                 <th class="id-column">USER ID</th>
                 <th class="name-column">USER Name</th>
                 <th class="date-column">Date</th>
-               <th>RV Point</th>
+                <th>RV Point</th>
+                <th>KYC Status</th>
                 <th class="amount-column">Amount</th>
-               
                 <th class="action-column">Action</th>
               </tr>
             </thead>
-           
-            
-            <tr>
-              <td>1</td>
-             
-              <td class="id-column">12346</td>
-              <td class="name-column">Jane Smith</td>
-              <td class="date-column">Apr 15, 2025</td>
-              <td>250</td>
-              <td class="amount-column">₹5000</td>
-             
-              <td class="action-column">
-                <div class="action-buttons">
-                  <button class="btn-paid" data-id="REF12346" onclick="handleReferralAction('REF12346', 'Paid', this)">Mark as Paid</button>
-                  <button class="btn-unpaid" data-id="REF12346" onclick="handleReferralAction('REF12346', 'Pending', this)">Mark as Unpaid</button>
-                </div>
-              </td>
-            </tr>
-           
+            <tbody id="referral-table">
+              <!-- Table rows will be dynamically populated -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -832,9 +843,9 @@
 
       // Mock data for Referral Bonus (admin view - includes all users)
       const mockData = [
-        { id: 'REF12345', date: '2025-04-01', name: 'John Doe', amount: '$50.00', status: 'Paid', actionTaken: true },
-        { id: 'REF12346', date: '2025-04-15', name: 'Jane Smith', amount: '$75.00', status: 'Pending', actionTaken: false },
-        { id: 'REF12347', date: '2025-04-20', name: 'Alice Brown', amount: '$60.00', status: 'Pending', actionTaken: false },
+      
+        { id: 'REF12346', date: '2025-04-15', name: 'Jane Smith', rvPoint: 250, kycStatus: 'Pending', amount: '₹7500', status: 'Pending', actionTaken: false }
+       
       ];
 
       // Function to format dates as "MMM DD, YYYY"
@@ -861,10 +872,12 @@
 
       // Referral Bonus Functions
       window.searchReferral = () => {
+        const kycStatus = document.getElementById('kyc-status-filter').value;
         const id = document.getElementById('referral-id-search').value;
         const startDate = document.getElementById('referral-start-date').value;
         const endDate = document.getElementById('referral-end-date').value;
         let filtered = mockData;
+        if (kycStatus) filtered = filtered.filter(item => item.kycStatus === kycStatus);
         if (id) filtered = filtered.filter(item => item.id.includes(id));
         if (startDate) filtered = filtered.filter(item => item.date >= startDate);
         if (endDate) filtered = filtered.filter(item => item.date <= endDate);
@@ -873,13 +886,15 @@
 
       function renderReferralTable(data = mockData) {
         const tbody = document.getElementById('referral-table');
-        tbody.innerHTML = data.map(item => `
+        tbody.innerHTML = data.map((item, index) => `
           <tr>
-            <td class="date-column">${formatDate(item.date)}</td>
+            <td>${index + 1}</td>
             <td class="id-column">${item.id}</td>
             <td class="name-column">${item.name}</td>
+            <td class="date-column">${formatDate(item.date)}</td>
+            <td>${item.rvPoint}</td>
+            <td class="${item.kycStatus === 'Verified' ? 'status-verified' : 'status-pending'} status-column">${item.kycStatus}</td>
             <td class="amount-column">${item.amount}</td>
-            <td class="${item.status === 'Paid' ? 'status-paid' : 'status-pending'} status-column">${item.status}</td>
             <td class="action-column">
               <div class="action-buttons">
                 <button class="btn-paid" data-id="${item.id}" onclick="handleReferralAction('${item.id}', 'Paid', this)" ${item.actionTaken ? 'disabled' : ''}>Mark as Paid</button>

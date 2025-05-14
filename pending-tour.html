@@ -414,6 +414,12 @@
       text-align: center;
     }
 
+    .status-completed {
+      color: #28a745;
+      font-weight: bold;
+      text-align: center;
+    }
+
     .action-buttons {
       display: flex;
       justify-content: center;
@@ -422,7 +428,7 @@
       min-width: 140px;
     }
 
-    .btn-accept, .btn-reject {
+    .btn-pending, .btn-completed {
       padding: 6px 10px;
       border: 2px solid #00d4ff;
       border-radius: 6px;
@@ -434,20 +440,21 @@
       font-size: 0.9rem;
     }
 
-    .btn-accept {
+    .btn-pending {
+      background: #ffc107;
+      color: #0f3460;
+    }
+
+    .btn-completed {
       background: #28a745;
     }
 
-    .btn-reject {
-      background: #dc3545;
-    }
-
-    .btn-accept:hover, .btn-reject:hover {
+    .btn-pending:hover, .btn-completed:hover {
       box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
       transform: scale(1.05);
     }
 
-    .btn-accept:disabled, .btn-reject:disabled {
+    .btn-pending:disabled, .btn-completed:disabled {
       background: #4a4a4a;
       border-color: #666;
       color: #888;
@@ -570,7 +577,7 @@
         gap: 6px;
         min-width: 120px;
       }
-      .btn-accept, .btn-reject {
+      .btn-pending, .btn-completed {
         padding: 4px 8px;
         font-size: 0.8rem;
       }
@@ -600,7 +607,7 @@
         gap: 4px;
         min-width: 100px;
       }
-      .btn-accept, .btn-reject {
+      .btn-pending, .btn-completed {
         padding: 3px 6px;
         font-size: 0.75rem;
       }
@@ -633,6 +640,7 @@
     <div class="sidebar">
       <i class="fas fa-times sidebar-expand" id="sidebar-expand"></i>
       <a href="index.html" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+      <a href="user-id-details.html" data-section="user-id-details"><i class="fas fa-id-card"></i> <span>User-ID Details</span></a>
       <div class="sidebar-item">
         <a href="#" id="kyc-toggle"><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="kyc-submenu">
@@ -678,14 +686,14 @@
       <div class="sidebar-item">
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
-          <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
+          <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST Statement</span></a>
           <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu "id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+        <div class="submenu" id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>100 RV</span></a>
           <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
           <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
@@ -712,6 +720,7 @@
         <!-- Pending Tour Section -->
         <h2 class="text-2xl font-bold mb-4 text-white">Pending Tour</h2>
         <div class="search-bar">
+          <input type="text" id="tour-userid-search" placeholder="Search by User ID" onchange="searchTour()">
           <select id="tour-rank-search" onchange="searchTour()">
             <option value="" disabled selected>Select Rank</option>
             <option value="All Ranks">All Ranks</option>
@@ -931,14 +940,14 @@
         return date.toLocaleDateString('en-US', options).replace(/(\d+),/, '$1,');
       }
 
-      // Handle Tour Action (Accept/Reject)
+      // Handle Tour Action (Pending/Completed)
       window.handleTourAction = (id, newStatus, button) => {
         const entry = mockData.find(item => item.id === id);
         if (entry && !entry.actionTaken) {
           entry.status = newStatus;
           entry.actionTaken = true;
           const row = button.closest('tr');
-          const buttons = row.querySelectorAll('.btn-accept, .btn-reject');
+          const buttons = row.querySelectorAll('.btn-pending, .btn-completed');
           buttons.forEach(btn => btn.disabled = true);
           renderTourTable();
         }
@@ -1021,10 +1030,14 @@
 
       // Tour Search Function
       window.searchTour = () => {
+        const userId = document.getElementById('tour-userid-search').value.trim();
         const rank = document.getElementById('tour-rank-search').value;
         const startDate = document.getElementById('tour-start-date').value;
         const endDate = document.getElementById('tour-end-date').value;
         let filtered = mockData;
+        if (userId) {
+          filtered = filtered.filter(item => item.id.toLowerCase().includes(userId.toLowerCase()));
+        }
         if (rank && rank !== 'All Ranks') {
           filtered = filtered.filter(item => item.rank.toLowerCase() === rank.toLowerCase());
         }
@@ -1058,17 +1071,17 @@
             <td>${item.rank}</td>
             <td>${item.totalPair}</td>
             <td>${item.currentPair}</td>
-            <td class="status-pending status-column">${item.status}</td>
+            <td class="${item.status.toLowerCase() === 'completed' ? 'status-completed' : 'status-pending'} status-column">${item.status}</td>
             <td>
               <div class="action-buttons">
-                <button class="btn-accept" data-id="${item.id}" onclick="handleTourAction('${item.id}', '', this)" ${item.actionTaken ? 'disabled' : ''}>Accept</button>
-                <button class="btn-reject" data-id="${item.id}" onclick="handleTourAction('${item.id}', 'Rejected', this)" ${item.actionTaken ? 'disabled' : ''}>Reject</button>
+                <button class="btn-pending" data-id="${item.id}" onclick="handleTourAction('${item.id}', 'Pending', this)" ${item.actionTaken ? 'disabled' : ''}>Mark as Pending</button>
+                <button class="btn-completed" data-id="${item.id}" onclick="handleTourAction('${item.id}', 'Completed', this)" ${item.actionTaken ? 'disabled' : ''}>Mark as Completed</button>
               </div>
             </td>
           </tr>
         `).join('') : `
           <tr>
-            <td colspan="10" style="text-align: center; color: #b3e0ff;">No tour records found</td>
+            <td colspan="11" style="text-align: center; color: #b3e0ff;">No tour records found</td>
           </tr>
         `;
       }

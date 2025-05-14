@@ -342,10 +342,10 @@
       justify-content: center;
       width: 100%;
       max-width: 1200px;
-      flex-wrap: wrap; /* Added for responsiveness */
+      flex-wrap: wrap;
     }
 
-    .search-bar input, .search-bar button {
+    .search-bar input, .search-bar button, .search-bar select {
       padding: 8px;
       border: 1px solid #00d4ff;
       border-radius: 5px;
@@ -362,6 +362,21 @@
 
     .search-bar input::placeholder {
       color: #b3e0ff;
+    }
+
+    .search-bar select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b3e0ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.5rem center;
+      background-size: 1em;
+      padding-right: 1.5rem;
+    }
+
+    .search-bar select:focus {
+      outline: none;
+      border-color: #00ffcc;
+      box-shadow: 0 0 5px #00ffcc;
     }
 
     .search-bar button {
@@ -514,7 +529,7 @@
       .search-bar {
         flex-direction: column;
       }
-      .search-bar input, .search-bar button {
+      .search-bar input, .search-bar button, .search-bar select {
         width: 100%;
       }
       .checkbox-column {
@@ -608,6 +623,7 @@
     <div class="sidebar">
       <i class="fas fa-times sidebar-expand" id="sidebar-expand"></i>
       <a href="index.html" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+      <a href="user-id-details.html" data-section="user-id-details"><i class="fas fa-id-card"></i> <span>User-ID Details</span></a>
       <div class="sidebar-item">
         <a href="#" id="kyc-toggle"><i class="fas fa-file-upload"></i> <span>KYC</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="kyc-submenu">
@@ -653,14 +669,14 @@
       <div class="sidebar-item">
         <a href="#" id="invoice-toggle"><i class="fas fa-file-invoice"></i> <span>Invoice</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
         <div class="submenu" id="invoice-submenu">
-          <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST 12%</span></a>
+          <a href="invoice-gst.html" data-section="invoice-gst"><i class="fas fa-percent"></i> <span>GST Statement</span></a>
           <a href="invoice-admin.html" data-section="invoice-admin"><i class="fas fa-user-shield"></i> <span>Service Charges 10%</span></a>
         </div>
       </div>
       <div class="sidebar-item">
         <a href="#" id="capping-toggle"><i class="fas fa-trophy"></i> <span>Capping Achiever</span> <i class="fas fa-chevron-down dropdown-icon"></i></a>
-        <div class="submenu "id="capping-submenu">
-          <a href="capping-2000.html" data-section="capping-2000" ><i class="fas fa-star"></i> <span>100 RV</span></a>
+        <div class="submenu" id="capping-submenu">
+          <a href="capping-2000.html" data-section="capping-2000"><i class="fas fa-star"></i> <span>100 RV</span></a>
           <a href="capping-10000.html" data-section="capping-10000"><i class="fas fa-star"></i> <span>1000 RV</span></a>
           <a href="capping-20000.html" data-section="capping-20000"><i class="fas fa-star"></i> <span>2000 RV</span></a>
         </div>
@@ -687,9 +703,30 @@
         <!-- Complete Tour Section -->
         <h2 class="text-2xl font-bold mb-4 text-white">Complete Tour</h2>
         <div class="search-bar">
-          <input type="text" placeholder="ID Number" id="tour-id-search">
-          <input type="date" id="tour-start-date" placeholder="mm/dd/yyyy">
-          <input type="date" id="tour-end-date" placeholder="mm/dd/yyyy">
+          <input type="text" placeholder="ID Number" id="tour-id-search" onchange="searchTour()">
+          <select id="tour-rank-search" onchange="searchTour()">
+            <option value="" disabled selected>Select Rank</option>
+            <option value="All Ranks">All Ranks</option>
+            <option value="Star">Star</option>
+            <option value="Double Star">Double Star</option>
+            <option value="Bronze">Bronze</option>
+            <option value="Silver">Silver</option>
+            <option value="Gold">Gold</option>
+            <option value="Platinum">Platinum</option>
+            <option value="Titanium">Titanium</option>
+            <option value="Emerald">Emerald</option>
+            <option value="Ruby">Ruby</option>
+            <option value="Diamond">Diamond</option>
+            <option value="Blue Diamond">Blue Diamond</option>
+            <option value="Black Diamond">Black Diamond</option>
+            <option value="Red Diamond">Red Diamond</option>
+            <option value="Crown">Crown</option>
+            <option value="Ambassador">Ambassador</option>
+            <option value="Royal">Royal</option>
+            <option value="Royal King">Royal King</option>
+          </select>
+          <input type="date" id="tour-start-date" placeholder="mm/dd/yyyy" onchange="searchTour()">
+          <input type="date" id="tour-end-date" placeholder="mm/dd/yyyy" onchange="searchTour()">
           <button onclick="searchTour()">Search</button>
           <button class="btn-delete" onclick="toggleDeleteMode()">Delete</button>
         </div>
@@ -919,13 +956,23 @@
 
       // Tour Search Function
       window.searchTour = () => {
-        const id = document.getElementById('tour-id-search').value;
+        const id = document.getElementById('tour-id-search').value.trim();
+        const rank = document.getElementById('tour-rank-search').value;
         const startDate = document.getElementById('tour-start-date').value;
         const endDate = document.getElementById('tour-end-date').value;
         let filtered = mockData;
-        if (id) filtered = filtered.filter(item => item.id.includes(id));
-        if (startDate) filtered = filtered.filter(item => item.date >= startDate);
-        if (endDate) filtered = filtered.filter(item => item.date <= endDate);
+        if (id) {
+          filtered = filtered.filter(item => item.id.toLowerCase().includes(id.toLowerCase()));
+        }
+        if (rank && rank !== 'All Ranks') {
+          filtered = filtered.filter(item => item.rank.toLowerCase() === rank.toLowerCase());
+        }
+        if (startDate) {
+          filtered = filtered.filter(item => item.date >= startDate);
+        }
+        if (endDate) {
+          filtered = filtered.filter(item => item.date <= endDate);
+        }
         renderTourTable(filtered);
       };
 
