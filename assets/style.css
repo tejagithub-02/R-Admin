@@ -288,3 +288,14 @@ body {
     margin-left: 20px;
   }
 }
+.main-content {
+  flex: 1;
+  padding: 20px;
+  background: #1a1a2e;
+  margin-left: 250px;
+  overflow-y: auto;
+  min-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+}
