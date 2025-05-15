@@ -148,7 +148,7 @@
 
     .sidebar a:active {
       color: #b3e0ff;
-      box-shadow: 0 0 15px #00d4ff;
+      box-shadow: 0 0 15px #00ffcc;
     }
 
     .sidebar a i {
@@ -319,9 +319,8 @@
       white-space: normal;
     }
 
-    .table th.destination-column, .table td.destination-column {
-      min-width: 120px;
-      white-space: normal;
+    .table th.kyc-status-column, .table td.kyc-status-column {
+      min-width: 100px;
     }
 
     .table td.date-column {
@@ -416,6 +415,12 @@
 
     .status-completed {
       color: #28a745;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .status-verified {
+      color: #17a2b8;
       font-weight: bold;
       text-align: center;
     }
@@ -567,8 +572,8 @@
       .table th.name-column, .table td.name-column {
         min-width: 100px;
       }
-      .table th.destination-column, .table td.destination-column {
-        min-width: 100px;
+      .table th.kyc-status-column, .table td.kyc-status-column {
+        min-width: 80px;
       }
       .table td.date-column {
         min-width: 80px;
@@ -597,8 +602,8 @@
       .table th.name-column, .table td.name-column {
         min-width: 90px;
       }
-      .table th.destination-column, .table td.destination-column {
-        min-width: 90px;
+      .table th.kyc-status-column, .table td.kyc-status-column {
+        min-width: 70px;
       }
       .table td.date-column {
         min-width: 70px;
@@ -720,9 +725,19 @@
         <!-- Pending Tour Section -->
         <h2 class="text-2xl font-bold mb-4 text-white">Pending Tour</h2>
         <div class="search-bar">
-          <input type="text" id="tour-userid-search" placeholder="Search by User ID" onchange="searchTour()">
+          <select id="kyc-status-filter" onchange="searchTour()">
+            <option value="" selected>All KYC Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Verified">Verified</option>
+          </select>
+          <select id="status-filter" onchange="searchTour()">
+            <option value="" selected>All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+          </select>
+        
           <select id="tour-rank-search" onchange="searchTour()">
-            <option value="" disabled selected>Select Rank</option>
+            <option value="" disabled>Select Rank</option>
             <option value="All Ranks">All Ranks</option>
             <option value="Star">Star</option>
             <option value="Double Star">Double Star</option>
@@ -742,6 +757,7 @@
             <option value="Royal">Royal</option>
             <option value="Royal King">Royal King</option>
           </select>
+          <input type="text" id="tour-userid-search" placeholder="Search by User ID" onchange="searchTour()">
           <input type="date" id="tour-start-date" placeholder="mm/dd/yyyy" onchange="searchTour()">
           <input type="date" id="tour-end-date" placeholder="mm/dd/yyyy" onchange="searchTour()">
           <button onclick="searchTour()">Search</button>
@@ -761,6 +777,7 @@
                 <th>Mobile Number</th>
                 <th>Qualified Date</th>
                 <th>Rank</th>
+                <th class="kyc-status-column">KYC Status</th>
                 <th>Total Pair</th>
                 <th>Current Pair</th>
                 <th class="status-column">Status</th>
@@ -899,6 +916,7 @@
           mobile: '9876543210',
           qualifiedDate: '2025-04-01',
           rank: 'Silver',
+          kycStatus: 'Verified',
           totalPair: 10,
           currentPair: 3,
           status: 'Pending',
@@ -911,6 +929,7 @@
           mobile: '9876983210',
           qualifiedDate: '2025-04-01',
           rank: 'Gold',
+          kycStatus: 'Verified',
           totalPair: 20,
           currentPair: 5,
           status: 'Completed',
@@ -923,6 +942,7 @@
           mobile: '9123456789',
           qualifiedDate: '2025-04-05',
           rank: 'Bronze',
+          kycStatus: 'Pending',
           totalPair: 15,
           currentPair: 4,
           status: 'Pending',
@@ -998,7 +1018,7 @@
           doc.text('Completed Tours Report', 10, 10);
           doc.setFontSize(12);
 
-          const headers = ['SI.NO', 'USER ID', 'USER Name', 'Mobile Number', 'Qualified Date', 'Rank', 'Total Pair', 'Current Pair', 'Status'];
+          const headers = ['SI.NO', 'USER ID', 'USER Name', 'Mobile Number', 'Qualified Date', 'Rank', 'KYC Status', 'Total Pair', 'Current Pair', 'Status'];
           const data = completedTours.map((item, index) => [
             index + 1,
             item.id,
@@ -1006,6 +1026,7 @@
             item.mobile,
             formatDate(item.qualifiedDate),
             item.rank,
+            item.kycStatus,
             item.totalPair,
             item.currentPair,
             item.status
@@ -1030,11 +1051,19 @@
 
       // Tour Search Function
       window.searchTour = () => {
+        const kycStatus = document.getElementById('kyc-status-filter').value;
+        const status = document.getElementById('status-filter').value;
         const userId = document.getElementById('tour-userid-search').value.trim();
         const rank = document.getElementById('tour-rank-search').value;
         const startDate = document.getElementById('tour-start-date').value;
         const endDate = document.getElementById('tour-end-date').value;
         let filtered = mockData;
+        if (kycStatus) {
+          filtered = filtered.filter(item => item.kycStatus.toLowerCase() === kycStatus.toLowerCase());
+        }
+        if (status) {
+          filtered = filtered.filter(item => item.status.toLowerCase() === status.toLowerCase());
+        }
         if (userId) {
           filtered = filtered.filter(item => item.id.toLowerCase().includes(userId.toLowerCase()));
         }
@@ -1069,6 +1098,7 @@
             <td>${item.mobile}</td>
             <td class="date-column">${formatDate(item.qualifiedDate)}</td>
             <td>${item.rank}</td>
+            <td class="${item.kycStatus.toLowerCase() === 'verified' ? 'status-verified' : 'status-pending'} kyc-status-column">${item.kycStatus}</td>
             <td>${item.totalPair}</td>
             <td>${item.currentPair}</td>
             <td class="${item.status.toLowerCase() === 'completed' ? 'status-completed' : 'status-pending'} status-column">${item.status}</td>
@@ -1081,7 +1111,7 @@
           </tr>
         `).join('') : `
           <tr>
-            <td colspan="11" style="text-align: center; color: #b3e0ff;">No tour records found</td>
+            <td colspan="12" style="text-align: center; color: #b3e0ff;">No tour records found</td>
           </tr>
         `;
       }

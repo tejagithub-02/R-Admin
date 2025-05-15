@@ -654,13 +654,14 @@
                 <th>User Name</th>
                 <th>Product</th>
                 <th>Quantity</th>
+                <th>RV Points</th> <!-- Added RV Points column -->
                 <th>Amount</th>
                 <th>Address</th>
                 <th>Invoice</th>
                 <th>Status</th>
-              
               </tr>
             </thead>
+            <tbody id="product-history-table"></tbody>
             <tbody id="product-history-table"></tbody>
           </table>
         </div>
@@ -785,39 +786,41 @@
           }
         });
 
+        
         let mockData = [
-          {
-            id: 'ORD12345',
-            date: '2025-05-01',
-            userId: 'U12345',
-            userName: 'John Doe',
-            product: 'Protein Powder',
-            quantity: 2,
-            amount: '₹2000',
-            address: '123 Main St, City, Country',
-            status: 'Approved',
-            invoiceId: 'INV12345',
-            customerName: 'John Doe',
-            customerAddress: '123 Main St, City, Country',
-            selected: false
-          },
-          {
-            id: 'ORD12346',
-            date: '2025-05-02',
-            userId: 'U12346',
-            userName: 'Jane Smith',
-            product: 'Vitamin Supplements',
-            quantity: 1,
-            amount: '₹1500',
-            address: '456 Oak Ave, City, Country',
-            status: 'Rejected',
-            invoiceId: 'INV12346',
-            customerName: 'Jane Smith',
-            customerAddress: '456 Oak Ave, City, Country',
-            selected: false
-          }
-        ];
-
+  {
+    id: 'ORD12345',
+    date: '2025-05-01',
+    userId: 'U12345',
+    userName: 'John Doe',
+    product: 'Protein Powder',
+    quantity: 2,
+    rvPoints:'300',
+    amount: '₹2000',
+    address: '123 Main St, City, Country',
+    status: 'Approved',
+    invoiceId: 'INV12345',
+    customerName: 'John Doe',
+    customerAddress: '123 Main St, City, Country',
+    selected: false
+  },
+  {
+    id: 'ORD12346',
+    date: '2025-05-02',
+    userId: 'U12346',
+    userName: 'Jane Smith',
+    product: 'Vitamin Supplements',
+    quantity: 1,
+    rvPoints:'100',
+    amount: '₹1500',
+    address: '456 Oak Ave, City, Country',
+    status: 'Rejected',
+    invoiceId: 'INV12346',
+    customerName: 'Jane Smith',
+    customerAddress: '456 Oak Ave, City, Country',
+    selected: false
+  }
+];
         let deleteMode = false;
 
         function formatDate(dateStr) {
@@ -930,22 +933,25 @@
             y += lineSpacing * 2;
 
             // Table Header
-            doc.setFont('helvetica', 'bold');
-            doc.setFillColor(0, 212, 255);
-            doc.rect(margin, y, pageWidth - 2 * margin, lineSpacing, 'F');
-            doc.setTextColor(15, 52, 96);
-            doc.text('Product', margin + 5, y + 7);
-            doc.text('Quantity', margin + 80, y + 7);
-            doc.text('Amount', margin + 120, y + 7);
-            y += lineSpacing;
+           // Table Header
+doc.setFont('helvetica', 'bold');
+doc.setFillColor(0, 212, 255);
+doc.rect(margin, y, pageWidth - 2 * margin, lineSpacing, 'F');
+doc.setTextColor(15, 52, 96);
+doc.text('Product', margin + 5, y + 7);
+doc.text('Quantity', margin + 80, y + 7);
+doc.text('RV Points', margin + 100, y + 7); // Added RV Points
+doc.text('Amount', margin + 140, y + 7); // Shifted Amount
+y += lineSpacing;
 
-            // Table Row
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(0, 0, 0);
-            doc.text(order.product, margin + 5, y + 7);
-            doc.text(order.quantity.toString(), margin + 80, y + 7);
-            doc.text(order.amount, margin + 120, y + 7);
-            y += lineSpacing * 2;
+// Table Row
+doc.setFont('helvetica', 'normal');
+doc.setTextColor(0, 0, 0);
+doc.text(order.product, margin + 5, y + 7);
+doc.text(order.quantity.toString(), margin + 80, y + 7);
+doc.text(order.rvPoints.toString(), margin + 100, y + 7); // Added RV Points
+doc.text(order.amount, margin + 140, y + 7); // Shifted Amount
+y += lineSpacing * 2;
 
             // Total
             doc.setFont('helvetica', 'bold');
@@ -1020,34 +1026,34 @@
               selectAllCheckbox.checked = allSelected;
             }
             tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
-              const formattedDate = formatDate(item.date);
-              console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
-              return `
-                <tr>
-                  <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
-                    <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
-                  </td>
-                  <td>${index + 1}</td>
-                  <td>${item.id}</td>
-                  <td class="date-column">${formattedDate}</td>
-                  <td>${item.userId}</td>
-                  <td>${item.userName}</td>
-                  <td><button class="text-blue-400 underline" onclick="viewProductDetails('${item.id}')">View</button></td>
-                  <td>${item.quantity}</td>
-                  <td>${item.amount}</td>
-                  <td>${item.address}</td>
-                  <td>
-                    <button class="download-btn" onclick='downloadInvoice(${JSON.stringify(item)})'>Download</button>
-                  </td>
-                  <td class="status-${item.status.toLowerCase()}">${item.status}</td>
-                 
-                </tr>
-              `;
-            }).join('') : `
-              <tr>
-                <td colspan="13" style="text-align: center; color: #b3e0ff;">No orders found</td>
-              </tr>
-            `;
+  const formattedDate = formatDate(item.date);
+  console.log(`Rendering row with date: ${formattedDate} for ID: ${item.id}`);
+  return `
+    <tr>
+      <td class="checkbox-column ${deleteMode ? '' : 'checkbox-hidden'}">
+        <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleCheckbox('${item.id}')">
+      </td>
+      <td>${index + 1}</td>
+      <td>${item.id}</td>
+      <td class="date-column">${formattedDate}</td>
+      <td>${item.userId}</td>
+      <td>${item.userName}</td>
+      <td><button class="text-blue-400 underline" onclick="viewProductDetails('${item.id}')">View</button></td>
+      <td>${item.quantity}</td>
+      <td>${item.rvPoints}</td> <!-- Added RV Points column -->
+      <td>${item.amount}</td>
+      <td>${item.address}</td>
+      <td>
+        <button class="download-btn" onclick='downloadInvoice(${JSON.stringify(item)})'>Download</button>
+      </td>
+      <td class="status-${item.status.toLowerCase()}">${item.status}</td>
+    </tr>
+  `;
+}).join('') : `
+  <tr>
+    <td colspan="14" style="text-align: center; color: #b3e0ff;">No orders found</td>
+  </tr>
+`;
           } catch (error) {
             console.error('Error rendering table:', error);
           }
