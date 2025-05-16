@@ -212,12 +212,7 @@
       border-collapse: collapse;
       color: #ffffff;
     }
-    .table th, .table td {
-      padding: 12px;
-      border: 1px solid #00d4ff;
-      text-align: center;
-      font-size: 0.95rem;
-    }
+    
     .table th {
       background: #1a4a8a;
       font-weight: bold;
@@ -320,6 +315,115 @@
         font-size: 0.7rem;
       }
     }
+    .table th, .table td {
+  padding: 12px;
+  border: 1px solid #00d4ff;
+  text-align: center;
+  font-size: 0.95rem;
+  vertical-align: middle;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal; /* Ensure all cells can wrap text */
+}
+
+/* Define specific widths for each column with slight adjustments */
+.table th:nth-child(1), .table td:nth-child(1) { /* SI.NO */
+  width: 6%;
+  min-width: 50px;
+}
+
+.table th:nth-child(2), .table td:nth-child(2) { /* DATE */
+  width: 12%;
+  min-width: 100px;
+}
+
+.table th:nth-child(3), .table td:nth-child(3) { /* PRODUCT NAME */
+  width: 12%;
+  min-width: 100px;
+}
+
+.table th:nth-child(4), .table td:nth-child(4) { /* DESCRIPTION */
+  width: 25%; /* Increased width to accommodate longer descriptions */
+  min-width: 180px;
+  text-align: left;
+}
+
+.table th:nth-child(5), .table td:nth-child(5) { /* PRICE */
+  width: 10%;
+  min-width: 80px;
+}
+
+.table th:nth-child(6), .table td:nth-child(6) { /* IMAGE */
+  width: 15%; /* Adjusted to give more space for URLs */
+  min-width: 120px;
+  word-break: break-all; /* Ensure long URLs break */
+}
+
+.table th:nth-child(7), .table td:nth-child(7) { /* Status */
+  width: 10%;
+  min-width: 80px;
+}
+
+.table th:nth-child(8), .table td:nth-child(8) { /* Action */
+  width: 10%;
+  min-width: 80px;
+}
+
+/* Ensure description cell wraps text properly */
+.description-cell {
+  max-width: 180px; /* Increased max-width to match column width */
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Prevent table overflow on smaller screens */
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Adjust table for smaller screens */
+@media (max-width: 768px) {
+  .table th, .table td {
+    font-size: 0.85rem;
+    padding: 8px;
+    min-width: 60px;
+  }
+  .description-cell {
+    max-width: 120px;
+  }
+  /* Adjusted column widths for smaller screens */
+  .table th:nth-child(1), .table td:nth-child(1) { width: 8%; }
+  .table th:nth-child(2), .table td:nth-child(2) { width: 15%; }
+  .table th:nth-child(3), .table td:nth-child(3) { width: 15%; }
+  .table th:nth-child(4), .table td:nth-child(4) { width: 25%; }
+  .table th:nth-child(5), .table td:nth-child(5) { width: 12%; }
+  .table th:nth-child(6), .table td:nth-child(6) { width: 15%; }
+  .table th:nth-child(7), .table td:nth-child(7) { width: 10%; }
+  .table th:nth-child(8), .table td:nth-child(8) { width: 10%; }
+}
+
+@media (max-width: 480px) {
+  .table th, .table td {
+    font-size: 0.75rem;
+    padding: 6px;
+    min-width: 50px;
+  }
+  .description-cell {
+    max-width: 100px;
+  }
+  /* Further adjusted column widths for very small screens */
+  .table th:nth-child(1), .table td:nth-child(1) { width: 10%; }
+  .table th:nth-child(2), .table td:nth-child(2) { width: 15%; }
+  .table th:nth-child(3), .table td:nth-child(3) { width: 15%; }
+  .table th:nth-child(4), .table td:nth-child(4) { width: 25%; }
+  .table th:nth-child(5), .table td:nth-child(5) { width: 10%; }
+  .table th:nth-child(6), .table td:nth-child(6) { width: 15%; }
+  .table th:nth-child(7), .table td:nth-child(7) { width: 10%; }
+  .table th:nth-child(8), .table td:nth-child(8) { width: 10%; }
+}
   </style>
 </head>
 <body>
