@@ -9,10 +9,8 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="assets/style.css">
- <style>
-  
- 
-
+  <style>
+    /* Existing styles remain unchanged */
     .section {
       flex: 1 0 auto;
       display: flex;
@@ -37,8 +35,6 @@
     .table-container:hover {
       transform: scale(1.02);
     }
-
-    
 
     .table th {
       background: #1a4a8a;
@@ -335,6 +331,7 @@
                 <th>Product Name</th>
                 <th>Quantity</th>
                 <th>Amount</th>
+                <th>Paid Date</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -483,6 +480,7 @@
             productName: 'Health Supplement',
             quantity: 10,
             amount: '₹41665.00',
+            paidDate: '2025-05-02',
             status: 'Paid'
           },
           {
@@ -491,6 +489,7 @@
             productName: 'Skincare Kit',
             quantity: 5,
             amount: '₹24999.00',
+            paidDate: '',
             status: 'Unpaid'
           },
           {
@@ -499,12 +498,14 @@
             productName: 'Protein Powder',
             quantity: 8,
             amount: '₹32000.00',
+            paidDate: '',
             status: 'Unpaid'
           }
         ];
 
         function formatDate(dateStr) {
           try {
+            if (!dateStr) return 'N/A';
             const date = new Date(dateStr);
             if (isNaN(date.getTime())) {
               console.warn(`Invalid date: ${dateStr}`);
@@ -554,7 +555,11 @@
         window.togglePaymentStatus = (id) => {
           try {
             mockData = mockData.map(item =>
-              item.id === id ? { ...item, status: item.status === 'Paid' ? 'Unpaid' : 'Paid' } : item
+              item.id === id ? { 
+                ...item, 
+                status: item.status === 'Paid' ? 'Unpaid' : 'Paid',
+                paidDate: item.status === 'Paid' ? '' : new Date().toISOString().split('T')[0]
+              } : item
             );
             console.log(`Toggled payment status for transaction: ${id}`);
             renderTable();
@@ -571,6 +576,7 @@
               'Product Name': item.productName,
               'Quantity': item.quantity,
               'Amount': item.amount,
+              'Paid Date': formatDate(item.paidDate),
               'Status': item.status
             }));
 
@@ -594,6 +600,7 @@
             }
             tbody.innerHTML = data.length > 0 ? data.map((item, index) => {
               const formattedDate = formatDate(item.date);
+              const formattedPaidDate = formatDate(item.paidDate);
               const actionButton = item.status === 'Unpaid'
                 ? `<button class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded" onclick="togglePaymentStatus('${item.id}')">Mark as Paid</button>`
                 : `<button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded" onclick="togglePaymentStatus('${item.id}')">Mark as Unpaid</button>`;
@@ -605,13 +612,14 @@
                   <td>${item.productName}</td>
                   <td>${item.quantity}</td>
                   <td>${item.amount}</td>
+                  <td>${formattedPaidDate}</td>
                   <td class="status-${item.status.toLowerCase()}">${item.status}</td>
                   <td>${actionButton}</td>
                 </tr>
               `;
             }).join('') : `
               <tr>
-                <td colspan="7" style="text-align: center; color: #b3e0ff;">No transactions found</td>
+                <td colspan="8" style="text-align: center; color: #b3e0ff;">No transactions found</td>
               </tr>
             `;
           } catch (error) {
